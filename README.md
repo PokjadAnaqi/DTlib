@@ -1,4 +1,4 @@
-# DTlib 1.3.0-beta.2
+# DTlib 1.3.0-beta.3
 
 DTlib is a standalone FiveM resource with its own provider registry, UI, callbacks and gameplay helpers. It now bundles the complete provider/module/utility source pack, with no community_bridge resource dependency.
 
@@ -23,3 +23,5 @@ Optional provider resources are installed separately. The default manifest uses 
 This is a pre-release. Simulation checks do not replace live FiveM testing with your installed vendor versions. Licensed under GPL-3.0; see [LICENSE](LICENSE).
 
 Full source-pack APIs: `DT.AdapterPack.Get(category, resource)`, `DT.AdapterPack.Call(category, method, ...)`, and `DT.Ecosystem.Utility(name)`. See [full pack integration](docs/ADAPTER_PACK.md) and [source notices](THIRD_PARTY_NOTICES.md).
+
+Provider source now lives directly in `modules/<category>/<provider>`. Utilities are in `lib`, locales in `locales`, and dialogue assets in `web`. The integrations folder has been removed; catalogue and runtime are consolidated.

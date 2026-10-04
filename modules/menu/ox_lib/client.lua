@@ -1,12 +1,80 @@
-local A={resource='ox_lib',publicName='ox_lib'}
-local function position(position)
-    local map={center='top-right',['center-left']='top-left',['centre-left']='top-left',['left-center']='top-left',['center-right']='top-right',['centre-right']='top-right',['right-center']='top-right',['offcenter-left']='top-left',['offcenter-right']='top-right'}
-    position=tostring(position or 'top-right'):lower(); position=map[position] or position; if position~='top-left' and position~='top-right' and position~='bottom-left' and position~='bottom-right' then position='top-right' end; return position
+local resourceName = "ox_lib"
+local configValue = BridgeClientConfig.MenuSystem
+if (configValue == "auto" and GetResourceState(resourceName) ~= "started") or (configValue ~= "auto" and configValue ~= resourceName) then return end
+Menus = Menus or {}
+
+if not lib then Require('init.lua', 'ox_lib') end
+
+---Converts a QB menu to an Ox menu.
+---@param id string The menu ID.
+---@param menu table The QB menu data.
+---@return table The Ox menu data.
+local function QBToOxMenu(id, menu)
+    local oxMenu = {
+        id = id,
+        title = "",
+        canClose = true,
+        options = {},
+    }
+    for i, v in pairs(menu) do
+        if v.isMenuHeader then
+            if oxMenu.title == "" then
+                oxMenu.title = v.header
+            end
+        else
+            local option = {
+                title = v.header,
+                description = v.txt,
+                icon = v.icon,
+                args = v.params.args,
+                onSelect = v.action or function(selected, secondary, args)
+                    local params = ((menu[id] and menu[id].options and menu[id].options[selected]) or {}).params
+                    if not params then return end
+                    local event = params.event
+                    local isServer = params.isServer
+                    if not event then return end
+                    if isServer then
+                        return TriggerServerEvent(event, args)
+                    end
+                    return TriggerEvent(event, args)
+                end
+
+            }
+            table.insert(oxMenu.options, option)
+        end
+    end
+    return oxMenu
 end
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:open(id,data,items,onSelect,onExit)
-    local out={}; for i=1,#items do local item=items[i]; local index=i; out[i]={title=item.title or item.label or ('Option %s'):format(index),description=item.description,icon=item.icon,iconColor=item.iconColor,iconAnimation=item.iconAnimation,disabled=item.disabled==true,readOnly=item.readOnly==true,menu=item.menu,arrow=item.arrow,progress=item.progress,colorScheme=item.colorScheme or item.progressColor,image=item.image,metadata=item.metadata,onSelect=function() onSelect(index) end} end
-    exports.ox_lib:registerContext({id=id,title=data.title or 'DT MENU',position=position(data.position),menu=data.menu,canClose=data.canClose~=false,options=out,onExit=onExit,onBack=DTUtils.isCallable(data.onBack) and DTUtils.wrapCallable(data.onBack) or nil}); exports.ox_lib:showContext(id); return id
+
+function OpenMenu(id, data, useQBinput)
+    if useQBinput then
+        data = QBToOxMenu(id, data)
+    end
+    lib.registerContext(data)
+    lib.showContext(id)
+    return data
 end
-function A:close() exports.ox_lib:hideContext(false); return true end
-DT.Modules.Register('menu','ox_lib',A)
+
+GetMenuResourceName = function()
+    return resourceName
+end
+
+
+-- RegisterCommand('menutest', function()
+--     local test1 = function()
+--         print("Test 1 executed")
+--     end
+
+--     Bridge.Menu.Open({
+--         title = "test",
+--         description = "test",
+--         options = {
+--             {
+--                 title = "test",
+--                 description = "test",
+--                 icon = "fas fa-box-open",
+--                 onSelect = test1
+--             },           
+--         }
+--     })
+-- end)

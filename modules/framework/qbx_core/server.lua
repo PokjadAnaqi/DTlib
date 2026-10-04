@@ -1,57 +1,576 @@
-local U = DT.FrameworkUtil
-local A = { resource = 'qbx_core', publicName = 'qbx' }
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:getVersion()
-    local ok,v=pcall(function() return exports.qbx_core:GetCoreVersion(GetCurrentResourceName()) end)
-    return ok and v or U.resourceVersion(self.resource)
+---@diagnostic disable: duplicate-set-field
+if GetResourceState('qbx_core') ~= 'started' then return end
+
+Framework = Framework or {}
+
+local QBox = exports.qbx_core
+
+---@description Returns the name of the framework being used (if a supported framework).
+---@return string
+Framework.GetFrameworkName = function()
+    return 'qbx_core'
 end
-function A:getJobs() local ok,v=pcall(function() return exports.qbx_core:GetJobs() end); return ok and v or {} end
-function A:getGangs() local ok,v=pcall(function() return exports.qbx_core:GetGangs() end); return ok and v or {} end
-function A:getJob(name) local ok,v=pcall(function() return exports.qbx_core:GetJob(name) end); return ok and v or nil end
-function A:getGang(name) local ok,v=pcall(function() return exports.qbx_core:GetGang(name) end); return ok and v or nil end
-function A:getVehicles(filter) local ok,v=pcall(function() return exports.qbx_core:GetVehiclesByName(filter) end); return ok and v or {} end
-function A:getWeapons(filter) local ok,v=pcall(function() return exports.qbx_core:GetWeapons(filter) end); return ok and v or {} end
-function A:getPlayer(source) local ok,v=pcall(function() return exports.qbx_core:GetPlayer(source) end); return ok and v or nil end
-function A:getByCitizenId(id) local ok,v=pcall(function() return exports.qbx_core:GetPlayerByCitizenId(id) end); return ok and v or nil end
-function A:getByUserId(id) local ok,v=pcall(function() return exports.qbx_core:GetPlayerByUserId(id) end); return ok and v or nil end
-function A:getByIdentifier(identifier)
-    local ok,src=pcall(function() return exports.qbx_core:GetSource(identifier) end)
-    return ok and tonumber(src) and tonumber(src)>0 and self:getPlayer(tonumber(src)) or nil
+
+---@description This will get the name of the in use resource.
+---@return string
+Framework.GetResourceName = function()
+    return 'qbx_core'
 end
-function A:getPlayers()
-    local out={}; local ok,players=pcall(function() return exports.qbx_core:GetQBPlayers() end)
-    if ok and type(players)=='table' then for source in pairs(players) do out[#out+1]=tonumber(source) or source end end
-    return out
+
+---@description This will return if the player is an admin in the framework.
+---@param src number
+---@return boolean
+Framework.GetIsFrameworkAdmin = function(src)
+    if not src then return false end
+    return IsPlayerAceAllowed(src, 'admin')
 end
-function A:getPlayersData() local ok,v=pcall(function() return exports.qbx_core:GetPlayersData() end); return ok and v or {} end
-function A:getIdentifier(source) local p=self:getPlayer(source); return p and p.PlayerData and p.PlayerData.citizenid or nil end
-function A:getCitizenId(source) return self:getIdentifier(source) end
-function A:getUserId(source)
-    local id=GetPlayerIdentifierByType(source,'license'); if not id then return nil end
-    local ok,v=pcall(function() return exports.qbx_core:GetUserId(id) end); return ok and v~=0 and v or nil
+
+---@description Returns the player date of birth.
+---@param src number
+---@return string|nil
+Framework.GetPlayerDob = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    return playerData.charinfo.birthdate
 end
-function A:getName(source)
-    local p=self:getPlayer(source); if not p or not p.PlayerData then return GetPlayerName(source) end
-    local c=p.PlayerData.charinfo or {}; local n=DTUtils.trim(('%s %s'):format(c.firstname or '',c.lastname or ''))
-    return n~='' and n or p.PlayerData.name or GetPlayerName(source)
+
+---@description Returns the player data of the specified source.
+---@param src any
+---@return table | nil
+Framework.GetPlayer = function(src)
+    local player = QBox:GetPlayer(src)
+    if not player then return end
+    return player
 end
-function A:getJobFor(source) local p=self:getPlayer(source); return p and U.normalizeGroup(p.PlayerData and p.PlayerData.job) or nil end
-function A:getGangFor(source) local p=self:getPlayer(source); return p and U.normalizeGroup(p.PlayerData and p.PlayerData.gang) or nil end
-function A:getGroups(source) local ok,v=pcall(function() return exports.qbx_core:GetGroups(source) end); return ok and v or {} end
-function A:hasGroup(source,filter) local ok,v=pcall(function() return exports.qbx_core:HasGroup(source,filter) end); return ok and v==true end
-function A:hasPrimaryGroup(source,filter) local ok,v=pcall(function() return exports.qbx_core:HasPrimaryGroup(source,filter) end); return ok and v==true end
-function A:setJob(source,name,grade,onDuty)
-    local ok,v=pcall(function() return exports.qbx_core:SetJob(source,name,tonumber(grade) or 0) end); if not ok or v==false then return false end
-    if onDuty~=nil then pcall(function() exports.qbx_core:SetJobDuty(source,onDuty==true) end) end; return true
+
+
+---@description Returns the player data of the specified identifier in the framework defualt format.
+---@param citizenid string
+---@return table | nil
+Framework.GetPlayerByIdentifier = function(citizenid)
+    local player = QBox:GetPlayerByCitizenId(citizenid)
+    if not player then return end
+    return player
 end
-function A:setJobDuty(source,state) local ok,v=pcall(function() return exports.qbx_core:SetJobDuty(source,state==true) end); return ok and v~=false end
-function A:setGang(source,name,grade) local ok,v=pcall(function() return exports.qbx_core:SetGang(source,name,tonumber(grade) or 0) end); return ok and v~=false end
-function A:getMoney(source,t) local ok,v=pcall(function() return exports.qbx_core:GetMoney(source,t or 'cash') end); return ok and tonumber(v) or 0 end
-function A:addMoney(source,t,a,r) local ok,v=pcall(function() return exports.qbx_core:AddMoney(source,t or 'cash',a,r or 'DTlib') end); return ok and v==true end
-function A:removeMoney(source,t,a,r) local ok,v=pcall(function() return exports.qbx_core:RemoveMoney(source,t or 'cash',a,r or 'DTlib') end); return ok and v==true end
-function A:setMoney(source,t,a,r) local ok,v=pcall(function() return exports.qbx_core:SetMoney(source,t or 'cash',a,r or 'DTlib') end); return ok and v==true end
-function A:getMeta(source,key) local ok,v=pcall(function() return exports.qbx_core:GetMetadata(source,key) end); return ok and v or nil end
-function A:setMeta(source,key,value) local ok,v=pcall(function() return exports.qbx_core:SetMetadata(source,key,value) end); return ok and v~=false end
-function A:save(source) local ok,v=pcall(function() return exports.qbx_core:Save(source) end); return ok and v~=false end
-function A:getData(source) local p=self:getPlayer(source); return p and p.PlayerData or {} end
-DT.Modules.Register('framework','qbx_core',A)
+
+---@description This will return the player source of the specified citizen ID.
+---@param citizenid string
+---@return number | nil
+Framework.GetPlayerSource = function(citizenid)
+    local player = Framework.GetPlayerByIdentifier(citizenid)
+    if not player then return end
+    return player.PlayerData.source
+end
+
+---@description Returns a table of the jobs in the framework.
+---@return table
+Framework.GetFrameworkJobs = function()
+    return QBox.GetJobs()
+end
+
+---@description Returns the citizen ID of the player.
+---@param src number
+---@return string | boolean | nil
+Framework.GetPlayerIdentifier = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    if not playerData then return false end
+    return playerData.citizenid
+end
+
+---@description This will return a table of all logged in players
+---@return table
+Framework.GetPlayers = function()
+    local players = QBox:GetQBPlayers()
+    local playerList = {}
+    for src, _ in pairs(players) do
+        table.insert(playerList, src)
+    end
+    return playerList
+end
+
+---@description Returns the first and last name of the player.
+---@param src number
+---@return string | nil
+---@return string | nil
+Framework.GetPlayerName = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    return playerData.charinfo.firstname, playerData.charinfo.lastname
+end
+
+---@description Adds the specified item to the player's inventory.
+---This is an internal function and should not be used outside of bridge, use the Inventory module instead when dealing with items.
+---@param src number
+---@param item string
+---@param amount number
+---@param slot number
+---@param metadata table
+---@return boolean | nil
+Framework.AddItem = function(src, item, amount, slot, metadata)
+    local player = Framework.GetPlayer(src)
+    if not player then return false end
+    TriggerClientEvent("DTlib:ecosystem:client:inventory:updateInventory", src, { action = "add", item = item, count = amount, slot = slot, metadata = metadata })
+    return player.Functions.AddItem(item, amount, slot, metadata)
+end
+
+---@description Removes the specified item from the player's inventory.
+---This is an internal function and should not be used outside of bridge, use the Inventory module instead when dealing with items.
+---@param src number
+---@param item string
+---@param amount number
+---@param slot number
+---@param metadata table
+---@return boolean | nil
+Framework.RemoveItem = function(src, item, amount, slot, metadata)
+    local player = Framework.GetPlayer(src)
+    if not player then return false end
+    TriggerClientEvent("DTlib:ecosystem:client:inventory:updateInventory", src, { action = "remove", item = item, count = amount, slot = slot, metadata = metadata })
+    return player.Functions.RemoveItem(item, amount, slot)
+end
+
+---@description Sets the metadata for the specified item in the player's inventory.
+---This is an internal function and should not be used outside of bridge, use the Inventory module instead when dealing with items.
+---@param src number
+---@param item string
+---@param slot number
+---@param metadata table
+---@return boolean | nil
+Framework.SetMetadata = function(src, item, slot, metadata)
+    local player = Framework.GetPlayer(src)
+    if not player then return false end
+    player.Functions.RemoveItem(item, 1, slot)
+    return player.Functions.AddItem(item, 1, slot, metadata)
+end
+
+---@description Returns a table of items matching the specified name and if passed metadata from the player's inventory.
+---This is an internal function and should not be used outside of bridge, use the Inventory module instead when dealing with items.
+---returns {name = v.name, count = v.amount, metadata = v.info, slot = v.slot}
+---@param src number
+---@param item string
+---@param metadata table
+---@return table|nil {name = v.name, count = v.amount, metadata = v.info, slot = v.slot}
+Framework.GetItem = function(src, item, metadata)
+    local player = Framework.GetPlayer(src)
+    if not player then return { } end
+    local repackedTable = {}
+    for _, v in pairs(player.PlayerData.items) do
+        if v.name == item and (not metadata or v.info == metadata) then
+            repackedTable[#repackedTable + 1] = {
+                name = v.name,
+                count = v.amount or v.count,
+                metadata = v.info or v.metadata,
+                slot = v.slot,
+            }
+        end
+    end
+    return repackedTable
+end
+
+---@description Returns the count of items matching the specified name and if passed metadata from the player's inventory.
+---This is an internal function and should not be used outside of bridge, use the Inventory module instead when dealing with items.
+---@param src number
+---@param item string
+---@param metadata table
+---@return number | nil
+Framework.GetItemCount = function(src, item, metadata)
+    local player = Framework.GetPlayer(src)
+    if not player then return 0 end
+    local playerInventory = player.PlayerData.items
+    local count = 0
+    for _, v in pairs(playerInventory) do
+        if v.name == item and (not metadata or v.info == metadata) then
+            count = count + (v.amount or v.count)
+        end
+    end
+    return count
+end
+
+---@description Returns boolean if the player has the specified item in their inventory.
+---This is an internal function and should not be used outside of bridge, use the Inventory module instead when dealing with items.
+---@param src number
+---@param item string
+---@return boolean
+Framework.HasItem = function(src, item)
+    local getCount = Framework.GetItemCount(src, item)
+    return getCount > 0
+end
+
+---@description Returns the entire inventory of the player as a table.
+---This is an internal function and should not be used outside of bridge, use the Inventory module instead when dealing with items.
+---@param src number
+---@return table | nil
+Framework.GetPlayerInventory = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return { } end
+    local playerItems = player.PlayerData.items
+    local repackedTable = {}
+    for _, v in pairs(playerItems) do
+        table.insert(repackedTable, {
+            name = v.name,
+            count = v.amount,
+            metadata = v.metadata,
+            slot = v.slot,
+        })
+    end
+    return repackedTable
+end
+
+---@description Adds the specified metadata key and number value to the player's data.
+---@param src number
+---@param metadata string
+---@param value string
+---@return boolean | nil
+Framework.SetPlayerMetadata = function(src, metadata, value)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    player.Functions.SetMetaData(metadata, value)
+    return true
+end
+
+---@description Gets the specified metadata key to the player's data.
+---@param src number
+---@param metadata string
+---@return string | boolean | nil
+Framework.GetPlayerMetadata = function(src, metadata)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    return playerData.metadata[metadata] or false
+end
+
+---@description Adds the specified value to the player's stress level and updates the client HUD.
+---@param src number
+---@param value number
+---@return number | nil
+Framework.AddStress = function(src, value)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    local newStress = playerData.metadata.stress + value
+    player.Functions.SetMetaData('stress', Math.Clamp(newStress, 0, 100))
+    TriggerClientEvent('hud:client:UpdateStress', src, newStress)
+    return newStress
+end
+
+---@description Removes the specified value from the player's stress level and updates the client HUD.
+---@param src number
+---@param value number
+---@return number | nil
+Framework.RemoveStress = function(src, value)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    local newStress = (playerData.metadata.stress or 0) - value
+    player.Functions.SetMetaData('stress', Math.Clamp(newStress, 0, 100))
+    TriggerClientEvent('hud:client:UpdateStress', src, newStress)
+    return newStress
+end
+
+---@description Adds the specified value from the player's hunger level.
+---@param src number
+---@param value number
+---@return number | nil
+Framework.AddHunger = function(src, value)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    local newHunger = (playerData.metadata.hunger or 0) + value
+    player.Functions.SetMetaData('hunger', Math.Clamp(newHunger, 0, 100))
+    --TriggerClientEvent('hud:client:UpdateStress', src, newStress)
+    return newHunger
+end
+
+---@description Adds the specified value from the player's thirst level.
+---@param src number
+---@param value number
+---@return number | nil
+Framework.AddThirst = function(src, value)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    local newThirst = (playerData.metadata.thirst or 0) + value
+    player.Functions.SetMetaData('thirst', Math.Clamp(newThirst, 0, 100))
+    --TriggerClientEvent('hud:client:UpdateStress', src, newStress)
+    return newThirst
+end
+
+---@description This will return the players hunger level.
+---@param src number
+---@return number | nil
+Framework.GetHunger = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return 0 end
+    local playerData = player.PlayerData
+    local newHunger = (playerData.metadata.hunger or 0)
+    return math.floor((newHunger) + 0.5) or 0
+end
+
+---@description This will return a boolean if the player is dead or in last stand.
+---@param src number
+---@return boolean|nil
+Framework.GetIsPlayerDead = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return false end
+    local playerData = player.PlayerData
+    return playerData.metadata.isdead or false
+end
+
+---@description This will revive a player, if the player is dead or in last stand.
+---@param src number
+---@return boolean
+Framework.RevivePlayer = function(src)
+    src = tonumber(src)
+    if not src then return false end
+    TriggerClientEvent('hospital:client:Revive', src)
+    return true
+end
+
+---@description This will return the players thirst level.
+---@param src number
+---@return number| nil
+Framework.GetThirst = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return 0 end
+    local playerData = player.PlayerData
+    local newThirst = (playerData.metadata.thirst or 0)
+    return math.floor((newThirst) + 0.5) or 0
+end
+
+---@description Returns the phone number of the player.
+---@param src number
+---@return string | nil
+Framework.GetPlayerPhone = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    return playerData.charinfo.phone
+end
+
+---@description Returns the gang name of the player.
+---@param src number
+---@return string | nil
+Framework.GetPlayerGang = function(src)
+    local player = Framework.GetPlayer(src).PlayerData
+    return player.gang.name
+end
+
+---@description This will get a table of player sources that have the specified job name.
+---@param job string
+---@return table
+Framework.GetPlayersByJob = function(job)
+    return Framework.GetPlayerSourcesByJob(job) or {}
+end
+
+---@description Depricated: Returns the job name, label, grade name, and grade level of the player.
+---Please use GetPlayerJobData instead.
+---@param src number
+---@return string | string | string | number | nil
+---@return string | string | string | number | nil
+---@return string | string | string | number | nil
+---@return string | string | string | number | nil
+Framework.GetPlayerJob = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    --print("This function is depricated, please use GetPlayerJobData instead.")
+    return playerData.job.name, playerData.job.label, playerData.job.grade.name, playerData.job.grade.level
+end
+
+---@description This will return the players job name, job label, job grade label job grade level, boss status, and duty status in a table
+---@param src number
+---@return table | nil
+Framework.GetPlayerJobData = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    local jobData = playerData.job
+    return {
+        jobName = jobData.name,
+        jobLabel = jobData.label,
+        gradeName = jobData.grade.name,
+        gradeLabel = jobData.grade.name,
+        gradeRank = jobData.grade.level,
+        boss = jobData.isboss,
+        onDuty = jobData.onduty,
+    }
+end
+
+---@description Sets the player's job to the specified name and grade.
+---@param src number
+---@param name string
+---@param grade string
+---@return boolean | nil
+Framework.SetPlayerJob = function(src, name, grade)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    return player.Functions.SetJob(name, grade)
+end
+
+---@description This will toggle the duty status of the player.
+---@param src number
+---@param status boolean
+Framework.SetPlayerDuty = function(src, status)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    QBox:SetJobDuty(playerData.citizenid, status)
+    TriggerEvent('QBCore:Server:SetDuty', src, player.PlayerData.job.onduty)
+end
+
+---@description Returns the players duty status.
+---@param src number
+---@return boolean | nil
+Framework.GetPlayerDuty = function(src)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    if not playerData.job.onduty then return false end
+    return true
+end
+
+---@description Adds the specified amount to the player's account balance of the specified type.
+---@param src number
+---@param _type string
+---@param amount number
+---@return boolean | nil
+Framework.AddAccountBalance = function(src, _type, amount)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    if _type == 'money' then _type = 'cash' end
+    if amount <= 0 then return false end
+    return player.Functions.AddMoney(_type, amount)
+end
+
+---@description Removes the specified amount from the player's account balance of the specified type.
+---@param src number
+---@param _type string
+---@param amount number
+---@return boolean | nil
+Framework.RemoveAccountBalance = function(src, _type, amount)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    if _type == 'money' then _type = 'cash' end
+    if amount <= 0 then return false end
+    return player.Functions.RemoveMoney(_type, amount)
+end
+
+---@description Returns the player's account balance of the specified type.
+---@param src number
+---@param _type string
+---@return number | nil
+Framework.GetAccountBalance = function(src, _type)
+    local player = Framework.GetPlayer(src)
+    if not player then return end
+    local playerData = player.PlayerData
+    if _type == 'money' then _type = 'cash' end
+    local balance = playerData.money[_type] or 0
+    if balance <= 0 then return 0 end
+    return balance
+end
+
+---@description Returns a table of owned vehicles for the player. format is {vehicle = vehicle, plate = plate}
+---@param src number
+---@return table
+Framework.GetOwnedVehicles = function(src)
+    local citizenId = Framework.GetPlayerIdentifier(src)
+    local result = MySQL.Sync.fetchAll("SELECT vehicle, plate FROM player_vehicles WHERE citizenid = '" .. citizenId .. "'")
+    local vehicles = {}
+    for i = 1, #result do
+        local vehicle = result[i].vehicle
+        local plate = result[i].plate
+        table.insert(vehicles, { vehicle = vehicle, plate = plate })
+    end
+    return vehicles
+end
+
+---@description Returns a table of owned vehicles for the player. format is {id = id, vehicle = model, plate = plate}
+---@param src number
+---@param plate string
+---@return table
+Framework.IsVehicleOwnedByPlayer = function(src, plate)
+    local citizenId = Framework.GetPlayerIdentifier(src)
+    local result = MySQL.Sync.fetchAll("SELECT id, vehicle, plate FROM player_vehicles WHERE citizenid = '" .. citizenId .. "' AND plate = '" .. plate .. "'")
+    if not result[1] then return false end
+
+    local id = result[1].id
+    local vehicle = result[1].vehicle
+    return { id = id, vehicle = vehicle, plate = plate }
+end
+
+---@description Registers a usable item with a callback function.
+---@param itemName string
+---@param cb function
+---@return function
+Framework.RegisterUsableItem = function(itemName, cb)
+    local func = function(src, item, itemData)
+        itemData = itemData or item
+        itemData.metadata = itemData.metadata or itemData.info or {}
+        itemData.slot = itemData.id or itemData.slot
+        cb(src, itemData)
+    end
+    return QBox:CreateUseableItem(itemName, func)
+end
+
+---@description Event handler for when a player is loaded in QBX Core framework
+---@param src number
+RegisterNetEvent("QBCore:Server:OnPlayerLoaded", function(src)
+    src = src or source
+    TriggerEvent("DTlib:ecosystem:Server:OnPlayerLoaded", src)
+    local jobData = Framework.GetPlayerJobData(src)
+    if not jobData then return end
+    Framework.AddJobCount(src, jobData.jobName)
+end)
+
+---@description Event handler for when a player is unloaded in QBX Core framework
+---@param src number
+RegisterNetEvent("QBCore:Server:OnPlayerUnload", function(src)
+    src = src or source
+    TriggerEvent("DTlib:ecosystem:Server:OnPlayerUnload", src)
+end)
+
+---@description Event handler for when a player's job is updated in QBX Core framework
+---@param src number
+---@param job table
+RegisterNetEvent("QBCore:Server:OnJobUpdate", function(src, job)
+    src = src or source
+    if not job then return end
+    TriggerEvent("DTlib:ecosystem:Server:OnPlayerJobChange", src, job.name)
+end)
+
+---@description Event handler for when a player disconnects from the server
+AddEventHandler("playerDropped", function()
+    local src = source
+    TriggerEvent("DTlib:ecosystem:Server:OnPlayerUnload", src)
+end)
+
+Framework.Commands = Framework.Commands or {}
+
+---@description Adds a command to the Qbox framework
+---@param name string
+---@param help string
+---@param arguments table
+---@param argsrequired boolean
+---@param callback function
+---@param permission string
+---@param ... any
+Framework.Commands.Add = function(name, help, arguments, argsrequired, callback, permission, ...)
+    lib.addCommand(name, {
+        help = help or "",
+        params = arguments or {},
+        restricted = false
+    }, function(source, args, raw)
+        if permission and permission ~= "user" then
+            if not Framework.GetIsFrameworkAdmin(source) then
+                return
+            end
+        end
+
+        callback(source, args or {}, raw)
+    end)
+end
+
+return Framework

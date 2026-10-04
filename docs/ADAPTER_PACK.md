@@ -1,4 +1,4 @@
-# Full provider source pack — beta.2
+# Full provider source pack — beta.3
 
 All 153 provider profiles in 22 categories are included with their real client/server/shared module sources, plus every upstream runtime library, locale and dialogue web file. docs/IMPORTED_FILES.json lists every source path; docs/ADAPTER_SOURCES.json gives exact provider paths and side availability. Optional vendor resources must still be installed and started separately.
 
@@ -16,3 +16,7 @@ Provider selection uses DTConfig.Ecosystem.providers and DTConfig.Adapters. The 
 Utilities: Ids, Tables, Prints, Math, LA, Version, Callback, SQL, Logs, Scaleform, Placeable, PlaceableObject, Utility, Raycast, Point, Particle, Anim, Cutscene, Vehicles, Entity, Marker and Shell. Wrong-side requests return wrong_runtime_side. Language is available through DT.AdapterPack.Language.Locale.
 
 DTlib keeps the Lation alert, notify, text UI, stepped progress, input, context menu and list menu implementations, plus okok integrations. No community_bridge exports or dependency is used. GPL source notices remain because imported code retains its original authorship.
+
+## Source layout
+
+All provider modules are directly under modules, utilities under lib, translations under locales and UI assets under web. There is no integrations directory. Source paths and normalized provider metadata load from one catalogue module, and source loading shares DTlib's ecosystem runtime. Existing normalized adapters with filename collisions use dt_client.lua/dt_server.lua. Explicit startup script entries keep optional provider files lazy-loaded after selection.

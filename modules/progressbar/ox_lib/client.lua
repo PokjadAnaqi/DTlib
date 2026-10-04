@@ -1,10 +1,71 @@
-local A={resource='ox_lib',publicName='ox_lib'}
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:run(data)
-    local p={duration=math.max(0,tonumber(data.duration) or 1000),label=data.label or 'Processing...',useWhileDead=data.useWhileDead==true,allowRagdoll=data.allowRagdoll==true,allowSwimming=data.allowSwimming==true,allowCuffed=data.allowCuffed==true,allowFalling=data.allowFalling==true,canCancel=data.canCancel~=false,anim=data.anim,prop=data.prop,disable=data.disable}
-    local circle=data.circle==true or data.variant=='circle' or data.type=='circle'; if circle then local pos=tostring(data.position or 'middle'):lower(); p.position=(pos=='bottom' or pos=='bottom-center') and 'bottom' or 'middle'; return exports.ox_lib:progressCircle(p) end
-    return exports.ox_lib:progressBar(p)
+---@diagnostic disable: duplicate-set-field
+local resourceName = "ox_lib"
+local configValue = BridgeClientConfig.ProgressBarSystem
+if (configValue == "auto" and GetResourceState(resourceName) ~= "started") or (configValue ~= "auto" and configValue ~= resourceName) then return end
+
+ProgressBar = ProgressBar or {}
+
+---This function converts a QB progress bar options table to an Ox progress bar options table.
+---@param options table
+---@return table
+local function convertFromQB(options)
+    if not options then return options end
+    local prop1 = options.prop or {}
+    local prop2 = options.propTwo or {}
+    local props = {
+        {
+            model = prop1.model,
+            bone = prop1.bone,
+            pos = prop1.coords,
+            rot = prop1.rotation,
+        },
+        {
+            model = prop2.model,
+            bone = prop2.bone,
+            pos = prop2.coords,
+            rot = prop2.rotation,
+        }
+    }
+    return {
+        duration = options.duration,
+        label = options.label,
+        position = 'bottom',
+        useWhileDead = options.useWhileDead,
+        canCancel = options.canCancel,
+        disable = {
+            move = (options.controlDisables or {}).disableMovement,
+            car = (options.controlDisables or {}).disableCarMovement,
+            combat = (options.controlDisables or {}).disableCombat,
+            mouse = (options.controlDisables or {}).disableMouse
+        },
+        anim = {
+            dict = (options.animation or {}).animDict,
+            clip = (options.animation or {}).anim,
+            flag = (options.animation or {}).flags or 49,
+        },
+        prop = props,
+    }
 end
-function A:active() local ok,v=pcall(function() return exports.ox_lib:progressActive() end); return ok and v==true end
-function A:cancel() local ok=pcall(function() exports.ox_lib:cancelProgress() end); return ok end
-DT.Modules.Register('progressbar','ox_lib',A)
+
+---This function opens a progress bar.
+---@param options table
+---@param cb any
+---@param isQBInput boolean||optional
+---@return boolean
+function ProgressBar.Open(options, cb, isQBInput)
+    if isQBInput then
+        options = convertFromQB(options)
+    end
+
+    local style = options.style or 'bar'
+    local success = style == 'circle' and exports.ox_lib:progressCircle(options) or exports.ox_lib:progressBar(options)
+
+    if cb then cb(success) end
+    return success
+end
+
+ProgressBar.GetResourceName = function()
+    return resourceName
+end
+
+return ProgressBar

@@ -1,3 +1,10 @@
+# 1.3.0-beta.3
+
+- Move all 226 imported module files directly into modules and utilities/locales/web assets to resource-level folders.
+- Remove integrations; combine source catalogue and loader into the existing ecosystem modules.
+- Preserve normalized DT adapters with dt_client.lua/dt_server.lua where filenames overlap.
+- Use explicit startup script entries so optional provider sources load only after selection.
+
 # 1.3.0-beta.2
 
 - Bundle every runtime provider module, library, locale and dialogue asset from the complete 22-category/153-profile source pack.

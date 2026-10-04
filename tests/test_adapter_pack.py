@@ -7,8 +7,6 @@ for category,c in catalog.items():
   for side in ['client','server']:
    if not p[side] and not p['shared']:continue
    lua=runtime(side=='server',[p['resource']])
-   for file in ['modules/ecosystem/pack_catalog.lua','modules/ecosystem/pack_runtime.lua']:
-    lua.execute((root/file).read_text())
    result=lua.globals().DT.AdapterPack.Get(category,p['name'])
    api,reason=result if isinstance(result,tuple) else (result,None)
    assert api is not None,(category,p['name'],side,reason)
@@ -40,3 +38,8 @@ lua.execute("""
  local shell=DT.Ecosystem.Utility('Shell');assert(type(shell)=='table')
 """)
 print('Missing-method delegation to actual source module PASS')
+
+assert not (root/'integrations').exists()
+assert not (root/'modules/ecosystem/pack_catalog.lua').exists()
+assert not (root/'modules/ecosystem/pack_runtime.lua').exists()
+print('Unified modules layout and consolidated loader PASS')
