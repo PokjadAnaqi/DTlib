@@ -290,6 +290,7 @@ function releaseGizmoControls(active, deferCursorExit = false) {
     ExecuteCommand('-gizmoScale');
     ExecuteCommand('-gizmoLocal');
     destroyOrbitCamera(active);
+    restoreFrozenPeds(active);
     resetCursor();
     if (active && active.cursorEntered) {
         if (deferCursorExit) {
@@ -365,6 +366,41 @@ function pushChange(active) {
     emit('DTlib:gizmo:change', active.id, resultPayload(active, false, false, 'changed'));
 }
 
+function rememberFrozenPed(active, ped) {
+    if (!active || !ped || !DoesEntityExist(ped)) return;
+    if (!active.frozenPeds) active.frozenPeds = new Map();
+    if (!active.frozenPeds.has(ped)) {
+        let wasFrozen = false;
+        try { wasFrozen = !!IsEntityPositionFrozen(ped); } catch (_) {}
+        active.frozenPeds.set(ped, wasFrozen);
+    }
+}
+
+function restoreFrozenPeds(active) {
+    if (!active) return;
+
+    if (active.frozenPeds) {
+        for (const [ped, wasFrozen] of active.frozenPeds.entries()) {
+            try {
+                if (!DoesEntityExist(ped)) continue;
+                FreezeEntityPosition(ped, wasFrozen === true);
+                if (wasFrozen !== true) SetEntityVelocity(ped, 0.0, 0.0, 0.0);
+            } catch (_) {}
+        }
+        active.frozenPeds.clear();
+    }
+
+    if (active.options && active.options.freezePlayer !== false) {
+        try {
+            const currentPed = PlayerPedId();
+            if (currentPed && DoesEntityExist(currentPed) && currentPed !== active.playerPed) {
+                FreezeEntityPosition(currentPed, false);
+                SetEntityVelocity(currentPed, 0.0, 0.0, 0.0);
+            }
+        } catch (_) {}
+    }
+}
+
 function disableGameplay(active) {
     if (active.options.blockInput === false) return;
 
@@ -381,6 +417,7 @@ function disableGameplay(active) {
     if (active.options.freezePlayer !== false) {
         const ped = PlayerPedId();
         if (ped && DoesEntityExist(ped)) {
+            rememberFrozenPed(active, ped);
             FreezeEntityPosition(ped, true);
             SetEntityVelocity(ped, 0.0, 0.0, 0.0);
             ClearPedSecondaryTask(ped);
@@ -473,6 +510,8 @@ function start(entity, id, options) {
         cameraDragging: false,
         cam: 0,
         camTarget: null,
+        playerPed: PlayerPedId(),
+        frozenPeds: new Map(),
         radius: 0.0,
         theta: 0.0,
         phi: 1.0,
