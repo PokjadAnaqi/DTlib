@@ -16,14 +16,75 @@ local function rememberFrozenPed(sessionRef, ped)
 end
 
 local function restoreFrozenPeds(sessionRef)
-    if not sessionRef or type(sessionRef.frozenPeds) ~= 'table' then return end
-    for ped, wasFrozen in pairs(sessionRef.frozenPeds) do
-        if DoesEntityExist(ped) then
-            FreezeEntityPosition(ped, wasFrozen == true)
-            if wasFrozen ~= true then SetEntityVelocity(ped, 0.0, 0.0, 0.0) end
+    if not sessionRef then return end
+
+    local restored = {}
+    if type(sessionRef.frozenPeds) == 'table' then
+        for ped, wasFrozen in pairs(sessionRef.frozenPeds) do
+            if DoesEntityExist(ped) then
+                FreezeEntityPosition(ped, wasFrozen == true)
+                if wasFrozen ~= true then SetEntityVelocity(ped, 0.0, 0.0, 0.0) end
+                restored[ped] = true
+            end
         end
     end
+
+    -- Failsafe for the native JS gizmo path. The JS runtime also freezes the
+    -- player every frame while editing; if its last frame wins the race after
+    -- Lua cleanup, explicitly restore the current/original PED here as well.
+    if sessionRef.freezePlayer ~= false then
+        local originalPed = tonumber(sessionRef.playerPed) or 0
+        if originalPed ~= 0 and DoesEntityExist(originalPed) and not restored[originalPed] then
+            FreezeEntityPosition(originalPed, sessionRef.playerWasFrozen == true)
+            if sessionRef.playerWasFrozen ~= true then SetEntityVelocity(originalPed, 0.0, 0.0, 0.0) end
+            restored[originalPed] = true
+        end
+
+        local currentPed = PlayerPedId()
+        if currentPed ~= 0 and DoesEntityExist(currentPed) and not restored[currentPed] then
+            local wasFrozen = currentPed == originalPed and sessionRef.playerWasFrozen == true or false
+            FreezeEntityPosition(currentPed, wasFrozen)
+            if not wasFrozen then SetEntityVelocity(currentPed, 0.0, 0.0, 0.0) end
+        end
+    end
+
     sessionRef.frozenPeds = {}
+end
+
+local function captureTextUIState()
+    if not DT.TextUI then return nil end
+
+    if DT.TextUI.GetState then
+        local ok, state = pcall(DT.TextUI.GetState)
+        if ok and type(state) == 'table' then return state end
+    end
+
+    if DT.TextUI.IsOpen then
+        local ok, opened, state = pcall(DT.TextUI.IsOpen)
+        if ok and opened == true and type(state) == 'table' then
+            return DTUtils.copy(state)
+        end
+    end
+
+    return nil
+end
+
+local function restoreTextUIState(state)
+    if type(state) ~= 'table' or not DT.TextUI then return end
+
+    CreateThread(function()
+        Wait(0)
+        if activeSession then return end
+
+        if DT.TextUI.Restore then
+            local ok, restored = pcall(DT.TextUI.Restore, state)
+            if ok and restored ~= false then return end
+        end
+
+        if DT.TextUI.Show then
+            pcall(DT.TextUI.Show, state)
+        end
+    end)
 end
 
 local function lockPlacementPlayer(sessionRef)
@@ -572,6 +633,7 @@ function DT.Placement.Edit(entity, options)
         playerWasFrozen = IsEntityPositionFrozen(PlayerPedId()),
         freezePlayer = options.freezePlayer ~= false,
         frozenPeds = {},
+        previousTextUI = options.restoreTextUI ~= false and captureTextUIState() or nil,
     }
     local sessionRef = activeSession
 
@@ -644,12 +706,18 @@ function DT.Placement.Edit(entity, options)
         pauseReleaseUntil = GetGameTimer() + 350
     end
 
-    -- Mark inactive before any HUD restore. Several UI resources intentionally
-    -- ignore show requests while a placement session is still active.
+    -- Mark inactive before any HUD/player restore. Several UI resources
+    -- intentionally ignore show requests while a placement session is active.
     if activeSession == sessionRef then activeSession = nil end
 
     if provider ~= 'object_gizmo' or sessionRef.externalHud then hideHud(options) end
     options.__objectGizmoProvider = nil
+
+    -- Player recovery must run before external UI recovery. A broken/slow UI
+    -- provider must never be able to leave the PED frozen after ESC/confirm.
+    if sessionRef.freezePlayer then
+        pcall(restoreFrozenPeds, sessionRef)
+    end
 
     local uiRestored = false
     if sessionRef.uiSuspendToken and DT.UI and DT.UI.Resume then
@@ -666,8 +734,8 @@ function DT.Placement.Edit(entity, options)
         pcall(DT.UI.RestorePlacement, true)
     end
 
-    if sessionRef.freezePlayer then
-        restoreFrozenPeds(sessionRef)
+    if sessionRef.previousTextUI and options.restoreTextUI ~= false then
+        restoreTextUIState(sessionRef.previousTextUI)
     end
 
     if DoesEntityExist(entity) then
@@ -872,7 +940,7 @@ AddEventHandler('onResourceStop', function(resource)
             uiRestored = ok and resumed == true
         end
         if activeSession.freezePlayer then
-            restoreFrozenPeds(activeSession)
+            pcall(restoreFrozenPeds, activeSession)
         end
         if activeSession.provider == 'object_gizmo' then
             pcall(function() exports['object_gizmo']:cancelGizmo() end)
