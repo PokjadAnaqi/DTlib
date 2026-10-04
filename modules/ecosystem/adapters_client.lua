@@ -1,4 +1,4 @@
--- Adapt bundled community signatures to the existing DT contracts.
+-- Adapt provider signatures to DTlib's existing UI contracts.
 local E=DT.Ecosystem
 local function reg(category,p,adapter)
     if p.default or DT.Modules.Get(category,p.resource) then return end

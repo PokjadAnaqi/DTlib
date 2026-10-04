@@ -1,14 +1,11 @@
-# v1.2.0 validation
+# 1.3.0-beta.1 validation
 
-- All 353 Lua sources compile under Lua 5.4; native Cfx hash literals normalized only in the baseline test compiler.
-- 69 client and 36 server/shared manifest script entries load with Cfx stubs.
-- 219 category/provider/runtime-side initialization combinations pass.
-- Lation alert mapping/results, named input values, progress steps and list callbacks/live replacements pass.
-- Independent UI provider routing and explicit configuration precedence pass.
-- okok Banking, Fuel, Garage keys and Phone export/event argument checks pass.
-- Native Shops session, quantity, stock and failed-delivery refund checks pass.
-- Baseline native placement Lua/JS, waypoint Lua, UI suspension, Discord server code and minigame orchestration match the uploaded v1.1.1 bytes.
+Run `python -m pip install lupa`, then `python tests/test_contracts.py`.
 
-These checks use static analysis and a simulated Cfx runtime. No live FiveM server
-or actual paid provider resources were available. In-game provider behavior remains
-to be verified with the installed provider versions.
+Checks compile Lua 5.4 source (normalizing Cfx hash literals only inside the test compiler), load both manifest sides with Cfx stubs, initialize 219 provider/side combinations, and exercise export/event argument mapping and UI/gameplay behavior.
+
+113 Lua files compile; 81 client and 47 server/shared manifest scripts load; all 219 provider/side initialization cases pass.
+
+Covered behavior: Lation alert/input/step progress/list menus; okok notify/text UI/fuel/keys/banking; inventory slot/metadata ordering; native skill leveling; shop session/stock validation and failed-delivery refund; explicit provider selection; unsupported operation discovery; native menu cancellation/nested opening; and absence of the imported source pack or iframe.
+
+These are static and simulated contract checks. They do not execute vendor resources or a live FiveM server. Purchased vendor versions, legacy database schemas, clothing persistence, dispatch delivery and in-game UI remain to be tested on the target server.

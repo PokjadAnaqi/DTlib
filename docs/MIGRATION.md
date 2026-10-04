@@ -76,3 +76,16 @@ Prefer native `DT.Zone.*` for non-target area detection. It has no ox_lib depend
 9. remaining DT resources
 
 Start with resources that already use simple notify/callback/target patterns. Validate each resource before moving to the next.
+
+## 1.3.0-beta.1
+
+Keep existing DT APIs and `@DTlib/init.lua`. Restart DTlib and consumers after replacing the resource folder.
+
+- `DT.Ecosystem.Require` now accepts a DT utility name, not a Lua file path. Legacy helper namespaces `Language` and `VersionChecker` are removed; use your resource's localization and release management.
+- Check `DT.Ecosystem.Supports(category, method, resource)` before optional operations. Unsupported/no-op vendor methods are omitted.
+- `List.methods` returns current-side callable methods. Provider metadata includes separate client/server method arrays.
+- Native skill XP is now session-only. Use a persistent skill resource or your own persistence integration before adopting native skills for saved progression.
+- Clothing snapshots are normalized component/prop data on native/QB/ESX profiles; appearance profiles retain full vendor data. Use the vendor's save interface except ESX `Save`.
+- Dialogue uses DT.Menu. Native zones use DT.Zone geometry under the compatibility profiles.
+- Server phone mail treats the email argument as sender and sends to the target player's mailbox. Client callers can mail only themselves.
+- Plate migration touches legacy inventory table names and invokes applicable vendor exports. Verify the schema of your installed version.

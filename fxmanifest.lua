@@ -3,18 +3,16 @@ game 'gta5'
 
 name 'DTlib'
 author 'DT Ecosystem'
-description 'Modular runtime library and compatibility layer for DT ecosystem resources'
-version '1.2.0'
+description 'Independent modular runtime library for DT ecosystem resources'
+version '1.3.0-beta.1'
 
 ui_page 'html/index.html'
 
 files {
     'init.lua',
-    'compat/community/**',
     'html/index.html',
     'html/style.css',
     'html/app.js',
-    'html/ecosystem.js',
     'html/waypoint.html',
     'html/waypoint.css',
     'html/waypoint.js'
@@ -82,6 +80,8 @@ client_scripts {
     'lib/vehicle/client.lua',
 
     'modules/ecosystem/ui_bridge_client.lua',
+    'modules/providers/*_shared.lua',
+    'modules/providers/*_client.lua',
     'modules/bootstrap/client.lua'
 }
 
@@ -113,5 +113,7 @@ server_scripts {
     'lib/discord/server.lua',
     'modules/waypoint/dtlib/server.lua',
 
+    'modules/providers/*_shared.lua',
+    'modules/providers/*_server.lua',
     'modules/bootstrap/server.lua'
 }

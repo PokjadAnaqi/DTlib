@@ -173,7 +173,7 @@ DTConfig.Discord = {
     cacheSeconds = 60
 }
 
--- Bundled community provider pack. No community_bridge dependency is required.
+-- DTlib's local provider registry. External resources are optional backends.
 -- Each module selects exactly one started backend. Restart DTlib after changing it.
 DTConfig.Ecosystem = {
     enabled = true,

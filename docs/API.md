@@ -392,7 +392,7 @@ DT.Player.GetLicenseIdentifier(source) -- license2 preferred; license fallback
 
 `DT.Alert` now supports Lation and native confirmation fallback.
 `DT.ListMenu.Register/Show/Open/Close/SetOptions/GetOpen` provide keyboard list menus.
-`DT.Ecosystem.List/Provider/Get/Call/Status/Utility` expose the bundled adapter pack.
-New compatibility namespaces: Banking, Fuel, VehicleKey, Phone, Doorlock, Dispatch,
-Clothing, Housing, Shops, Skills, BossMenu, Dialogue, Zones, Language and VersionChecker.
+`DT.Ecosystem.List/Provider/Get/Call/Status/Utility` expose DTlib provider adapters.
+Provider namespaces: Banking, Fuel, VehicleKey, Phone, Doorlock, Dispatch,
+Clothing, Housing, Shops, Skills, BossMenu, Dialogue, Zones.
 See [ECOSYSTEM.md](ECOSYSTEM.md) for signatures and examples.

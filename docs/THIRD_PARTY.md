@@ -1,15 +1,7 @@
-# Third-party source notices
+# External resources
 
-Bundled adapter and utility sources in `compat/community/` are derived from
-TheOrderFivem/community_bridge v0.13.6, commit `8accf38f974067c89e20d1abe816c004ea826dda`.
-Upstream: https://github.com/TheOrderFivem/community_bridge
-Documentation: https://theorderfivem.github.io/docs/
+DTlib contains its own provider runtime and adapters. Optional vendor resources such as Lation Modern UI, okok products, ox_lib and frameworks are separate installations; their licenses and purchase requirements apply to those resources.
 
-The combined distribution is provided under GPL-3.0; the full license and upstream
-attributions are included in `compat/community/LICENSE` and `Attributions.md`.
-DT changes: namespaced events/state, isolated runtime, DT callback transport,
-provider selection, standard Lua syntax, corrected zone cleanup, dependency adapters.
-Source is included in this ZIP. Provider resources remain separately installed products.
+The current distribution contains no bundled external provider source pack or third-party dialogue web application. DTlib's license remains [GPL-3.0](../LICENSE). Prior release contents and notices remain available at their original Git tags.
 
-Lation API reference: https://lationscripts.com/docs/modern-ui/install
-okok API reference: https://docs.okokscripts.io/
+Official documentation: [Lation Modern UI](https://lationscripts.com/docs/modern-ui/install), [okok Scripts](https://docs.okokscripts.io).

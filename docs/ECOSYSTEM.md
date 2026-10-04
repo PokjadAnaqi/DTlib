@@ -1,6 +1,6 @@
-# DTlib v1.2.0 — Lation, okok and community adapters
+# DTlib 1.3.0-beta.1 — independent provider library
 
-Baseline: user-supplied DTlib v1.1.1 CONFIG_ONLY_DISCORD_CONVARS.
+DTlib keeps its native core, placement, waypoint and configuration APIs.
 The default resource name is still `DTlib`, with `fx_version 'cerulean'`.
 
 ## Installation
@@ -10,10 +10,7 @@ The default resource name is still `DTlib`, with `fx_version 'cerulean'`.
 3. Start DTlib before DT ecosystem resources. Consumers still use `@DTlib/init.lua`.
 4. Restart consumers after replacing DTlib because GetObject functions are cached by consumers.
 
-`community_bridge` is **not required**. Its adapter source pack is bundled under
-`compat/community/`, using a private Lua environment and `DTlib:ecosystem:*` events.
-The separately purchased/installed provider resources remain necessary; this ZIP does
-not contain okok products or Lation UI itself. No changes to cd_easytime are required.
+DTlib runs its own local Lua provider modules declared in the manifest. Vendor resources remain optional, separately installed backends. There is no bundled external runtime or external dialogue iframe.
 
 ## Per-module UI selection
 
@@ -32,7 +29,7 @@ DTConfig.Adapters.alert = 'lation_ui'
 
 `auto` inherits `Adapters.ui` for alert, input, menu, list menu, text UI and progress.
 If the shared UI choice is also auto, Lation is preferred, then ox_lib. Text UI also
-checks okokTextUI and the remaining bundled providers. Notify has its own setting.
+checks okokTextUI and the remaining registered providers. Notify has its own setting.
 A stopped resource cannot become a selected provider. Existing DT fallback behavior
 remains available. List menus need a modern Lation UI version exposing its List Menu
 exports or ox_lib; they return `provider_unavailable` otherwise.
@@ -155,7 +152,7 @@ DTConfig.Ecosystem.providers.phone = 'okokPhone'
 local balance = DT.Banking.GetAccountMoney('police')
 local added = DT.Banking.AddAccountMoney('police', 500, 'Reward')
 local number = DT.Phone.GetPlayerPhone(source)
-local sent = DT.Phone.SendEmail(source, 'recipient@example.com', 'Subject', 'Message')
+local sent = DT.Phone.SendEmail(source, 'sender@example.com', 'Subject', 'Message')
 
 -- client
 DT.Fuel.SetFuel(vehicle, 75.0)
@@ -167,73 +164,35 @@ Banking refers to society/account balances, not player wallets. Player wallet AP
 remain `DT.Player.GetMoney/AddMoney/RemoveMoney`. okokTextUI supports left/right and
 its named colors; `color='darkblue'` and `playSound=false` are the defaults.
 
-## Community adapter coverage
+## Provider registry
 
-22 adapter categories, 153 provider directories, pinned to community_bridge
-v0.13.6. Full provider lists and method names are in `ECOSYSTEM_PROVIDERS.json` and
-`SUPPORT_MATRIX.md`. Each namespace preserves community_bridge method signatures.
+The 22 categories retain 153 named provider profiles, including native defaults. See [SUPPORT_MATRIX.md](SUPPORT_MATRIX.md) and [ECOSYSTEM_PROVIDERS.json](ECOSYSTEM_PROVIDERS.json). The JSON records the callable methods on each runtime side; an installed vendor version must expose the matching exports/events.
 
-Existing DT APIs preserve their DT signatures. Use `DT.Ecosystem.Inventory`,
-`DT.Ecosystem.Framework`, etc. when you specifically need the upstream signature.
-For new categories, `DT.Fuel`, `DT.Banking`, `DT.Phone`, `DT.Clothing`, `DT.Housing`,
-`DT.Doorlock`, `DT.Dispatch`, `DT.VehicleKey`, `DT.Skills`, `DT.BossMenu`, `DT.Shops`,
-`DT.Dialogue` and `DT.Zones` expose their compatibility methods directly.
+Existing `DT.Inventory`, `DT.Framework`, `DT.Menu` and `DT.Target` keep their original DT API. Access normalized provider contracts through `DT.Ecosystem.Inventory`, `DT.Ecosystem.Framework`, etc. Other categories also expose `DT.Fuel`, `DT.Banking`, `DT.Phone`, `DT.Clothing`, `DT.Dispatch`, `DT.VehicleKey`, `DT.Skills`, `DT.BossMenu`, `DT.Shops`, `DT.Dialogue` and `DT.Zones`.
 
 ```lua
-local providers = DT.Ecosystem.List('phone')
-local selected = DT.Ecosystem.Provider('phone')
+local api, reason = DT.Ecosystem.Get('banking', 'okokBanking')
+if api and DT.Ecosystem.Supports('banking', 'AddAccountMoney', 'okokBanking') then
+    api.AddAccountMoney('police', 250, 'Reward')
+end
+local methods = DT.Ecosystem.List('inventory')
 local status = DT.Ecosystem.Status()
--- All original provider methods are exposed under the category namespace.
-local resourceName = DT.Ecosystem.Phone.GetResourceName()
 ```
 
-`DTConfig.Ecosystem.providers` selects exactly one backend per category. It accepts
-a provider directory name or actual resource name. `auto` follows explicit DT
-adapter settings when present, then the category's provider priority. Restart DTlib
-and consuming resources after changing a selected provider. The pack never calls
-exports on stopped resources as a selection fallback. Missing backend or unsupported
-method returns nil and a reason; provider-specific unsupported methods may retain
-their upstream false/nil return behavior.
+Use `DTConfig.Ecosystem.providers` to choose one backend per category. `auto` follows category adapter settings, then started providers, then a native default where present. Explicit choices do not silently select a different ecosystem provider. Stopped resources are never invoked by the registry. Missing providers return `nil, reason`; unsupported operations are absent from the provider API and `Supports` returns false. `List.methods` reflects the initialized API; `declaredMethods` is the category discovery list.
 
-Extra inventories are also registered into the existing `DT.Inventory` API for
-items, counts, capacity, slots, metadata, registry access and server stash methods
-where their backends implement them. ox_inventory and qb-inventory retain the
-baseline adapters. Inventory metadata matching, stash ownership and special features
-remain backend-specific; use the JSON method list and upstream resource docs.
-`sleepless_interact` also joins the existing DT.Target selection with community
-bridge's partial capability set (box areas use coordinate anchors; no poly adapter).
+Inventory provider contracts use `AddItem(src, item, count, slot, metadata)`, `SetMetadata(src, item, slot, metadata)`, `RegisterShop(name, items, coords, groups)` and `OpenStash(src, kind, id)`. The main DT inventory API keeps metadata before slot. Plate migration methods use vendor exports and/or the documented legacy database tables, so confirm your installed schema before using them.
 
-## Utilities and defaults
+Server phone calls use `SendEmail(src, sender, title, message)`; client calls omit `src` and address only the caller's phone. Client mail and dispatch requests are rate limited. Boss menu opening checks the caller's job and boss state on the server. Door lock changes are server-only; QB door changes broadcast the state and do not provide persistent state management.
 
-`DT.Ecosystem.Utility(name)` loads the bundled helper only when requested. Helpers:
-Ids, Tables, Prints, Math, LA, Callback, SQL, Logs, Scaleform, Placeable,
-PlaceableObject, Utility, Raycast, Point, Particle, Anim, Cutscene, Vehicles,
-Entity, Marker, Shell, Version. Client/server-specific helpers return a wrong-side
-reason on the other runtime. Some legacy helpers need their original optional
-resources or game natives. `DT.Language.Locale` and `DT.VersionChecker` are also
-available. Version checks run only when called. DT's native Placement and Waypoint
-remain the primary placement/navigation APIs.
+## DT utilities and native features
 
-Native Shops, Skills and Dialogue default to `native` inside the compatibility
-pack. Set their provider to `disabled` to disable them. Native shop checkout requires
-a server-opened shop session, validates quantity/access/proximity, checks stock and
-capacity, and refunds failed delivery. Dialogue uses a dedicated embedded view.
-Custom persistent gameplay data such as skill metadata is managed by the selected
-framework; this update does not migrate a live server's data automatically.
+`DT.Ecosystem.Utility(name)` and `Require(name)` return DTlib modules. Supported names: `tables`, `ids`, `math`, `callback`, `database`, `logger`, `vehicle`, `waypoint`, `placement`, `zones`, `utility`, `state`, `resource`. Names are lowercase. `Require` does not load Lua paths or execute another resource's files. Utility objects use the DT APIs described elsewhere in this documentation.
 
-## Validation
+Native shops validate server sessions, quantity, account, stock, groups and proximity; failed delivery refunds payment. Native skills store XP in server memory, cleared on disconnect; choose an installed skill provider for persistent progression. Client XP mutation is intentionally unavailable.
 
-- Standard Lua 5.4 compilation of all Lua files; native Cfx hashes are normalized only
-  in the test compiler for baseline files.
-- Client and server manifest-load checks with Cfx stubs.
-- 219 provider/side initialization combinations in an isolated mock runtime.
-- Behavioral tests for alert payloads/results, named input mapping, Lation steps,
-  list-menu callback count/live option updates and per-module provider precedence.
-- Export/event argument tests for okok Banking, Fuel, Garage keys and Phone.
+Dialogue presents text and choices through DT.Menu and resolves the selected option ID. `characterOptions` remains accepted for call compatibility; this beta does not add a cinematic camera. Zones use DTlib geometry and ownership cleanup, even when selecting the `ox_lib` or `PolyZone` compatibility profile. Use `DT.Zone` directly for independent native geometry.
 
-These are static and mock-contract checks. Actual paid provider resources and a live
-FiveM server were unavailable here. Verify provider-specific features in game after
-installation. Provider manifests/exports can differ by purchased version.
+Clothing uses `{model, components, props}` for native/QB/ESX normalized snapshots; appearance providers return their full vendor appearance. QB/ESX conversion helpers map components and props. Native snapshots do not include facial genetics or tattoos. ESX Save reads the full current skin and writes the `users.skin` record; other persistence uses the vendor's save API. Native clothing has no appearance editor. Unsupported vendor operations and former no-op methods are not reported as supported.
 
-Discord configuration remains `dt_eco_discord_bot_token` and
-`dt_eco_discord_guild_id` via the existing DTConfig.Discord fields. No token is included.
+See [VALIDATION.md](VALIDATION.md) for checks and [MIGRATION.md](MIGRATION.md) for the beta's changes. Discord remains configured through `dt_eco_discord_bot_token` and `dt_eco_discord_guild_id`; no token is included.

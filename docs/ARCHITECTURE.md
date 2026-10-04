@@ -76,5 +76,5 @@ Native placement uses a full PAD lock while active. DTlib disables all GTA contr
 ## v1.2.0 ecosystem expansion
 
 See [ECOSYSTEM.md](ECOSYSTEM.md) for Lation Alert/List Menu, per-module UI settings,
-okok providers, embedded community adapters and installation details.
+okok providers, DTlib adapters and installation details.
 See [SUPPORT_MATRIX.md](SUPPORT_MATRIX.md) for all provider categories.

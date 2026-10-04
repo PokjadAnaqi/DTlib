@@ -1,15 +1,23 @@
-# DTlib v1.2.0
+# DTlib 1.3.0-beta.1
 
-Modular DT ecosystem bridge — Lation UI, okok and embedded community adapters.
+DTlib is an independent FiveM runtime library with its own provider registry, adapters, UI, callbacks and gameplay helpers.
 
-Replace the existing DTlib folder, start chosen providers first, then restart DTlib
-and its consuming DT resources. Keep `@DTlib/init.lua` and `dependency 'DTlib'`.
+Lation Modern UI: alert, notify, text UI, progress with steps, input, context menu and list menu. okok integrations: Notify, TextUI, GasStation, Garage, Banking and Phone.
 
-- [Installation, settings and examples](docs/ECOSYSTEM.md)
-- [Full provider matrix](docs/SUPPORT_MATRIX.md)
+## Install
+
+1. Replace the existing resource folder with this source folder, named `DTlib`.
+2. Start your database, framework, inventory and chosen provider resources first.
+3. Add `ensure DTlib` before your DT resources in `server.cfg`.
+4. Restart DTlib and its consumers after upgrading. Consumers keep `@DTlib/init.lua` and `dependency 'DTlib'`.
+
+Optional provider resources are installed separately. The default manifest uses `fx_version 'cerulean'`.
+
+- [Settings and examples](docs/ECOSYSTEM.md)
+- [Provider matrix](docs/SUPPORT_MATRIX.md)
+- [Migration notes](docs/MIGRATION.md)
 - [API reference](docs/API.md)
+- [Validation and limits](docs/VALIDATION.md)
 - [Changelog](docs/CHANGELOG.md)
-- [Third-party notices](docs/THIRD_PARTY.md)
 
-No community_bridge runtime dependency. Actual provider resources remain required.
-The combined source distribution is under GPL-3.0; see LICENSE.
+This is a pre-release. Simulation checks do not replace live FiveM testing with your installed vendor versions. Licensed under GPL-3.0; see [LICENSE](LICENSE).
