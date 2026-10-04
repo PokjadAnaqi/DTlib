@@ -41,9 +41,14 @@ end
 local overlaySpecs = {
     temperature = {
         resource = 'DT_temperature',
-        getters = { 'IsVisible', 'IsUIVisible', 'GetVisible', 'IsTempUIVisible' },
-        setters = { 'SetVisible', 'SetUIVisible', 'SetTempUIVisible', 'SetWidgetVisible' },
-        toggles = { 'ToggleVisible' },
+        getters = { 'IsVisible', 'IsUIVisible', 'GetVisible', 'IsTempUIVisible', 'IsTemperatureUIVisible' },
+        setters = { 'SetVisible', 'SetUIVisible', 'SetTempUIVisible', 'SetTemperatureUIVisible', 'SetWidgetVisible' },
+        toggles = { 'ToggleVisible', 'ToggleTemperatureUI' },
+        forceRestoreSetters = {
+            'SetVisible', 'SetUIVisible', 'SetTempUIVisible',
+            'SetTemperatureUIVisible', 'SetWidgetVisible',
+            'ToggleVisible', 'ToggleTemperatureUI'
+        },
         hideEvents = {
             'DT_temperature:client:setPlacementHidden',
             'DT_temperature:client:setTemporaryUIHidden',
@@ -131,18 +136,26 @@ local function restoreOverlay(spec, state, includeOneShots, reason)
 
     triggerOverlayEvents(spec.restoreEvents, false, reason)
 
+    local wantedVisible = state.visible ~= false
+
     if state.mode == 'setter' and state.method then
         -- If the getter is unavailable, the overlay was explicitly hidden by
         -- DTlib, so restoring to visible is the safest placement recovery.
-        local wanted = state.visible ~= false
-        tryExport(spec.resource, state.method, wanted, reason)
+        tryExport(spec.resource, state.method, wantedVisible, reason)
     elseif state.mode == 'toggle' and state.method and state.changed and includeOneShots then
         -- Exactly one inverse toggle. Never run this in delayed restore retries.
         tryExport(spec.resource, state.method, true, reason)
     elseif not state.mode and includeOneShots then
         -- Compatibility fallback for resources that gained a setter while the
         -- placement was open or whose getter/export was not ready on hide.
-        setByFirstExport(spec.resource, spec.setters or {}, true, reason)
+        setByFirstExport(spec.resource, spec.setters or {}, wantedVisible, reason)
+    end
+
+    -- Reassert visibility during delayed placement recovery. This is important
+    -- for NUI widgets such as DT_temperature whose first show message can land
+    -- while the scripted placement camera is still blending out.
+    if wantedVisible and type(spec.forceRestoreSetters) == 'table' then
+        setByFirstExport(spec.resource, spec.forceRestoreSetters, true, reason)
     end
 end
 
