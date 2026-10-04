@@ -188,3 +188,6 @@ DTConfig.Ecosystem = {
         skills = 'native', bossmenu = 'auto', zones = 'auto', dialogue = 'native'
     }
 }
+
+-- Awaited cross-resource callbacks fail cleanly if the other side never replies.
+DTConfig.CallbackTimeout = 30000

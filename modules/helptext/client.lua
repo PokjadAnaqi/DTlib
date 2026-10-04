@@ -34,7 +34,7 @@ function DT.TextUI.Show(text, options)
     local a = A()
     local ok, err = pcall(a.show, a, d)
 
-    if ok then
+    if ok and err ~= false then
         remember(d)
         return true
     end
@@ -52,9 +52,9 @@ end
 function DT.TextUI.Hide(options)
     local preserveState = type(options) == 'table' and options.preserveState == true
     local a = A()
-    local ok = pcall(a.hide, a)
+    local ok, result = pcall(a.hide, a)
 
-    if ok then
+    if ok and result ~= false then
         if not preserveState then remember(nil) end
         return true
     end

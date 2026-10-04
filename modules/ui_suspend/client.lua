@@ -14,10 +14,11 @@ end
 
 local function tryExport(resource, exportName, ...)
     if not started(resource) then return false, nil end
-    local args = { ... }
+    local args = table.pack(...)
     local ok, result = pcall(function()
-        local fn = exports[resource][exportName]
-        return fn(table.unpack(args))
+        local handle = exports[resource]
+        local fn = handle[exportName]
+        return fn(handle, table.unpack(args, 1, args.n))
     end)
     return ok, result
 end
@@ -47,7 +48,6 @@ local overlaySpecs = {
         forceRestoreSetters = {
             'SetVisible', 'SetUIVisible', 'SetTempUIVisible',
             'SetTemperatureUIVisible', 'SetWidgetVisible',
-            'ToggleVisible', 'ToggleTemperatureUI'
         },
         hideEvents = {
             'DT_temperature:client:setPlacementHidden',

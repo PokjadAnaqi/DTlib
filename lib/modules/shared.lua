@@ -42,6 +42,11 @@ function DT.Modules.Resolve(category, configured, candidates, aliases, fallback)
 
     local function usable(name)
         local provider = providers[name]
+        if not provider then
+            for key, candidate in pairs(providers) do
+                if tostring(key):lower()==tostring(name):lower() then provider=candidate;break end
+            end
+        end
         if not provider then return nil end
         if provider.available then
             local ok, result = pcall(provider.available, provider)
@@ -55,7 +60,7 @@ function DT.Modules.Resolve(category, configured, candidates, aliases, fallback)
     if configured ~= 'auto' then
         local provider = usable(configured)
         if provider then
-            DT.Modules._selected[category] = configured
+            DT.Modules._selected[category] = provider.name
             return provider
         end
     end

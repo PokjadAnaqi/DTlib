@@ -1,0 +1,14 @@
+const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict'),path=require('node:path');
+const source=fs.readFileSync(path.join(__dirname,'../modules/placement/dtlib/gizmo.js'),'utf8');
+const freeze=new Map([[1,false],[2,true],[3,true]]),calls=[];
+let ped=2;
+const context={Map,DoesEntityExist:()=>true,IsEntityPositionFrozen:id=>freeze.get(id),FreezeEntityPosition:(id,state)=>{calls.push([id,state]);freeze.set(id,state)},SetEntityVelocity:()=>{},PlayerPedId:()=>ped,DisableAllControlActions:()=>{},SetPauseMenuActive:()=>{},DisablePlayerFiring:()=>{},PlayerId:()=>1,ClearPedSecondaryTask:()=>{},IsPedInMeleeCombat:()=>false,IsPedShooting:()=>false,IsPedReloading:()=>false};
+vm.createContext(context);
+vm.runInContext(source.slice(source.indexOf('function rememberFrozenPed('),source.indexOf('function guardPauseMenu(')),context);
+const active={playerPed:1,options:{freezePlayer:true},frozenPeds:new Map()};
+context.disableGameplay(active);assert.equal(freeze.get(2),true);
+context.restoreFrozenPeds(active);assert.equal(freeze.get(2),true);
+ped=3;context.restoreFrozenPeds(active);assert.equal(freeze.get(3),true);
+const managed={options:{freezePlayer:true,managePlayerFreeze:false},frozenPeds:new Map([[1,false]])};
+const count=calls.length;context.disableGameplay(managed);context.restoreFrozenPeds(managed);assert.equal(calls.length,count);
+console.log('Native gizmo exact freeze preservation and Lua-owned freeze isolation PASS');

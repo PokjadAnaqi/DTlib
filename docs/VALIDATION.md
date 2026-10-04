@@ -1,4 +1,4 @@
-# 1.3.0-beta.3 validation
+# 1.3.0-beta.4 validation
 
 Install lupa and run `python tests/test_contracts.py` and `python tests/test_adapter_pack.py`.
 
@@ -15,3 +15,9 @@ These are static and simulated checks, not live vendor/FiveM execution. Purchase
 Layout checks assert that integrations and the separate pack catalogue/runtime files are absent. All 226 imported provider module files are directly under modules.
 
 Run `python tests/test_database.py` for database export arguments, live resource state changes and actionable missing-driver diagnostics.
+
+## beta.4 full audit
+
+Run `python tests/test_lifecycle.py` and `node tests/test_gizmo.js` in addition to the existing contract, adapter-pack and database suites. Regression checks cover native placement confirm/cancel, initial freeze state, PED changes, freezePlayer=false, Lua/JS freeze ownership, Cfx export self/arguments, toggle-only visibility retries, nested suspension, callback nil values/timeouts/source validation/resource stop/player disconnect, mixed-case provider selection and native TextUI fallback.
+
+The current GitHub placement recovery changes were preserved. JavaScript runtime/UI files pass Node syntax checks. These checks use mocked native/export calls; they do not establish compatibility with every live paid-provider version or replace client/server gameplay tests. No server was accessed or restarted during this audit.

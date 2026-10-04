@@ -1,5 +1,12 @@
 # 1.3.0-beta.4
 
+- Full regression audit against GitHub main, preserving the latest placement recovery changes.
+- Fix Cfx overlay export argument forwarding and prevent delayed retries from replaying toggle-only visibility APIs.
+- Make Lua the sole owner of native placement PED freezing; preserve tracked PED states and honour freezePlayer=false.
+- Resolve explicitly configured provider names without case-sensitive mismatches.
+- Add 30-second callback timeout, resource/disconnect cleanup, and preserve nil arguments/results.
+- Fall back to native TextUI when a provider explicitly returns false.
+
 - Fix native Prop Placement cleanup so ESC/confirm cannot leave the player PED frozen.
 - Restore PED freeze state in both the Lua placement controller and native gizmo runtime.
 - Preserve and restore the previous DTlib TextUI after placement help closes.

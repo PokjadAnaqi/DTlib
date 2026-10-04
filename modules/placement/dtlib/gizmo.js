@@ -377,7 +377,7 @@ function rememberFrozenPed(active, ped) {
 }
 
 function restoreFrozenPeds(active) {
-    if (!active) return;
+    if (!active || (active.options && active.options.managePlayerFreeze === false)) return;
 
     if (active.frozenPeds) {
         for (const [ped, wasFrozen] of active.frozenPeds.entries()) {
@@ -388,16 +388,6 @@ function restoreFrozenPeds(active) {
             } catch (_) {}
         }
         active.frozenPeds.clear();
-    }
-
-    if (active.options && active.options.freezePlayer !== false) {
-        try {
-            const currentPed = PlayerPedId();
-            if (currentPed && DoesEntityExist(currentPed) && currentPed !== active.playerPed) {
-                FreezeEntityPosition(currentPed, false);
-                SetEntityVelocity(currentPed, 0.0, 0.0, 0.0);
-            }
-        } catch (_) {}
     }
 }
 
@@ -414,7 +404,7 @@ function disableGameplay(active) {
     SetPauseMenuActive(false);
     DisablePlayerFiring(PlayerId(), true);
 
-    if (active.options.freezePlayer !== false) {
+    if (active.options.freezePlayer !== false && active.options.managePlayerFreeze !== false) {
         const ped = PlayerPedId();
         if (ped && DoesEntityExist(ped)) {
             rememberFrozenPed(active, ped);

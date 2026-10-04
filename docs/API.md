@@ -396,3 +396,7 @@ DT.Player.GetLicenseIdentifier(source) -- license2 preferred; license fallback
 Provider namespaces: Banking, Fuel, VehicleKey, Phone, Doorlock, Dispatch,
 Clothing, Housing, Shops, Skills, BossMenu, Dialogue, Zones.
 See [ECOSYSTEM.md](ECOSYSTEM.md) for signatures and examples.
+
+## Callback lifecycle — beta.4
+
+DTConfig.CallbackTimeout defaults to 30000 milliseconds. Await/AwaitClient raise callback_timeout when the other side does not reply, and release pending requests on the owning resource stopping or target player disconnecting. Existing success/error contracts remain. Callback arguments and return values preserve leading/trailing nil slots. Register callbacks again after restarting their consumer resource.

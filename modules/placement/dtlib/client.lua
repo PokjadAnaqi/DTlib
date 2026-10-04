@@ -29,22 +29,14 @@ local function restoreFrozenPeds(sessionRef)
         end
     end
 
-    -- Failsafe for the native JS gizmo path. The JS runtime also freezes the
-    -- player every frame while editing; if its last frame wins the race after
-    -- Lua cleanup, explicitly restore the current/original PED here as well.
+    -- Restore the original snapshot even when an external gizmo owned the
+    -- freeze. Untracked PEDs belong to other systems and must not be changed.
     if sessionRef.freezePlayer ~= false then
         local originalPed = tonumber(sessionRef.playerPed) or 0
         if originalPed ~= 0 and DoesEntityExist(originalPed) and not restored[originalPed] then
             FreezeEntityPosition(originalPed, sessionRef.playerWasFrozen == true)
             if sessionRef.playerWasFrozen ~= true then SetEntityVelocity(originalPed, 0.0, 0.0, 0.0) end
             restored[originalPed] = true
-        end
-
-        local currentPed = PlayerPedId()
-        if currentPed ~= 0 and DoesEntityExist(currentPed) and not restored[currentPed] then
-            local wasFrozen = currentPed == originalPed and sessionRef.playerWasFrozen == true or false
-            FreezeEntityPosition(currentPed, wasFrozen)
-            if not wasFrozen then SetEntityVelocity(currentPed, 0.0, 0.0, 0.0) end
         end
     end
 
@@ -503,6 +495,8 @@ local function serialisableOptions(options, origin)
         restoreOnCancel = options.restoreOnCancel ~= false,
         snapToGround = options.snapToGround ~= false,
         blockInput = options.blockInput ~= false,
+        freezePlayer = options.freezePlayer ~= false,
+        managePlayerFreeze = false, -- Lua alone owns PED freeze snapshots/restoration.
         outline = options.outline ~= false,
         outlineColor = options.outlineColor,
         outlineShader = number(options.outlineShader, 0),
