@@ -1,0 +1,50 @@
+local aliases={ox='ox_inventory',dtgrid='ox_inventory',qb='qb-inventory'}
+local function A()
+    local candidates={'ox_inventory','qb-inventory'}
+    for _,p in ipairs(DTEcosystemCatalog.inventory.providers) do if not p.default and not DTUtils.tableContains(candidates,p.resource) then candidates[#candidates+1]=p.resource end end
+    return DT.Modules.Resolve('inventory',DTConfig.Adapters.inventory,candidates,aliases,'framework')
+end
+local function call(m,...)
+    local a=A(); if not a or type(a[m])~='function' then return nil,'unsupported_backend' end; return a[m](a,...)
+end
+local itemCache={}
+function DT.Inventory.Name() local a=A(); return a and a.publicName or 'framework' end
+function DT.Inventory.Available() local a=A(); return a and a.resource~='framework' end
+function DT.Inventory.SetGetPlayerNameMethod(cb) if not DTUtils.isCallable(cb) then return false,'callback_required' end; return call('setGetPlayerNameMethod',cb) end
+function DT.Inventory.Open(t,d) return call('open',t,d) end
+function DT.Inventory.OpenStash(id,owner) return DT.Inventory.Open('stash',owner~=nil and {id=id,owner=owner} or id) end
+function DT.Inventory.UseItem(d,cb) return call('useItem',d,cb) end
+function DT.Inventory.UseSlot(s) return call('useSlot',s) end
+function DT.Inventory.SetStashTarget(id,owner) return call('setStashTarget',id,owner) end
+function DT.Inventory.GetCurrentWeapon() return call('getCurrentWeapon') end
+function DT.Inventory.DisplayMetadata(m,v) return call('displayMetadata',m,v) end
+function DT.Inventory.GiveItemToTarget(s,slot,c) return call('giveItemToTarget',s,slot,c) end
+function DT.Inventory.WeaponWheel(state) return call('weaponWheel',state) end
+function DT.Inventory.Search(s,i,m) return call('search',s,i,m) end
+function DT.Inventory.GetCount(i,m,strict) return tonumber(call('getCount',i,m,strict) or 0) or 0 end
+DT.Inventory.GetItemCount=DT.Inventory.GetCount
+function DT.Inventory.HasItem(i,c,m,strict) return DT.Inventory.GetCount(i,m,strict)>=(tonumber(c) or 1) end
+function DT.Inventory.GetItems() return call('getItems') or {} end
+DT.Inventory.GetPlayerItems=DT.Inventory.GetItems
+function DT.Inventory.GetWeight() return tonumber(call('getWeight') or 0) or 0 end
+function DT.Inventory.GetMaxWeight() return tonumber(call('getMaxWeight') or 0) or 0 end
+function DT.Inventory.GetSlotIdWithItem(...) return call('getSlotIdWithItem',...) end
+function DT.Inventory.GetSlotIdsWithItem(...) return call('getSlotIdsWithItem',...) end
+function DT.Inventory.GetSlotWithItem(...) return call('getSlotWithItem',...) end
+function DT.Inventory.GetSlotsWithItem(...) return call('getSlotsWithItem',...) end
+function DT.Inventory.SuppressItemNotifications(state) return call('suppressItemNotifications',state) end
+function DT.Inventory.IsBusy() return LocalPlayer and LocalPlayer.state and LocalPlayer.state.invBusy==true or false end
+function DT.Inventory.SetBusy(state,rep) if not LocalPlayer or not LocalPlayer.state then return false end; LocalPlayer.state:set('invBusy',state==true,rep==true); return true end
+function DT.Inventory.IsOpen() return LocalPlayer and LocalPlayer.state and LocalPlayer.state.invOpen==true or false end
+function DT.Inventory.SetHotkeys(state,rep) if not LocalPlayer or not LocalPlayer.state then return false end; LocalPlayer.state:set('invHotkeys',state~=false,rep==true); return true end
+function DT.Inventory.HotkeysEnabled() return not LocalPlayer or not LocalPlayer.state or LocalPlayer.state.invHotkeys~=false end
+function DT.Inventory.SetCanUseWeapons(state,rep) if not LocalPlayer or not LocalPlayer.state then return false end; LocalPlayer.state:set('canUseWeapons',state~=false,rep==true); return true end
+function DT.Inventory.CanUseWeapons() return not LocalPlayer or not LocalPlayer.state or LocalPlayer.state.canUseWeapons~=false end
+function DT.Inventory.SetInstance(instance,rep) if not LocalPlayer or not LocalPlayer.state then return false end; LocalPlayer.state:set('instance',instance,rep~=false); return true end
+function DT.Inventory.GetInstance() return LocalPlayer and LocalPlayer.state and LocalPlayer.state.instance or nil end
+function DT.Inventory.GetItemData(item)
+    if type(item)~='string' or item=='' then return nil end; if itemCache[item]~=nil then return itemCache[item] or nil end
+    local d=call('getItemData',item); if type(d)=='table' then d.name=d.name or item; itemCache[item]=d; return d end; itemCache[item]=false
+end
+function DT.Inventory.GetItemLabel(item) local d=DT.Inventory.GetItemData(item); local l=d and (d.label or d.displayName or d.name); return l and tostring(l) or nil end
+function DT.Inventory.ClearItemCache(item) if type(item)=='string' and item~='' then itemCache[item]=nil else itemCache={} end; return true end
