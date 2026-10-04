@@ -1,6 +1,6 @@
 # DTlib 1.3.0-beta.5
 
-DTlib is a standalone FiveM resource with its own provider registry, UI, callbacks and gameplay helpers. It now bundles the complete provider/module/utility source pack, with no community_bridge resource dependency.
+DTlib is a standalone FiveM resource with its own provider registry, UI, callbacks and gameplay helpers. It includes modular provider adapters and shared utilities for DT ecosystem scripts.
 
 Lation Modern UI: alert, notify, text UI, progress with steps, input, context menu and list menu. okok integrations: Notify, TextUI, GasStation, Garage, Banking and Phone.
 
@@ -8,7 +8,7 @@ All UI assets live under `html/`; dialogue runtime and editable sources are in `
 
 ## Install
 
-1. Replace the existing resource folder with this source folder, named `DTlib`.
+1. Download the `DTlib.zip` release asset and extract its `DTlib` folder into your resources directory. Replace the existing resource folder with this fresh folder.
 2. Start your database, framework, inventory and chosen provider resources first.
 3. Add `ensure DTlib` before your DT resources in `server.cfg`.
 4. Restart DTlib and its consumers after upgrading. Consumers keep `@DTlib/init.lua` and `dependency 'DTlib'`.
