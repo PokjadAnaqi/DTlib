@@ -1,3 +1,11 @@
+# 1.3.0-beta.6
+
+- Fixed the advertised `cd_easytime` weather provider: the source pack existed but was not registered or loaded by the DT.Weather runtime.
+- Added first-class client/server `cd_easytime` DT.Weather adapters using Easytime `GetAllData()` / `GetWeather()` exports.
+- Auto weather resolution now checks the real `cd_easytime` resource before `qb-weathersync`, avoiding false selection through Easytime's `provide` aliases.
+- Added `DT.Weather.GetData()` for provider-specific weather/time snapshots while keeping `GetCurrent()` and `GetTime()` provider-neutral.
+- No consumer-side weather provider setting is required; `DTConfig.Adapters.weather = 'auto'` is sufficient.
+
 # 1.3.0-beta.5
 
 - Consolidate all DTlib UI assets under html; move dialogue runtime and editable sources to html/dialogue.

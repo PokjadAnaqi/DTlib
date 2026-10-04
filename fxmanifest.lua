@@ -4,7 +4,7 @@ game 'gta5'
 name 'DTlib'
 author 'DT Ecosystem'
 description 'Independent modular runtime library for DT ecosystem resources'
-version '1.3.0-beta.5'
+version '1.3.0-beta.6'
 
 ui_page 'html/index.html'
 
@@ -91,6 +91,7 @@ client_scripts {
     'modules/weather/native/client.lua',
     'modules/weather/qb/client.lua',
     'modules/weather/renewed/client.lua',
+    'modules/weather/cd_easytime/dt_client.lua',
     'modules/weather/client.lua',
 
     'modules/ui_suspend/client.lua',
@@ -149,6 +150,7 @@ server_scripts {
     'modules/weather/native/server.lua',
     'modules/weather/qb/server.lua',
     'modules/weather/renewed/server.lua',
+    'modules/weather/cd_easytime/dt_server.lua',
     'modules/weather/server.lua',
 
     'modules/notify/server.lua',

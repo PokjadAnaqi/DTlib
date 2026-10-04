@@ -236,6 +236,7 @@ DT.Vehicle.SetProperties(vehicle, props)
 DT.Weather.Name()
 DT.Weather.GetCurrent()
 DT.Weather.GetTime()
+DT.Weather.GetData()
 ```
 
 
