@@ -1,3 +1,11 @@
+# 1.3.0-beta.4
+
+- Fix native Prop Placement cleanup so ESC/confirm cannot leave the player PED frozen.
+- Restore PED freeze state in both the Lua placement controller and native gizmo runtime.
+- Preserve and restore the previous DTlib TextUI after placement help closes.
+- Reassert DT_temperature visibility after placement camera teardown so the temperature widget returns reliably.
+- Keep cancel/confirm transform semantics unchanged.
+
 # 1.3.0-beta.3
 
 - Report database driver states in missing-backend errors and expose DT.Database.Status().
