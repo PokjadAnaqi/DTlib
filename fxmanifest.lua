@@ -4,7 +4,7 @@ game 'gta5'
 name 'DTlib'
 author 'DT Ecosystem'
 description 'Independent modular runtime library for DT ecosystem resources'
-version '1.3.0-beta.4'
+version '1.3.0-beta.5'
 
 ui_page 'html/index.html'
 
@@ -13,14 +13,7 @@ files {
     'modules/**',
     'lib/**',
     'locales/*.json',
-    'web/**',
-    'html/ecosystem.js',
-    'html/index.html',
-    'html/style.css',
-    'html/app.js',
-    'html/waypoint.html',
-    'html/waypoint.css',
-    'html/waypoint.js'
+    'html/**'
 }
 
 shared_scripts {

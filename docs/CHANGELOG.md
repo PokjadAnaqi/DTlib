@@ -1,3 +1,10 @@
+# 1.3.0-beta.5
+
+- Consolidate all DTlib UI assets under html; move dialogue runtime and editable sources to html/dialogue.
+- Remove the resource-level web folder, update the dialogue iframe, manifest and imported-file inventory.
+- Keep provider APIs, native UI and beta.4 lifecycle fixes unchanged.
+- Upgrade with a fresh DTlib folder so obsolete web files are removed.
+
 # 1.3.0-beta.4
 
 - Full regression audit against GitHub main, preserving the latest placement recovery changes.

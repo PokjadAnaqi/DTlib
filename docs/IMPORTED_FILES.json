@@ -1143,83 +1143,83 @@
     },
     {
       "upstream": "web/.eslintrc.cjs",
-      "dtlib": "web/.eslintrc.cjs"
+      "dtlib": "html/dialogue/.eslintrc.cjs"
     },
     {
       "upstream": "web/.gitignore",
-      "dtlib": "web/.gitignore"
+      "dtlib": "html/dialogue/.gitignore"
     },
     {
       "upstream": "web/README.md",
-      "dtlib": "web/README.md"
+      "dtlib": "html/dialogue/README.md"
     },
     {
       "upstream": "web/dist/assets/index-B0fYxqh2.js",
-      "dtlib": "web/dist/assets/index-B0fYxqh2.js"
+      "dtlib": "html/dialogue/dist/assets/index-B0fYxqh2.js"
     },
     {
       "upstream": "web/dist/assets/index-BEeeZu6c.css",
-      "dtlib": "web/dist/assets/index-BEeeZu6c.css"
+      "dtlib": "html/dialogue/dist/assets/index-BEeeZu6c.css"
     },
     {
       "upstream": "web/dist/index.html",
-      "dtlib": "web/dist/index.html"
+      "dtlib": "html/dialogue/dist/index.html"
     },
     {
       "upstream": "web/index.html",
-      "dtlib": "web/index.html"
+      "dtlib": "html/dialogue/index.html"
     },
     {
       "upstream": "web/package-lock.json",
-      "dtlib": "web/package-lock.json"
+      "dtlib": "html/dialogue/package-lock.json"
     },
     {
       "upstream": "web/package.json",
-      "dtlib": "web/package.json"
+      "dtlib": "html/dialogue/package.json"
     },
     {
       "upstream": "web/public/vite.svg",
-      "dtlib": "web/public/vite.svg"
+      "dtlib": "html/dialogue/public/vite.svg"
     },
     {
       "upstream": "web/src/dialogue.css",
-      "dtlib": "web/src/dialogue.css"
+      "dtlib": "html/dialogue/src/dialogue.css"
     },
     {
       "upstream": "web/src/dialogue.jsx",
-      "dtlib": "web/src/dialogue.jsx"
+      "dtlib": "html/dialogue/src/dialogue.jsx"
     },
     {
       "upstream": "web/src/fetch.jsx",
-      "dtlib": "web/src/fetch.jsx"
+      "dtlib": "html/dialogue/src/fetch.jsx"
     },
     {
       "upstream": "web/src/index.css",
-      "dtlib": "web/src/index.css"
+      "dtlib": "html/dialogue/src/index.css"
     },
     {
       "upstream": "web/src/index.jsx",
-      "dtlib": "web/src/index.jsx"
+      "dtlib": "html/dialogue/src/index.jsx"
     },
     {
       "upstream": "web/src/main.jsx",
-      "dtlib": "web/src/main.jsx"
+      "dtlib": "html/dialogue/src/main.jsx"
     },
     {
       "upstream": "web/src/nui",
-      "dtlib": "web/src/nui"
+      "dtlib": "html/dialogue/src/nui"
     },
     {
       "upstream": "web/src/test.css",
-      "dtlib": "web/src/test.css"
+      "dtlib": "html/dialogue/src/test.css"
     },
     {
       "upstream": "web/src/test.jsx",
-      "dtlib": "web/src/test.jsx"
+      "dtlib": "html/dialogue/src/test.jsx"
     },
     {
       "upstream": "web/vite.config.js",
-      "dtlib": "web/vite.config.js"
+      "dtlib": "html/dialogue/vite.config.js"
     }
   ]
 }

@@ -1,4 +1,4 @@
-# 1.3.0-beta.4 validation
+# 1.3.0-beta.5 validation
 
 Install lupa and run `python tests/test_contracts.py` and `python tests/test_adapter_pack.py`.
 
@@ -21,3 +21,7 @@ Run `python tests/test_database.py` for database export arguments, live resource
 Run `python tests/test_lifecycle.py` and `node tests/test_gizmo.js` in addition to the existing contract, adapter-pack and database suites. Regression checks cover native placement confirm/cancel, initial freeze state, PED changes, freezePlayer=false, Lua/JS freeze ownership, Cfx export self/arguments, toggle-only visibility retries, nested suspension, callback nil values/timeouts/source validation/resource stop/player disconnect, mixed-case provider selection and native TextUI fallback.
 
 The current GitHub placement recovery changes were preserved. JavaScript runtime/UI files pass Node syntax checks. These checks use mocked native/export calls; they do not establish compatibility with every live paid-provider version or replace client/server gameplay tests. No server was accessed or restarted during this audit.
+
+## beta.5 UI layout
+
+Dialogue files are relocated intact to html/dialogue. The root NUI iframe resolves dialogue/dist/index.html; its compiled JS/CSS URLs remain relative to that page. The manifest packages html/**. The imported-file inventory maps historical upstream paths to the new local paths. Full contract/provider/database/lifecycle regressions pass; live FiveM NUI testing remains required.
