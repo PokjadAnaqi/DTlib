@@ -1,7 +1,7 @@
 local aliases={ox='oxmysql'}
 local function A() return DT.Modules.Resolve('database',DTConfig.Adapters.database,{'oxmysql','ghmattimysql'},aliases,'none') end
 local function call(m,...)
-    local a=A(); if not a or a.resource=='none' then error(('DT.Database.%s: no supported database backend is running'):format(m),3) end
+    local a=A(); if not a or a.resource=='none' then error(('DT.Database.%s: no supported database backend is running (configured=%s, oxmysql=%s, ghmattimysql=%s). Start a supported driver before DTlib, for example ensure oxmysql; inspect the driver startup log if it is not started.'):format(m,tostring(DTConfig.Adapters.database),GetResourceState('oxmysql'),GetResourceState('ghmattimysql')),3) end
     local fn=a[m]; if type(fn)~='function' then return nil,'unsupported_backend' end; return fn(a,...)
 end
 function DT.Database.Name() local a=A(); return a and a.publicName or 'none' end
@@ -16,3 +16,7 @@ function DT.Database.Prepare(q,p) local a=A(); if a and a.prepare then return a:
 function DT.Database.RawExecute(q,p) local a=A(); if a and a.rawExecute then return a:rawExecute(q,p or {}) end; return DT.Database.Query(q,p) end
 function DT.Database.Transaction(q,p) return call('transaction',q,p) end
 DT.Database.query=DT.Database.Query; DT.Database.execute=DT.Database.Query; DT.Database.single=DT.Database.Single; DT.Database.scalar=DT.Database.Scalar; DT.Database.insert=DT.Database.Insert; DT.Database.update=DT.Database.Update; DT.Database.prepare=DT.Database.Prepare; DT.Database.rawExecute=DT.Database.RawExecute; DT.Database.transaction=DT.Database.Transaction
+
+function DT.Database.Status()
+    return {configured=DTConfig.Adapters.database,provider=DT.Database.Name(),resources={oxmysql=GetResourceState('oxmysql'),ghmattimysql=GetResourceState('ghmattimysql')}}
+end

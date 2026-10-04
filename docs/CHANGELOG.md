@@ -1,5 +1,8 @@
 # 1.3.0-beta.3
 
+- Report database driver states in missing-backend errors and expose DT.Database.Status().
+- Align DT.Version with the manifest release version.
+
 - Move all 226 imported module files directly into modules and utilities/locales/web assets to resource-level folders.
 - Remove integrations; combine source catalogue and loader into the existing ecosystem modules.
 - Preserve normalized DT adapters with dt_client.lua/dt_server.lua where filenames overlap.

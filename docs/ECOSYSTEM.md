@@ -200,3 +200,7 @@ See [VALIDATION.md](VALIDATION.md) for checks and [MIGRATION.md](MIGRATION.md) f
 ## Full adapter pack
 
 Beta.2 additionally includes every runtime module/utility/locale/web source from the full provider pack. `DT.AdapterPack` exposes complete source signatures. Existing DT contracts remain; see [ADAPTER_PACK.md](ADAPTER_PACK.md) for full APIs, one-provider-per-category selection and utility names.
+
+## Database startup diagnostics
+
+Start a supported driver before DTlib, for example `ensure oxmysql`, then your framework/inventory and `ensure DTlib`. Check the driver's own startup error when its state is missing, starting or stopped. `DT.Database.Status()` returns the configured adapter, selected provider and driver states. DTlib cannot execute SQL if both supported driver resources are unavailable. During shutdown, stop database consumers before stopping the driver.

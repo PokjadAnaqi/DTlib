@@ -13,3 +13,5 @@ Install lupa and run `python tests/test_contracts.py` and `python tests/test_ada
 These are static and simulated checks, not live vendor/FiveM execution. Purchased vendor versions, legacy database schemas, clothing persistence, dispatch delivery, shell spawning and in-game UI still require target-server testing. File inclusion and initialization do not prove every gameplay path works with every vendor release.
 
 Layout checks assert that integrations and the separate pack catalogue/runtime files are absent. All 226 imported provider module files are directly under modules.
+
+Run `python tests/test_database.py` for database export arguments, live resource state changes and actionable missing-driver diagnostics.
