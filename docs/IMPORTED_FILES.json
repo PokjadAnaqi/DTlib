@@ -1,0 +1,1225 @@
+{
+  "upstream_commit": "8accf38f974067c89e20d1abe816c004ea826dda",
+  "files": [
+    {
+      "upstream": "modules/banking/_default/server.lua",
+      "dtlib": "integrations/providers/modules/banking/_default/server.lua"
+    },
+    {
+      "upstream": "modules/banking/dhs-banking/server.lua",
+      "dtlib": "integrations/providers/modules/banking/dhs-banking/server.lua"
+    },
+    {
+      "upstream": "modules/banking/fd_banking/server.lua",
+      "dtlib": "integrations/providers/modules/banking/fd_banking/server.lua"
+    },
+    {
+      "upstream": "modules/banking/kartik-banking/server.lua",
+      "dtlib": "integrations/providers/modules/banking/kartik-banking/server.lua"
+    },
+    {
+      "upstream": "modules/banking/okokBanking/server.lua",
+      "dtlib": "integrations/providers/modules/banking/okokBanking/server.lua"
+    },
+    {
+      "upstream": "modules/banking/qb-banking/server.lua",
+      "dtlib": "integrations/providers/modules/banking/qb-banking/server.lua"
+    },
+    {
+      "upstream": "modules/banking/renewed-banking/server.lua",
+      "dtlib": "integrations/providers/modules/banking/renewed-banking/server.lua"
+    },
+    {
+      "upstream": "modules/banking/tgg-banking/server.lua",
+      "dtlib": "integrations/providers/modules/banking/tgg-banking/server.lua"
+    },
+    {
+      "upstream": "modules/banking/tgiann-bank/server.lua",
+      "dtlib": "integrations/providers/modules/banking/tgiann-bank/server.lua"
+    },
+    {
+      "upstream": "modules/banking/wasabi_banking/server.lua",
+      "dtlib": "integrations/providers/modules/banking/wasabi_banking/server.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/_default/client.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/_default/client.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/_default/server.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/_default/server.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/esx_society/client.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/esx_society/client.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/esx_society/server.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/esx_society/server.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/qb-management/client.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/qb-management/client.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/qb-management/server.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/qb-management/server.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/qbx_management/client.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/qbx_management/client.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/qbx_management/server.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/qbx_management/server.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/tk_bosstablet/client.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/tk_bosstablet/client.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/tk_bosstablet/server.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/tk_bosstablet/server.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/zat-bossmenu/client.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/zat-bossmenu/client.lua"
+    },
+    {
+      "upstream": "modules/bossmenu/zat-bossmenu/server.lua",
+      "dtlib": "integrations/providers/modules/bossmenu/zat-bossmenu/server.lua"
+    },
+    {
+      "upstream": "modules/clothing/_default/client.lua",
+      "dtlib": "integrations/providers/modules/clothing/_default/client.lua"
+    },
+    {
+      "upstream": "modules/clothing/_default/server.lua",
+      "dtlib": "integrations/providers/modules/clothing/_default/server.lua"
+    },
+    {
+      "upstream": "modules/clothing/esx_skin/client.lua",
+      "dtlib": "integrations/providers/modules/clothing/esx_skin/client.lua"
+    },
+    {
+      "upstream": "modules/clothing/esx_skin/server.lua",
+      "dtlib": "integrations/providers/modules/clothing/esx_skin/server.lua"
+    },
+    {
+      "upstream": "modules/clothing/esx_skin/shared.lua",
+      "dtlib": "integrations/providers/modules/clothing/esx_skin/shared.lua"
+    },
+    {
+      "upstream": "modules/clothing/fivem-appearance/client.lua",
+      "dtlib": "integrations/providers/modules/clothing/fivem-appearance/client.lua"
+    },
+    {
+      "upstream": "modules/clothing/fivem-appearance/server.lua",
+      "dtlib": "integrations/providers/modules/clothing/fivem-appearance/server.lua"
+    },
+    {
+      "upstream": "modules/clothing/fivem-appearance/shared.lua",
+      "dtlib": "integrations/providers/modules/clothing/fivem-appearance/shared.lua"
+    },
+    {
+      "upstream": "modules/clothing/illenium-appearance/client.lua",
+      "dtlib": "integrations/providers/modules/clothing/illenium-appearance/client.lua"
+    },
+    {
+      "upstream": "modules/clothing/illenium-appearance/server.lua",
+      "dtlib": "integrations/providers/modules/clothing/illenium-appearance/server.lua"
+    },
+    {
+      "upstream": "modules/clothing/illenium-appearance/shared.lua",
+      "dtlib": "integrations/providers/modules/clothing/illenium-appearance/shared.lua"
+    },
+    {
+      "upstream": "modules/clothing/qb-clothing/client.lua",
+      "dtlib": "integrations/providers/modules/clothing/qb-clothing/client.lua"
+    },
+    {
+      "upstream": "modules/clothing/qb-clothing/server.lua",
+      "dtlib": "integrations/providers/modules/clothing/qb-clothing/server.lua"
+    },
+    {
+      "upstream": "modules/clothing/qb-clothing/shared.lua",
+      "dtlib": "integrations/providers/modules/clothing/qb-clothing/shared.lua"
+    },
+    {
+      "upstream": "modules/clothing/rcore_clothing/client.lua",
+      "dtlib": "integrations/providers/modules/clothing/rcore_clothing/client.lua"
+    },
+    {
+      "upstream": "modules/dialogue/_default/client/client.lua",
+      "dtlib": "integrations/providers/modules/dialogue/_default/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/_default/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/_default/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/_default/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/_default/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/bub-mdt/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/bub-mdt/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/bub-mdt/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/bub-mdt/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/cd_dispatch/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/cd_dispatch/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/cd_dispatch/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/cd_dispatch/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/emergencydispatch/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/emergencydispatch/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/emergencydispatch/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/emergencydispatch/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/fd_dispatch/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/fd_dispatch/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/fd_dispatch/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/fd_dispatch/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/kartik-mdt/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/kartik-mdt/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/kartik-mdt/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/kartik-mdt/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/lb-tablet/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/lb-tablet/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/lb-tablet/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/lb-tablet/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/linden_outlawalert/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/linden_outlawalert/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/linden_outlawalert/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/linden_outlawalert/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/origen_police/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/origen_police/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/origen_police/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/origen_police/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/piotreq_gpt/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/piotreq_gpt/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/piotreq_gpt/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/piotreq_gpt/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/ps-dispatch/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/ps-dispatch/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/ps-dispatch/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/ps-dispatch/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/qs_dispatch/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/qs_dispatch/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/qs_dispatch/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/qs_dispatch/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/redutzu-mdt/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/redutzu-mdt/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/redutzu-mdt/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/redutzu-mdt/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/tk_dispatch/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/tk_dispatch/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/tk_dispatch/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/tk_dispatch/server/server.lua"
+    },
+    {
+      "upstream": "modules/dispatch/wasabi_mdt/client/client.lua",
+      "dtlib": "integrations/providers/modules/dispatch/wasabi_mdt/client/client.lua"
+    },
+    {
+      "upstream": "modules/dispatch/wasabi_mdt/server/server.lua",
+      "dtlib": "integrations/providers/modules/dispatch/wasabi_mdt/server/server.lua"
+    },
+    {
+      "upstream": "modules/doorlock/_default/client.lua",
+      "dtlib": "integrations/providers/modules/doorlock/_default/client.lua"
+    },
+    {
+      "upstream": "modules/doorlock/_default/server.lua",
+      "dtlib": "integrations/providers/modules/doorlock/_default/server.lua"
+    },
+    {
+      "upstream": "modules/doorlock/doors_creator/client.lua",
+      "dtlib": "integrations/providers/modules/doorlock/doors_creator/client.lua"
+    },
+    {
+      "upstream": "modules/doorlock/doors_creator/server.lua",
+      "dtlib": "integrations/providers/modules/doorlock/doors_creator/server.lua"
+    },
+    {
+      "upstream": "modules/doorlock/ox_doorlock/client.lua",
+      "dtlib": "integrations/providers/modules/doorlock/ox_doorlock/client.lua"
+    },
+    {
+      "upstream": "modules/doorlock/ox_doorlock/server.lua",
+      "dtlib": "integrations/providers/modules/doorlock/ox_doorlock/server.lua"
+    },
+    {
+      "upstream": "modules/doorlock/qb-doorlock/client.lua",
+      "dtlib": "integrations/providers/modules/doorlock/qb-doorlock/client.lua"
+    },
+    {
+      "upstream": "modules/doorlock/qb-doorlock/server.lua",
+      "dtlib": "integrations/providers/modules/doorlock/qb-doorlock/server.lua"
+    },
+    {
+      "upstream": "modules/doorlock/rcore_doorlock/client.lua",
+      "dtlib": "integrations/providers/modules/doorlock/rcore_doorlock/client.lua"
+    },
+    {
+      "upstream": "modules/doorlock/rcore_doorlock/server.lua",
+      "dtlib": "integrations/providers/modules/doorlock/rcore_doorlock/server.lua"
+    },
+    {
+      "upstream": "modules/framework/_default/client.lua",
+      "dtlib": "integrations/providers/modules/framework/_default/client.lua"
+    },
+    {
+      "upstream": "modules/framework/_default/server.lua",
+      "dtlib": "integrations/providers/modules/framework/_default/server.lua"
+    },
+    {
+      "upstream": "modules/framework/es_extended/client.lua",
+      "dtlib": "integrations/providers/modules/framework/es_extended/client.lua"
+    },
+    {
+      "upstream": "modules/framework/es_extended/server.lua",
+      "dtlib": "integrations/providers/modules/framework/es_extended/server.lua"
+    },
+    {
+      "upstream": "modules/framework/qb-core/client.lua",
+      "dtlib": "integrations/providers/modules/framework/qb-core/client.lua"
+    },
+    {
+      "upstream": "modules/framework/qb-core/server.lua",
+      "dtlib": "integrations/providers/modules/framework/qb-core/server.lua"
+    },
+    {
+      "upstream": "modules/framework/qbx_core/client.lua",
+      "dtlib": "integrations/providers/modules/framework/qbx_core/client.lua"
+    },
+    {
+      "upstream": "modules/framework/qbx_core/server.lua",
+      "dtlib": "integrations/providers/modules/framework/qbx_core/server.lua"
+    },
+    {
+      "upstream": "modules/fuel/_default/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/_default/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/bigDaddy-Fuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/bigDaddy-Fuel/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/cdn-fuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/cdn-fuel/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/esx-sna-fuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/esx-sna-fuel/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/lc_fuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/lc_fuel/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/legacyfuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/legacyfuel/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/okokGasStation/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/okokGasStation/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/ox_fuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/ox_fuel/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/ps-fuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/ps-fuel/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/qb-fuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/qb-fuel/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/qs-fuelstations/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/qs-fuelstations/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/renewed-Fuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/renewed-Fuel/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/ti_fuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/ti_fuel/client.lua"
+    },
+    {
+      "upstream": "modules/fuel/x-fuel/client.lua",
+      "dtlib": "integrations/providers/modules/fuel/x-fuel/client.lua"
+    },
+    {
+      "upstream": "modules/helptext/_default/client.lua",
+      "dtlib": "integrations/providers/modules/helptext/_default/client.lua"
+    },
+    {
+      "upstream": "modules/helptext/_default/server.lua",
+      "dtlib": "integrations/providers/modules/helptext/_default/server.lua"
+    },
+    {
+      "upstream": "modules/helptext/cd_drawtextui/client.lua",
+      "dtlib": "integrations/providers/modules/helptext/cd_drawtextui/client.lua"
+    },
+    {
+      "upstream": "modules/helptext/jg-textui/client.lua",
+      "dtlib": "integrations/providers/modules/helptext/jg-textui/client.lua"
+    },
+    {
+      "upstream": "modules/helptext/lab-HintUI/client.lua",
+      "dtlib": "integrations/providers/modules/helptext/lab-HintUI/client.lua"
+    },
+    {
+      "upstream": "modules/helptext/lation_ui/client.lua",
+      "dtlib": "integrations/providers/modules/helptext/lation_ui/client.lua"
+    },
+    {
+      "upstream": "modules/helptext/okokTextUI/client.lua",
+      "dtlib": "integrations/providers/modules/helptext/okokTextUI/client.lua"
+    },
+    {
+      "upstream": "modules/helptext/ox_lib/client.lua",
+      "dtlib": "integrations/providers/modules/helptext/ox_lib/client.lua"
+    },
+    {
+      "upstream": "modules/helptext/zsxui/client.lua",
+      "dtlib": "integrations/providers/modules/helptext/zsxui/client.lua"
+    },
+    {
+      "upstream": "modules/housing/_default/client.lua",
+      "dtlib": "integrations/providers/modules/housing/_default/client.lua"
+    },
+    {
+      "upstream": "modules/housing/_default/server.lua",
+      "dtlib": "integrations/providers/modules/housing/_default/server.lua"
+    },
+    {
+      "upstream": "modules/housing/bcs-housing/client.lua",
+      "dtlib": "integrations/providers/modules/housing/bcs-housing/client.lua"
+    },
+    {
+      "upstream": "modules/housing/bcs-housing/server.lua",
+      "dtlib": "integrations/providers/modules/housing/bcs-housing/server.lua"
+    },
+    {
+      "upstream": "modules/housing/esx_property/client.lua",
+      "dtlib": "integrations/providers/modules/housing/esx_property/client.lua"
+    },
+    {
+      "upstream": "modules/housing/esx_property/server.lua",
+      "dtlib": "integrations/providers/modules/housing/esx_property/server.lua"
+    },
+    {
+      "upstream": "modules/housing/ps-housing/client.lua",
+      "dtlib": "integrations/providers/modules/housing/ps-housing/client.lua"
+    },
+    {
+      "upstream": "modules/housing/ps-housing/server.lua",
+      "dtlib": "integrations/providers/modules/housing/ps-housing/server.lua"
+    },
+    {
+      "upstream": "modules/housing/qb-appartments/client.lua",
+      "dtlib": "integrations/providers/modules/housing/qb-appartments/client.lua"
+    },
+    {
+      "upstream": "modules/housing/qb-appartments/server.lua",
+      "dtlib": "integrations/providers/modules/housing/qb-appartments/server.lua"
+    },
+    {
+      "upstream": "modules/housing/qb-houses/client.lua",
+      "dtlib": "integrations/providers/modules/housing/qb-houses/client.lua"
+    },
+    {
+      "upstream": "modules/housing/qb-houses/server.lua",
+      "dtlib": "integrations/providers/modules/housing/qb-houses/server.lua"
+    },
+    {
+      "upstream": "modules/input/_default/client.lua",
+      "dtlib": "integrations/providers/modules/input/_default/client.lua"
+    },
+    {
+      "upstream": "modules/input/lation_ui/client.lua",
+      "dtlib": "integrations/providers/modules/input/lation_ui/client.lua"
+    },
+    {
+      "upstream": "modules/input/ox_lib/client.lua",
+      "dtlib": "integrations/providers/modules/input/ox_lib/client.lua"
+    },
+    {
+      "upstream": "modules/input/qb-input/client.lua",
+      "dtlib": "integrations/providers/modules/input/qb-input/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/_default/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/_default/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/_default/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/_default/server.lua"
+    },
+    {
+      "upstream": "modules/inventory/codem-inventory/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/codem-inventory/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/codem-inventory/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/codem-inventory/server.lua"
+    },
+    {
+      "upstream": "modules/inventory/core_inventory/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/core_inventory/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/core_inventory/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/core_inventory/server.lua"
+    },
+    {
+      "upstream": "modules/inventory/jpr-inventory/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/jpr-inventory/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/jpr-inventory/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/jpr-inventory/server.lua"
+    },
+    {
+      "upstream": "modules/inventory/one_inventory/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/one_inventory/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/one_inventory/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/one_inventory/server.lua"
+    },
+    {
+      "upstream": "modules/inventory/origen_inventory/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/origen_inventory/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/origen_inventory/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/origen_inventory/server.lua"
+    },
+    {
+      "upstream": "modules/inventory/ox_inventory/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/ox_inventory/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/ox_inventory/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/ox_inventory/server.lua"
+    },
+    {
+      "upstream": "modules/inventory/ps-inventory/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/ps-inventory/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/ps-inventory/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/ps-inventory/server.lua"
+    },
+    {
+      "upstream": "modules/inventory/qb-inventory/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/qb-inventory/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/qb-inventory/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/qb-inventory/server.lua"
+    },
+    {
+      "upstream": "modules/inventory/qs-inventory/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/qs-inventory/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/qs-inventory/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/qs-inventory/server.lua"
+    },
+    {
+      "upstream": "modules/inventory/tgiann-inventory/client.lua",
+      "dtlib": "integrations/providers/modules/inventory/tgiann-inventory/client.lua"
+    },
+    {
+      "upstream": "modules/inventory/tgiann-inventory/server.lua",
+      "dtlib": "integrations/providers/modules/inventory/tgiann-inventory/server.lua"
+    },
+    {
+      "upstream": "modules/locales/shared.lua",
+      "dtlib": "integrations/providers/modules/locales/shared.lua"
+    },
+    {
+      "upstream": "modules/menu/_defualt/client.lua",
+      "dtlib": "integrations/providers/modules/menu/_defualt/client.lua"
+    },
+    {
+      "upstream": "modules/menu/lation_ui/client.lua",
+      "dtlib": "integrations/providers/modules/menu/lation_ui/client.lua"
+    },
+    {
+      "upstream": "modules/menu/ox_lib/client.lua",
+      "dtlib": "integrations/providers/modules/menu/ox_lib/client.lua"
+    },
+    {
+      "upstream": "modules/menu/qb-menu/client.lua",
+      "dtlib": "integrations/providers/modules/menu/qb-menu/client.lua"
+    },
+    {
+      "upstream": "modules/menu/wasabi_uikit/client.lua",
+      "dtlib": "integrations/providers/modules/menu/wasabi_uikit/client.lua"
+    },
+    {
+      "upstream": "modules/notify/_default/client.lua",
+      "dtlib": "integrations/providers/modules/notify/_default/client.lua"
+    },
+    {
+      "upstream": "modules/notify/_default/server.lua",
+      "dtlib": "integrations/providers/modules/notify/_default/server.lua"
+    },
+    {
+      "upstream": "modules/notify/brutal_notify/client.lua",
+      "dtlib": "integrations/providers/modules/notify/brutal_notify/client.lua"
+    },
+    {
+      "upstream": "modules/notify/fl-notify/client.lua",
+      "dtlib": "integrations/providers/modules/notify/fl-notify/client.lua"
+    },
+    {
+      "upstream": "modules/notify/lation_ui/client.lua",
+      "dtlib": "integrations/providers/modules/notify/lation_ui/client.lua"
+    },
+    {
+      "upstream": "modules/notify/msk_core/client.lua",
+      "dtlib": "integrations/providers/modules/notify/msk_core/client.lua"
+    },
+    {
+      "upstream": "modules/notify/mythic_notify/client.lua",
+      "dtlib": "integrations/providers/modules/notify/mythic_notify/client.lua"
+    },
+    {
+      "upstream": "modules/notify/okokNotify/client.lua",
+      "dtlib": "integrations/providers/modules/notify/okokNotify/client.lua"
+    },
+    {
+      "upstream": "modules/notify/ox_lib/client.lua",
+      "dtlib": "integrations/providers/modules/notify/ox_lib/client.lua"
+    },
+    {
+      "upstream": "modules/notify/pNotify/client.lua",
+      "dtlib": "integrations/providers/modules/notify/pNotify/client.lua"
+    },
+    {
+      "upstream": "modules/notify/r_notify/client.lua",
+      "dtlib": "integrations/providers/modules/notify/r_notify/client.lua"
+    },
+    {
+      "upstream": "modules/notify/solaire_notify/client.lua",
+      "dtlib": "integrations/providers/modules/notify/solaire_notify/client.lua"
+    },
+    {
+      "upstream": "modules/notify/t-notify/client.lua",
+      "dtlib": "integrations/providers/modules/notify/t-notify/client.lua"
+    },
+    {
+      "upstream": "modules/notify/wasabi_notify/client.lua",
+      "dtlib": "integrations/providers/modules/notify/wasabi_notify/client.lua"
+    },
+    {
+      "upstream": "modules/notify/zsxui/client.lua",
+      "dtlib": "integrations/providers/modules/notify/zsxui/client.lua"
+    },
+    {
+      "upstream": "modules/phone/_default/client.lua",
+      "dtlib": "integrations/providers/modules/phone/_default/client.lua"
+    },
+    {
+      "upstream": "modules/phone/_default/server.lua",
+      "dtlib": "integrations/providers/modules/phone/_default/server.lua"
+    },
+    {
+      "upstream": "modules/phone/gksphone/client.lua",
+      "dtlib": "integrations/providers/modules/phone/gksphone/client.lua"
+    },
+    {
+      "upstream": "modules/phone/gksphone/server.lua",
+      "dtlib": "integrations/providers/modules/phone/gksphone/server.lua"
+    },
+    {
+      "upstream": "modules/phone/lb-phone/client.lua",
+      "dtlib": "integrations/providers/modules/phone/lb-phone/client.lua"
+    },
+    {
+      "upstream": "modules/phone/lb-phone/server.lua",
+      "dtlib": "integrations/providers/modules/phone/lb-phone/server.lua"
+    },
+    {
+      "upstream": "modules/phone/okokPhone/client.lua",
+      "dtlib": "integrations/providers/modules/phone/okokPhone/client.lua"
+    },
+    {
+      "upstream": "modules/phone/okokPhone/server.lua",
+      "dtlib": "integrations/providers/modules/phone/okokPhone/server.lua"
+    },
+    {
+      "upstream": "modules/phone/qb-phone/client.lua",
+      "dtlib": "integrations/providers/modules/phone/qb-phone/client.lua"
+    },
+    {
+      "upstream": "modules/phone/qb-phone/server.lua",
+      "dtlib": "integrations/providers/modules/phone/qb-phone/server.lua"
+    },
+    {
+      "upstream": "modules/phone/qs-smartphone/client.lua",
+      "dtlib": "integrations/providers/modules/phone/qs-smartphone/client.lua"
+    },
+    {
+      "upstream": "modules/phone/qs-smartphone/server.lua",
+      "dtlib": "integrations/providers/modules/phone/qs-smartphone/server.lua"
+    },
+    {
+      "upstream": "modules/phone/yseries/client.lua",
+      "dtlib": "integrations/providers/modules/phone/yseries/client.lua"
+    },
+    {
+      "upstream": "modules/phone/yseries/server.lua",
+      "dtlib": "integrations/providers/modules/phone/yseries/server.lua"
+    },
+    {
+      "upstream": "modules/progressbar/_default/client.lua",
+      "dtlib": "integrations/providers/modules/progressbar/_default/client.lua"
+    },
+    {
+      "upstream": "modules/progressbar/keep-progressbar/client.lua",
+      "dtlib": "integrations/providers/modules/progressbar/keep-progressbar/client.lua"
+    },
+    {
+      "upstream": "modules/progressbar/lation_ui/client.lua",
+      "dtlib": "integrations/providers/modules/progressbar/lation_ui/client.lua"
+    },
+    {
+      "upstream": "modules/progressbar/msk_core/client.lua",
+      "dtlib": "integrations/providers/modules/progressbar/msk_core/client.lua"
+    },
+    {
+      "upstream": "modules/progressbar/ox_lib/client.lua",
+      "dtlib": "integrations/providers/modules/progressbar/ox_lib/client.lua"
+    },
+    {
+      "upstream": "modules/progressbar/qb-progressbar/client.lua",
+      "dtlib": "integrations/providers/modules/progressbar/qb-progressbar/client.lua"
+    },
+    {
+      "upstream": "modules/progressbar/wasabi_uikit/client.lua",
+      "dtlib": "integrations/providers/modules/progressbar/wasabi_uikit/client.lua"
+    },
+    {
+      "upstream": "modules/progressbar/zsxui/client.lua",
+      "dtlib": "integrations/providers/modules/progressbar/zsxui/client.lua"
+    },
+    {
+      "upstream": "modules/shops/_default/client.lua",
+      "dtlib": "integrations/providers/modules/shops/_default/client.lua"
+    },
+    {
+      "upstream": "modules/shops/_default/server.lua",
+      "dtlib": "integrations/providers/modules/shops/_default/server.lua"
+    },
+    {
+      "upstream": "modules/skills/_default/client.lua",
+      "dtlib": "integrations/providers/modules/skills/_default/client.lua"
+    },
+    {
+      "upstream": "modules/skills/_default/server.lua",
+      "dtlib": "integrations/providers/modules/skills/_default/server.lua"
+    },
+    {
+      "upstream": "modules/skills/evolent_skills/client.lua",
+      "dtlib": "integrations/providers/modules/skills/evolent_skills/client.lua"
+    },
+    {
+      "upstream": "modules/skills/evolent_skills/server.lua",
+      "dtlib": "integrations/providers/modules/skills/evolent_skills/server.lua"
+    },
+    {
+      "upstream": "modules/skills/ot_skills/client.lua",
+      "dtlib": "integrations/providers/modules/skills/ot_skills/client.lua"
+    },
+    {
+      "upstream": "modules/skills/ot_skills/server.lua",
+      "dtlib": "integrations/providers/modules/skills/ot_skills/server.lua"
+    },
+    {
+      "upstream": "modules/skills/pickle_xp/client.lua",
+      "dtlib": "integrations/providers/modules/skills/pickle_xp/client.lua"
+    },
+    {
+      "upstream": "modules/skills/pickle_xp/server.lua",
+      "dtlib": "integrations/providers/modules/skills/pickle_xp/server.lua"
+    },
+    {
+      "upstream": "modules/target/_default/client.lua",
+      "dtlib": "integrations/providers/modules/target/_default/client.lua"
+    },
+    {
+      "upstream": "modules/target/_default/init.lua",
+      "dtlib": "integrations/providers/modules/target/_default/init.lua"
+    },
+    {
+      "upstream": "modules/target/ox_target/client.lua",
+      "dtlib": "integrations/providers/modules/target/ox_target/client.lua"
+    },
+    {
+      "upstream": "modules/target/qb-target/client.lua",
+      "dtlib": "integrations/providers/modules/target/qb-target/client.lua"
+    },
+    {
+      "upstream": "modules/target/sleepless_interact/client.lua",
+      "dtlib": "integrations/providers/modules/target/sleepless_interact/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/_default/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/_default/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/cd_garage/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/cd_garage/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/f_realcarkeyssystem/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/f_realcarkeyssystem/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/jacksam/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/jacksam/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/mVehicle/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/mVehicle/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/mk_vehiclekeys/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/mk_vehiclekeys/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/mrnewbvehiclekeys/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/mrnewbvehiclekeys/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/okokGarage/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/okokGarage/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/qb-vehiclekeys/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/qb-vehiclekeys/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/qbx_vehiclekeys/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/qbx_vehiclekeys/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/qs-vehiclekeys/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/qs-vehiclekeys/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/renewed-vehiclekeys/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/renewed-vehiclekeys/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/t1ger_keys/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/t1ger_keys/client/client.lua"
+    },
+    {
+      "upstream": "modules/vehiclekey/wasabi_carlock/client/client.lua",
+      "dtlib": "integrations/providers/modules/vehiclekey/wasabi_carlock/client/client.lua"
+    },
+    {
+      "upstream": "modules/version/server/VersionChecker.lua",
+      "dtlib": "integrations/providers/modules/version/server/VersionChecker.lua"
+    },
+    {
+      "upstream": "modules/weather/_default/client.lua",
+      "dtlib": "integrations/providers/modules/weather/_default/client.lua"
+    },
+    {
+      "upstream": "modules/weather/cd_easytime/client.lua",
+      "dtlib": "integrations/providers/modules/weather/cd_easytime/client.lua"
+    },
+    {
+      "upstream": "modules/weather/qb-weathersync/client/client.lua",
+      "dtlib": "integrations/providers/modules/weather/qb-weathersync/client/client.lua"
+    },
+    {
+      "upstream": "modules/weather/renewed-weathersync/client/client.lua",
+      "dtlib": "integrations/providers/modules/weather/renewed-weathersync/client/client.lua"
+    },
+    {
+      "upstream": "modules/zones/oxlib/client.lua",
+      "dtlib": "integrations/providers/modules/zones/oxlib/client.lua"
+    },
+    {
+      "upstream": "modules/zones/polyzone/client.lua",
+      "dtlib": "integrations/providers/modules/zones/polyzone/client.lua"
+    },
+    {
+      "upstream": "lib/anim/client/client.lua",
+      "dtlib": "integrations/providers/lib/anim/client/client.lua"
+    },
+    {
+      "upstream": "lib/callback/shared/callback.lua",
+      "dtlib": "integrations/providers/lib/callback/shared/callback.lua"
+    },
+    {
+      "upstream": "lib/cutscenes/client/cutscene.lua",
+      "dtlib": "integrations/providers/lib/cutscenes/client/cutscene.lua"
+    },
+    {
+      "upstream": "lib/entities/client/client_entity.lua",
+      "dtlib": "integrations/providers/lib/entities/client/client_entity.lua"
+    },
+    {
+      "upstream": "lib/entities/client/client_entity_actions_ext.lua",
+      "dtlib": "integrations/providers/lib/entities/client/client_entity_actions_ext.lua"
+    },
+    {
+      "upstream": "lib/entities/server/server_entity.lua",
+      "dtlib": "integrations/providers/lib/entities/server/server_entity.lua"
+    },
+    {
+      "upstream": "lib/init.lua",
+      "dtlib": "integrations/providers/lib/init.lua"
+    },
+    {
+      "upstream": "lib/logs/server/logs.lua",
+      "dtlib": "integrations/providers/lib/logs/server/logs.lua"
+    },
+    {
+      "upstream": "lib/markers/client/markers.lua",
+      "dtlib": "integrations/providers/lib/markers/client/markers.lua"
+    },
+    {
+      "upstream": "lib/markers/server/server.lua",
+      "dtlib": "integrations/providers/lib/markers/server/server.lua"
+    },
+    {
+      "upstream": "lib/particles/client/particles.lua",
+      "dtlib": "integrations/providers/lib/particles/client/particles.lua"
+    },
+    {
+      "upstream": "lib/placers/client/object_Placer.lua",
+      "dtlib": "integrations/providers/lib/placers/client/object_Placer.lua"
+    },
+    {
+      "upstream": "lib/placers/client/placeable_object.lua",
+      "dtlib": "integrations/providers/lib/placers/client/placeable_object.lua"
+    },
+    {
+      "upstream": "lib/points/client/points.lua",
+      "dtlib": "integrations/providers/lib/points/client/points.lua"
+    },
+    {
+      "upstream": "lib/raycast/client/raycast.lua",
+      "dtlib": "integrations/providers/lib/raycast/client/raycast.lua"
+    },
+    {
+      "upstream": "lib/scaleform/client/scaleform.lua",
+      "dtlib": "integrations/providers/lib/scaleform/client/scaleform.lua"
+    },
+    {
+      "upstream": "lib/shells/client/config.lua",
+      "dtlib": "integrations/providers/lib/shells/client/config.lua"
+    },
+    {
+      "upstream": "lib/shells/client/shells.lua",
+      "dtlib": "integrations/providers/lib/shells/client/shells.lua"
+    },
+    {
+      "upstream": "lib/shells/server/shells.lua",
+      "dtlib": "integrations/providers/lib/shells/server/shells.lua"
+    },
+    {
+      "upstream": "lib/sql/server/sqlHandler.lua",
+      "dtlib": "integrations/providers/lib/sql/server/sqlHandler.lua"
+    },
+    {
+      "upstream": "lib/utility/client/utility.lua",
+      "dtlib": "integrations/providers/lib/utility/client/utility.lua"
+    },
+    {
+      "upstream": "lib/utility/shared/ids.lua",
+      "dtlib": "integrations/providers/lib/utility/shared/ids.lua"
+    },
+    {
+      "upstream": "lib/utility/shared/la.lua",
+      "dtlib": "integrations/providers/lib/utility/shared/la.lua"
+    },
+    {
+      "upstream": "lib/utility/shared/math.lua",
+      "dtlib": "integrations/providers/lib/utility/shared/math.lua"
+    },
+    {
+      "upstream": "lib/utility/shared/prints.lua",
+      "dtlib": "integrations/providers/lib/utility/shared/prints.lua"
+    },
+    {
+      "upstream": "lib/utility/shared/tables.lua",
+      "dtlib": "integrations/providers/lib/utility/shared/tables.lua"
+    },
+    {
+      "upstream": "lib/vehicles/client.lua",
+      "dtlib": "integrations/providers/lib/vehicles/client.lua"
+    },
+    {
+      "upstream": "locales/af.json",
+      "dtlib": "integrations/providers/locales/af.json"
+    },
+    {
+      "upstream": "locales/ar.json",
+      "dtlib": "integrations/providers/locales/ar.json"
+    },
+    {
+      "upstream": "locales/bg.json",
+      "dtlib": "integrations/providers/locales/bg.json"
+    },
+    {
+      "upstream": "locales/cs.json",
+      "dtlib": "integrations/providers/locales/cs.json"
+    },
+    {
+      "upstream": "locales/da.json",
+      "dtlib": "integrations/providers/locales/da.json"
+    },
+    {
+      "upstream": "locales/de.json",
+      "dtlib": "integrations/providers/locales/de.json"
+    },
+    {
+      "upstream": "locales/el.json",
+      "dtlib": "integrations/providers/locales/el.json"
+    },
+    {
+      "upstream": "locales/en-pirate.json",
+      "dtlib": "integrations/providers/locales/en-pirate.json"
+    },
+    {
+      "upstream": "locales/en.json",
+      "dtlib": "integrations/providers/locales/en.json"
+    },
+    {
+      "upstream": "locales/es.json",
+      "dtlib": "integrations/providers/locales/es.json"
+    },
+    {
+      "upstream": "locales/fi.json",
+      "dtlib": "integrations/providers/locales/fi.json"
+    },
+    {
+      "upstream": "locales/fr.json",
+      "dtlib": "integrations/providers/locales/fr.json"
+    },
+    {
+      "upstream": "locales/hi.json",
+      "dtlib": "integrations/providers/locales/hi.json"
+    },
+    {
+      "upstream": "locales/hr.json",
+      "dtlib": "integrations/providers/locales/hr.json"
+    },
+    {
+      "upstream": "locales/hu.json",
+      "dtlib": "integrations/providers/locales/hu.json"
+    },
+    {
+      "upstream": "locales/it.json",
+      "dtlib": "integrations/providers/locales/it.json"
+    },
+    {
+      "upstream": "locales/ja.json",
+      "dtlib": "integrations/providers/locales/ja.json"
+    },
+    {
+      "upstream": "locales/ko.json",
+      "dtlib": "integrations/providers/locales/ko.json"
+    },
+    {
+      "upstream": "locales/lt.json",
+      "dtlib": "integrations/providers/locales/lt.json"
+    },
+    {
+      "upstream": "locales/nl.json",
+      "dtlib": "integrations/providers/locales/nl.json"
+    },
+    {
+      "upstream": "locales/no.json",
+      "dtlib": "integrations/providers/locales/no.json"
+    },
+    {
+      "upstream": "locales/pl.json",
+      "dtlib": "integrations/providers/locales/pl.json"
+    },
+    {
+      "upstream": "locales/pt.json",
+      "dtlib": "integrations/providers/locales/pt.json"
+    },
+    {
+      "upstream": "locales/ro.json",
+      "dtlib": "integrations/providers/locales/ro.json"
+    },
+    {
+      "upstream": "locales/ru.json",
+      "dtlib": "integrations/providers/locales/ru.json"
+    },
+    {
+      "upstream": "locales/sv.json",
+      "dtlib": "integrations/providers/locales/sv.json"
+    },
+    {
+      "upstream": "locales/th.json",
+      "dtlib": "integrations/providers/locales/th.json"
+    },
+    {
+      "upstream": "locales/tr.json",
+      "dtlib": "integrations/providers/locales/tr.json"
+    },
+    {
+      "upstream": "locales/zh-cn.json",
+      "dtlib": "integrations/providers/locales/zh-cn.json"
+    },
+    {
+      "upstream": "locales/zh-hk.json",
+      "dtlib": "integrations/providers/locales/zh-hk.json"
+    },
+    {
+      "upstream": "locales/zh-tw.json",
+      "dtlib": "integrations/providers/locales/zh-tw.json"
+    },
+    {
+      "upstream": "locales/zh.json",
+      "dtlib": "integrations/providers/locales/zh.json"
+    },
+    {
+      "upstream": "web/.eslintrc.cjs",
+      "dtlib": "integrations/providers/web/.eslintrc.cjs"
+    },
+    {
+      "upstream": "web/.gitignore",
+      "dtlib": "integrations/providers/web/.gitignore"
+    },
+    {
+      "upstream": "web/README.md",
+      "dtlib": "integrations/providers/web/README.md"
+    },
+    {
+      "upstream": "web/dist/assets/index-B0fYxqh2.js",
+      "dtlib": "integrations/providers/web/dist/assets/index-B0fYxqh2.js"
+    },
+    {
+      "upstream": "web/dist/assets/index-BEeeZu6c.css",
+      "dtlib": "integrations/providers/web/dist/assets/index-BEeeZu6c.css"
+    },
+    {
+      "upstream": "web/dist/index.html",
+      "dtlib": "integrations/providers/web/dist/index.html"
+    },
+    {
+      "upstream": "web/index.html",
+      "dtlib": "integrations/providers/web/index.html"
+    },
+    {
+      "upstream": "web/package-lock.json",
+      "dtlib": "integrations/providers/web/package-lock.json"
+    },
+    {
+      "upstream": "web/package.json",
+      "dtlib": "integrations/providers/web/package.json"
+    },
+    {
+      "upstream": "web/public/vite.svg",
+      "dtlib": "integrations/providers/web/public/vite.svg"
+    },
+    {
+      "upstream": "web/src/dialogue.css",
+      "dtlib": "integrations/providers/web/src/dialogue.css"
+    },
+    {
+      "upstream": "web/src/dialogue.jsx",
+      "dtlib": "integrations/providers/web/src/dialogue.jsx"
+    },
+    {
+      "upstream": "web/src/fetch.jsx",
+      "dtlib": "integrations/providers/web/src/fetch.jsx"
+    },
+    {
+      "upstream": "web/src/index.css",
+      "dtlib": "integrations/providers/web/src/index.css"
+    },
+    {
+      "upstream": "web/src/index.jsx",
+      "dtlib": "integrations/providers/web/src/index.jsx"
+    },
+    {
+      "upstream": "web/src/main.jsx",
+      "dtlib": "integrations/providers/web/src/main.jsx"
+    },
+    {
+      "upstream": "web/src/nui",
+      "dtlib": "integrations/providers/web/src/nui"
+    },
+    {
+      "upstream": "web/src/test.css",
+      "dtlib": "integrations/providers/web/src/test.css"
+    },
+    {
+      "upstream": "web/src/test.jsx",
+      "dtlib": "integrations/providers/web/src/test.jsx"
+    },
+    {
+      "upstream": "web/vite.config.js",
+      "dtlib": "integrations/providers/web/vite.config.js"
+    }
+  ]
+}

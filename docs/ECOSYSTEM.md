@@ -1,4 +1,4 @@
-# DTlib 1.3.0-beta.1 — independent provider library
+# DTlib 1.3.0-beta.2 — standalone provider library
 
 DTlib keeps its native core, placement, waypoint and configuration APIs.
 The default resource name is still `DTlib`, with `fx_version 'cerulean'`.
@@ -196,3 +196,7 @@ Dialogue presents text and choices through DT.Menu and resolves the selected opt
 Clothing uses `{model, components, props}` for native/QB/ESX normalized snapshots; appearance providers return their full vendor appearance. QB/ESX conversion helpers map components and props. Native snapshots do not include facial genetics or tattoos. ESX Save reads the full current skin and writes the `users.skin` record; other persistence uses the vendor's save API. Native clothing has no appearance editor. Unsupported vendor operations and former no-op methods are not reported as supported.
 
 See [VALIDATION.md](VALIDATION.md) for checks and [MIGRATION.md](MIGRATION.md) for the beta's changes. Discord remains configured through `dt_eco_discord_bot_token` and `dt_eco_discord_guild_id`; no token is included.
+
+## Full adapter pack
+
+Beta.2 additionally includes every runtime module/utility/locale/web source from the full provider pack. `DT.AdapterPack` exposes complete source signatures. Existing DT contracts remain; see [ADAPTER_PACK.md](ADAPTER_PACK.md) for full APIs, one-provider-per-category selection and utility names.

@@ -1,0 +1,2939 @@
+{
+  "upstream_version": "0.13.6",
+  "commit": "8accf38f974067c89e20d1abe816c004ea826dda",
+  "categories": {
+    "framework": {
+      "namespace": "Framework",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/framework/_default/client.lua"
+          ],
+          "server": [
+            "modules/framework/_default/server.lua"
+          ],
+          "methods": [
+            "AddJobCount",
+            "GetJobCount",
+            "GetJobCountTotal",
+            "GetPlayerSourcesByJob",
+            "GetResourceName",
+            "RemoveJobCount",
+            "SearchJobCountBySource"
+          ],
+          "default": true
+        },
+        {
+          "name": "qbx_core",
+          "resource": "qbx_core",
+          "shared": [],
+          "client": [
+            "modules/framework/qbx_core/client.lua"
+          ],
+          "server": [
+            "modules/framework/qbx_core/server.lua"
+          ],
+          "methods": [
+            "AddAccountBalance",
+            "AddHunger",
+            "AddItem",
+            "AddJobCount",
+            "AddStress",
+            "AddThirst",
+            "GetAccountBalance",
+            "GetFrameworkJobs",
+            "GetFrameworkName",
+            "GetHunger",
+            "GetIsFrameworkAdmin",
+            "GetIsPlayerDead",
+            "GetIsPlayerLoaded",
+            "GetItem",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetOwnedVehicles",
+            "GetPlayer",
+            "GetPlayerByIdentifier",
+            "GetPlayerData",
+            "GetPlayerDob",
+            "GetPlayerDuty",
+            "GetPlayerGang",
+            "GetPlayerIdentifier",
+            "GetPlayerInventory",
+            "GetPlayerJob",
+            "GetPlayerJobData",
+            "GetPlayerMetaData",
+            "GetPlayerMetadata",
+            "GetPlayerName",
+            "GetPlayerPhone",
+            "GetPlayerSource",
+            "GetPlayerSourcesByJob",
+            "GetPlayers",
+            "GetPlayersByJob",
+            "GetResourceName",
+            "GetThirst",
+            "HasItem",
+            "HideHelpText",
+            "IsVehicleOwnedByPlayer",
+            "Notify",
+            "RegisterUsableItem",
+            "RemoveAccountBalance",
+            "RemoveItem",
+            "RemoveStress",
+            "RevivePlayer",
+            "SetMetadata",
+            "SetPlayerDuty",
+            "SetPlayerJob",
+            "SetPlayerMetadata",
+            "ShowHelpText"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-core",
+          "resource": "qb-core",
+          "shared": [],
+          "client": [
+            "modules/framework/qb-core/client.lua"
+          ],
+          "server": [
+            "modules/framework/qb-core/server.lua"
+          ],
+          "methods": [
+            "AddAccountBalance",
+            "AddHunger",
+            "AddItem",
+            "AddJobCount",
+            "AddStress",
+            "AddThirst",
+            "GetAccountBalance",
+            "GetFrameworkJobs",
+            "GetFrameworkName",
+            "GetHunger",
+            "GetIsFrameworkAdmin",
+            "GetIsPlayerDead",
+            "GetIsPlayerLoaded",
+            "GetItem",
+            "GetItemBySlot",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetOwnedVehicles",
+            "GetPlayer",
+            "GetPlayerByIdentifier",
+            "GetPlayerData",
+            "GetPlayerDob",
+            "GetPlayerDuty",
+            "GetPlayerGang",
+            "GetPlayerIdentifier",
+            "GetPlayerInventory",
+            "GetPlayerJob",
+            "GetPlayerJobData",
+            "GetPlayerMetaData",
+            "GetPlayerMetadata",
+            "GetPlayerName",
+            "GetPlayerPhone",
+            "GetPlayerSource",
+            "GetPlayerSourcesByJob",
+            "GetPlayers",
+            "GetPlayersByJob",
+            "GetResourceName",
+            "GetThirst",
+            "GetVehicleProperties",
+            "HasItem",
+            "HideHelpText",
+            "IsVehicleOwnedByPlayer",
+            "Notify",
+            "RegisterUsableItem",
+            "RemoveAccountBalance",
+            "RemoveItem",
+            "RemoveStress",
+            "RevivePlayer",
+            "SetMetadata",
+            "SetPlayerDuty",
+            "SetPlayerJob",
+            "SetPlayerMetadata",
+            "SetVehicleProperties",
+            "ShowHelpText"
+          ],
+          "default": false
+        },
+        {
+          "name": "es_extended",
+          "resource": "es_extended",
+          "shared": [],
+          "client": [
+            "modules/framework/es_extended/client.lua"
+          ],
+          "server": [
+            "modules/framework/es_extended/server.lua"
+          ],
+          "methods": [
+            "AddAccountBalance",
+            "AddHunger",
+            "AddItem",
+            "AddJobCount",
+            "AddThirst",
+            "GetAccountBalance",
+            "GetFrameworkJobs",
+            "GetFrameworkName",
+            "GetHunger",
+            "GetIsFrameworkAdmin",
+            "GetIsPlayerDead",
+            "GetIsPlayerLoaded",
+            "GetItem",
+            "GetItemBySlot",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetOwnedVehicles",
+            "GetPlayer",
+            "GetPlayerByIdentifier",
+            "GetPlayerData",
+            "GetPlayerDob",
+            "GetPlayerDuty",
+            "GetPlayerGang",
+            "GetPlayerIdentifier",
+            "GetPlayerInventory",
+            "GetPlayerJob",
+            "GetPlayerJobData",
+            "GetPlayerMetaData",
+            "GetPlayerMetadata",
+            "GetPlayerName",
+            "GetPlayerPhone",
+            "GetPlayerSource",
+            "GetPlayerSourcesByJob",
+            "GetPlayers",
+            "GetPlayersByJob",
+            "GetResourceName",
+            "GetStatus",
+            "GetStatusData",
+            "GetThirst",
+            "HasItem",
+            "HideHelpText",
+            "IsVehicleOwnedByPlayer",
+            "ItemList",
+            "Notify",
+            "RegisterUsableItem",
+            "RemoveAccountBalance",
+            "RemoveItem",
+            "RevivePlayer",
+            "SetMetadata",
+            "SetPlayerDuty",
+            "SetPlayerJob",
+            "SetPlayerMetadata",
+            "ShowHelpText"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "inventory": {
+      "namespace": "Inventory",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/inventory/_default/client.lua"
+          ],
+          "server": [
+            "modules/inventory/_default/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "AddTrunkItems",
+            "CanCarryItem",
+            "ClearStash",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetPlayerInventory",
+            "GetResourceName",
+            "HasItem",
+            "Items",
+            "OpenPlayerInventory",
+            "OpenShop",
+            "OpenStash",
+            "RegisterShop",
+            "RegisterStash",
+            "RemoveItem",
+            "SetMetadata",
+            "StripPNG",
+            "StripWebp",
+            "UpdatePlate"
+          ],
+          "default": true
+        },
+        {
+          "name": "ox_inventory",
+          "resource": "ox_inventory",
+          "shared": [],
+          "client": [
+            "modules/inventory/ox_inventory/client.lua"
+          ],
+          "server": [
+            "modules/inventory/ox_inventory/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "AddStashItems",
+            "AddTrunkItems",
+            "CanCarryItem",
+            "ClearStash",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetPlayerInventory",
+            "GetResourceName",
+            "HasItem",
+            "Items",
+            "OpenPlayerInventory",
+            "OpenShop",
+            "OpenStash",
+            "RegisterShop",
+            "RegisterStash",
+            "RemoveItem",
+            "SetMetadata",
+            "StripPNG",
+            "UpdatePlate"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-inventory",
+          "resource": "qb-inventory",
+          "shared": [],
+          "client": [
+            "modules/inventory/qb-inventory/client.lua"
+          ],
+          "server": [
+            "modules/inventory/qb-inventory/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "AddStashItems",
+            "AddTrunkItems",
+            "CanCarryItem",
+            "ClearStash",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemInfo",
+            "GetResourceName",
+            "HasItem",
+            "Items",
+            "OpenPlayerInventory",
+            "OpenShop",
+            "OpenStash",
+            "RegisterShop",
+            "RemoveItem",
+            "StripPNG",
+            "UpdatePlate"
+          ],
+          "default": false
+        },
+        {
+          "name": "qs-inventory",
+          "resource": "qs-inventory",
+          "shared": [],
+          "client": [
+            "modules/inventory/qs-inventory/client.lua"
+          ],
+          "server": [
+            "modules/inventory/qs-inventory/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "CanCarryItem",
+            "ClearStash",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetPlayerInventory",
+            "GetResourceName",
+            "HasItem",
+            "Items",
+            "OpenStash",
+            "RemoveItem",
+            "SetMetadata",
+            "StripPNG",
+            "UpdatePlate"
+          ],
+          "default": false
+        },
+        {
+          "name": "codem-inventory",
+          "resource": "codem-inventory",
+          "shared": [],
+          "client": [
+            "modules/inventory/codem-inventory/client.lua"
+          ],
+          "server": [
+            "modules/inventory/codem-inventory/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "AddStashItems",
+            "ClearStash",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetPlayerInventory",
+            "GetResourceName",
+            "HasItem",
+            "Items",
+            "RemoveItem",
+            "SetMetadata",
+            "StripPNG"
+          ],
+          "default": false
+        },
+        {
+          "name": "core_inventory",
+          "resource": "core_inventory",
+          "shared": [],
+          "client": [
+            "modules/inventory/core_inventory/client.lua"
+          ],
+          "server": [
+            "modules/inventory/core_inventory/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "AddTrunkItems",
+            "CanCarryItem",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetPlayerInventory",
+            "GetResourceName",
+            "HasItem",
+            "Items",
+            "OpenPlayerInventory",
+            "OpenStash",
+            "RegisterStash",
+            "RemoveItem",
+            "SetMetadata",
+            "StripPNG",
+            "UpdatePlate"
+          ],
+          "default": false
+        },
+        {
+          "name": "jpr-inventory",
+          "resource": "jpr-inventory",
+          "shared": [],
+          "client": [
+            "modules/inventory/jpr-inventory/client.lua"
+          ],
+          "server": [
+            "modules/inventory/jpr-inventory/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "CanCarryItem",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemInfo",
+            "GetResourceName",
+            "HasItem",
+            "OpenPlayerInventory",
+            "OpenShop",
+            "OpenStash",
+            "RegisterShop",
+            "RemoveItem",
+            "StripPNG",
+            "UpdatePlate"
+          ],
+          "default": false
+        },
+        {
+          "name": "one_inventory",
+          "resource": "one_inventory",
+          "shared": [],
+          "client": [
+            "modules/inventory/one_inventory/client.lua"
+          ],
+          "server": [
+            "modules/inventory/one_inventory/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "AddStashItems",
+            "AddTrunkItems",
+            "CanCarryItem",
+            "ClearStash",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetPlayerInventory",
+            "GetResourceName",
+            "HasItem",
+            "Items",
+            "OpenPlayerInventory",
+            "OpenShop",
+            "OpenStash",
+            "RegisterShop",
+            "RemoveItem",
+            "SetMetadata",
+            "StripPNG",
+            "UpdatePlate"
+          ],
+          "default": false
+        },
+        {
+          "name": "origen_inventory",
+          "resource": "origen_inventory",
+          "shared": [],
+          "client": [
+            "modules/inventory/origen_inventory/client.lua"
+          ],
+          "server": [
+            "modules/inventory/origen_inventory/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "AddTrunkItems",
+            "CanCarryItem",
+            "ClearStash",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetPlayerInventory",
+            "GetResourceName",
+            "HasItem",
+            "Items",
+            "OpenPlayerInventory",
+            "OpenStash",
+            "RegisterStash",
+            "RemoveItem",
+            "SetMetadata",
+            "StripPNG",
+            "UpdatePlate"
+          ],
+          "default": false
+        },
+        {
+          "name": "ps-inventory",
+          "resource": "ps-inventory",
+          "shared": [],
+          "client": [
+            "modules/inventory/ps-inventory/client.lua"
+          ],
+          "server": [
+            "modules/inventory/ps-inventory/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemInfo",
+            "GetResourceName",
+            "HasItem",
+            "Items",
+            "OpenPlayerInventory",
+            "OpenShop",
+            "OpenStash",
+            "RegisterShop",
+            "RemoveItem",
+            "StripPNG",
+            "UpdatePlate"
+          ],
+          "default": false
+        },
+        {
+          "name": "tgiann-inventory",
+          "resource": "tgiann-inventory",
+          "shared": [],
+          "client": [
+            "modules/inventory/tgiann-inventory/client.lua"
+          ],
+          "server": [
+            "modules/inventory/tgiann-inventory/server.lua"
+          ],
+          "methods": [
+            "AddItem",
+            "AddTrunkItems",
+            "CanCarryItem",
+            "ClearStash",
+            "GetImagePath",
+            "GetItemBySlot",
+            "GetItemCount",
+            "GetItemInfo",
+            "GetPlayerInventory",
+            "GetResourceName",
+            "HasItem",
+            "Items",
+            "OpenPlayerInventory",
+            "OpenStash",
+            "RemoveItem",
+            "SetMetadata",
+            "StripPNG",
+            "StripWebp",
+            "UpdatePlate"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "target": {
+      "namespace": "Target",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/target/_default/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "AddBoxZone",
+            "AddGlobalPlayer",
+            "AddGlobalVehicle",
+            "AddLocalEntity",
+            "AddModel",
+            "CanInteract",
+            "CreateCanInteract",
+            "FixOptions",
+            "GetCanInteract",
+            "GetResourceName",
+            "RemoveGlobalPlayer",
+            "RemoveGlobalVehicle",
+            "RemoveLocalEntity",
+            "RemoveModel",
+            "RemoveZone"
+          ],
+          "default": true
+        },
+        {
+          "name": "ox_target",
+          "resource": "ox_target",
+          "shared": [],
+          "client": [
+            "modules/target/ox_target/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "AddBoxZone",
+            "AddGlobalPed",
+            "AddGlobalPlayer",
+            "AddGlobalVehicle",
+            "AddLocalEntity",
+            "AddModel",
+            "AddNetworkedEntity",
+            "AddSphereZone",
+            "CanInteract",
+            "CreateCanInteract",
+            "DisableTargeting",
+            "FixOptions",
+            "GetResourceName",
+            "RemoveGlobalPed",
+            "RemoveGlobalPlayer",
+            "RemoveGlobalVehicle",
+            "RemoveLocalEntity",
+            "RemoveModel",
+            "RemoveNetworkedEntity",
+            "RemoveZone"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-target",
+          "resource": "qb-target",
+          "shared": [],
+          "client": [
+            "modules/target/qb-target/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "AddBoxZone",
+            "AddGlobalPed",
+            "AddGlobalPlayer",
+            "AddGlobalVehicle",
+            "AddLocalEntity",
+            "AddModel",
+            "AddNetworkedEntity",
+            "AddSphereZone",
+            "CanInteract",
+            "CreateCanInteract",
+            "DisableTargeting",
+            "FixOptions",
+            "GetResourceName",
+            "RemoveGlobalPed",
+            "RemoveGlobalPlayer",
+            "RemoveGlobalVehicle",
+            "RemoveLocalEntity",
+            "RemoveModel",
+            "RemoveNetworkedEntity",
+            "RemoveZone"
+          ],
+          "default": false
+        },
+        {
+          "name": "sleepless_interact",
+          "resource": "sleepless_interact",
+          "shared": [],
+          "client": [
+            "modules/target/sleepless_interact/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "AddBoxZone",
+            "AddGlobalPed",
+            "AddGlobalPlayer",
+            "AddGlobalVehicle",
+            "AddLocalEntity",
+            "AddModel",
+            "AddNetworkedEntity",
+            "AddSphereZone",
+            "CanInteract",
+            "CreateCanInteract",
+            "DisableTargeting",
+            "FixOptions",
+            "GetResourceName",
+            "RemoveGlobalPed",
+            "RemoveGlobalPlayer",
+            "RemoveGlobalVehicle",
+            "RemoveLocalEntity",
+            "RemoveModel",
+            "RemoveNetworkedEntity",
+            "RemoveZone"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "notify": {
+      "namespace": "Notify",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/notify/_default/client.lua"
+          ],
+          "server": [
+            "modules/notify/_default/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "HideHelpText",
+            "SendNotification",
+            "SendNotify",
+            "ShowHelpText"
+          ],
+          "default": true
+        },
+        {
+          "name": "lation_ui",
+          "resource": "lation_ui",
+          "shared": [],
+          "client": [
+            "modules/notify/lation_ui/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "ox_lib",
+          "resource": "ox_lib",
+          "shared": [],
+          "client": [
+            "modules/notify/ox_lib/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "okokNotify",
+          "resource": "okokNotify",
+          "shared": [],
+          "client": [
+            "modules/notify/okokNotify/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "brutal_notify",
+          "resource": "brutal_notify",
+          "shared": [],
+          "client": [
+            "modules/notify/brutal_notify/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "fl-notify",
+          "resource": "FL-Notify",
+          "shared": [],
+          "client": [
+            "modules/notify/fl-notify/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "msk_core",
+          "resource": "msk_core",
+          "shared": [],
+          "client": [
+            "modules/notify/msk_core/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "mythic_notify",
+          "resource": "mythic_notify",
+          "shared": [],
+          "client": [
+            "modules/notify/mythic_notify/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "pNotify",
+          "resource": "pNotify",
+          "shared": [],
+          "client": [
+            "modules/notify/pNotify/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "r_notify",
+          "resource": "r_notify",
+          "shared": [],
+          "client": [
+            "modules/notify/r_notify/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "solaire_notify",
+          "resource": "solaire_notify",
+          "shared": [],
+          "client": [
+            "modules/notify/solaire_notify/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "t-notify",
+          "resource": "t-notify",
+          "shared": [],
+          "client": [
+            "modules/notify/t-notify/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "wasabi_notify",
+          "resource": "wasabi_notify",
+          "shared": [],
+          "client": [
+            "modules/notify/wasabi_notify/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        },
+        {
+          "name": "zsxui",
+          "resource": "ZSX_UIV2",
+          "shared": [],
+          "client": [
+            "modules/notify/zsxui/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "SendNotification",
+            "SendNotify"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "helptext": {
+      "namespace": "HelpText",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/helptext/_default/client.lua"
+          ],
+          "server": [
+            "modules/helptext/_default/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "HideHelpText",
+            "ShowHelpText"
+          ],
+          "default": true
+        },
+        {
+          "name": "lation_ui",
+          "resource": "lation_ui",
+          "shared": [],
+          "client": [
+            "modules/helptext/lation_ui/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "HideHelpText",
+            "ShowHelpText"
+          ],
+          "default": false
+        },
+        {
+          "name": "ox_lib",
+          "resource": "ox_lib",
+          "shared": [],
+          "client": [
+            "modules/helptext/ox_lib/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "HideHelpText",
+            "ShowHelpText"
+          ],
+          "default": false
+        },
+        {
+          "name": "okokTextUI",
+          "resource": "okokTextUI",
+          "shared": [],
+          "client": [
+            "modules/helptext/okokTextUI/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "HideHelpText",
+            "ShowHelpText"
+          ],
+          "default": false
+        },
+        {
+          "name": "cd_drawtextui",
+          "resource": "cd_drawtextui",
+          "shared": [],
+          "client": [
+            "modules/helptext/cd_drawtextui/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "HideHelpText",
+            "ShowHelpText"
+          ],
+          "default": false
+        },
+        {
+          "name": "jg-textui",
+          "resource": "jg-textui",
+          "shared": [],
+          "client": [
+            "modules/helptext/jg-textui/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "HideHelpText",
+            "ShowHelpText"
+          ],
+          "default": false
+        },
+        {
+          "name": "lab-HintUI",
+          "resource": "lab-HintUI",
+          "shared": [],
+          "client": [
+            "modules/helptext/lab-HintUI/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "HideHelpText",
+            "ShowHelpText"
+          ],
+          "default": false
+        },
+        {
+          "name": "zsxui",
+          "resource": "ZSX_UIV2",
+          "shared": [],
+          "client": [
+            "modules/helptext/zsxui/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "HideHelpText",
+            "ShowHelpText"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "progressbar": {
+      "namespace": "ProgressBar",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/progressbar/_default/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": true
+        },
+        {
+          "name": "lation_ui",
+          "resource": "lation_ui",
+          "shared": [],
+          "client": [
+            "modules/progressbar/lation_ui/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": false
+        },
+        {
+          "name": "ox_lib",
+          "resource": "ox_lib",
+          "shared": [],
+          "client": [
+            "modules/progressbar/ox_lib/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-progressbar",
+          "resource": "progressbar",
+          "shared": [],
+          "client": [
+            "modules/progressbar/qb-progressbar/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": false
+        },
+        {
+          "name": "keep-progressbar",
+          "resource": "keep-progressbar",
+          "shared": [],
+          "client": [
+            "modules/progressbar/keep-progressbar/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": false
+        },
+        {
+          "name": "msk_core",
+          "resource": "msk_core",
+          "shared": [],
+          "client": [
+            "modules/progressbar/msk_core/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": false
+        },
+        {
+          "name": "wasabi_uikit",
+          "resource": "wasabi_uikit",
+          "shared": [],
+          "client": [
+            "modules/progressbar/wasabi_uikit/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": false
+        },
+        {
+          "name": "zsxui",
+          "resource": "ZSX_UIV2",
+          "shared": [],
+          "client": [
+            "modules/progressbar/zsxui/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "menu": {
+      "namespace": "Menu",
+      "providers": [
+        {
+          "name": "_defualt",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/menu/_defualt/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": true
+        },
+        {
+          "name": "lation_ui",
+          "resource": "lation_ui",
+          "shared": [],
+          "client": [
+            "modules/menu/lation_ui/client.lua"
+          ],
+          "server": [],
+          "methods": [],
+          "default": false
+        },
+        {
+          "name": "ox_lib",
+          "resource": "ox_lib",
+          "shared": [],
+          "client": [
+            "modules/menu/ox_lib/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "Open"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-menu",
+          "resource": "qb-menu",
+          "shared": [],
+          "client": [
+            "modules/menu/qb-menu/client.lua"
+          ],
+          "server": [],
+          "methods": [],
+          "default": false
+        },
+        {
+          "name": "wasabi_uikit",
+          "resource": "wasabi_uikit",
+          "shared": [],
+          "client": [
+            "modules/menu/wasabi_uikit/client.lua"
+          ],
+          "server": [],
+          "methods": [],
+          "default": false
+        }
+      ]
+    },
+    "input": {
+      "namespace": "Input",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/input/_default/client.lua"
+          ],
+          "server": [],
+          "methods": [],
+          "default": true
+        },
+        {
+          "name": "lation_ui",
+          "resource": "lation_ui",
+          "shared": [],
+          "client": [
+            "modules/input/lation_ui/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": false
+        },
+        {
+          "name": "ox_lib",
+          "resource": "ox_lib",
+          "shared": [],
+          "client": [
+            "modules/input/ox_lib/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-input",
+          "resource": "qb-input",
+          "shared": [],
+          "client": [
+            "modules/input/qb-input/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "Open"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "weather": {
+      "namespace": "Weather",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/weather/_default/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "ToggleSync"
+          ],
+          "default": true
+        },
+        {
+          "name": "renewed-weathersync",
+          "resource": "Renewed-Weathersync",
+          "shared": [],
+          "client": [
+            "modules/weather/renewed-weathersync/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "ToggleSync"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-weathersync",
+          "resource": "qb-weathersync",
+          "shared": [],
+          "client": [
+            "modules/weather/qb-weathersync/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "ToggleSync"
+          ],
+          "default": false
+        },
+        {
+          "name": "cd_easytime",
+          "resource": "cd_easytime",
+          "shared": [],
+          "client": [
+            "modules/weather/cd_easytime/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "ToggleSync"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "fuel": {
+      "namespace": "Fuel",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/fuel/_default/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": true
+        },
+        {
+          "name": "okokGasStation",
+          "resource": "okokGasStation",
+          "shared": [],
+          "client": [
+            "modules/fuel/okokGasStation/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "ox_fuel",
+          "resource": "ox_fuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/ox_fuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "legacyfuel",
+          "resource": "LegacyFuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/legacyfuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "bigDaddy-Fuel",
+          "resource": "BigDaddy-Fuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/bigDaddy-Fuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "cdn-fuel",
+          "resource": "cdn-fuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/cdn-fuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "esx-sna-fuel",
+          "resource": "esx-sna-fuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/esx-sna-fuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "lc_fuel",
+          "resource": "lc_fuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/lc_fuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "ps-fuel",
+          "resource": "ps-fuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/ps-fuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-fuel",
+          "resource": "qb-fuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/qb-fuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "qs-fuelstations",
+          "resource": "qs-fuelstations",
+          "shared": [],
+          "client": [
+            "modules/fuel/qs-fuelstations/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "renewed-Fuel",
+          "resource": "Renewed-Fuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/renewed-Fuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "ti_fuel",
+          "resource": "ti_fuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/ti_fuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        },
+        {
+          "name": "x-fuel",
+          "resource": "x-fuel",
+          "shared": [],
+          "client": [
+            "modules/fuel/x-fuel/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetFuel",
+            "GetResourceName",
+            "SetFuel"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "vehiclekey": {
+      "namespace": "VehicleKey",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/_default/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": true
+        },
+        {
+          "name": "okokGarage",
+          "resource": "okokGarage",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/okokGarage/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "qbx_vehiclekeys",
+          "resource": "qbx_vehiclekeys",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/qbx_vehiclekeys/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-vehiclekeys",
+          "resource": "qb-vehiclekeys",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/qb-vehiclekeys/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "cd_garage",
+          "resource": "cd_garage",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/cd_garage/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "f_realcarkeyssystem",
+          "resource": "F_RealCarKeysSystem",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/f_realcarkeyssystem/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "jacksam",
+          "resource": "jaksams_VehiclesKeys",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/jacksam/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "mk_vehiclekeys",
+          "resource": "mk_vehiclekeys",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/mk_vehiclekeys/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "mrnewbvehiclekeys",
+          "resource": "MrNewbVehicleKeys",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/mrnewbvehiclekeys/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "mVehicle",
+          "resource": "mVehicle",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/mVehicle/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "qs-vehiclekeys",
+          "resource": "qs-vehiclekeys",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/qs-vehiclekeys/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "renewed-vehiclekeys",
+          "resource": "Renewed-Vehiclekeys",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/renewed-vehiclekeys/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "t1ger_keys",
+          "resource": "t1ger_keys",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/t1ger_keys/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        },
+        {
+          "name": "wasabi_carlock",
+          "resource": "wasabi_carlock",
+          "shared": [],
+          "client": [
+            "modules/vehiclekey/wasabi_carlock/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "GiveKeys",
+            "RemoveKeys"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "banking": {
+      "namespace": "Banking",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [],
+          "server": [
+            "modules/banking/_default/server.lua"
+          ],
+          "methods": [
+            "AddAccountMoney",
+            "GetAccountMoney",
+            "GetManagmentName",
+            "GetResourceName",
+            "RemoveAccountMoney"
+          ],
+          "default": true
+        },
+        {
+          "name": "okokBanking",
+          "resource": "okokBanking",
+          "shared": [],
+          "client": [],
+          "server": [
+            "modules/banking/okokBanking/server.lua"
+          ],
+          "methods": [
+            "AddAccountMoney",
+            "GetAccountMoney",
+            "GetManagmentName",
+            "GetResourceName",
+            "RemoveAccountMoney"
+          ],
+          "default": false
+        },
+        {
+          "name": "renewed-banking",
+          "resource": "Renewed-Banking",
+          "shared": [],
+          "client": [],
+          "server": [
+            "modules/banking/renewed-banking/server.lua"
+          ],
+          "methods": [
+            "AddAccountMoney",
+            "GetAccountMoney",
+            "GetManagmentName",
+            "GetResourceName",
+            "RemoveAccountMoney"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-banking",
+          "resource": "qb-banking",
+          "shared": [],
+          "client": [],
+          "server": [
+            "modules/banking/qb-banking/server.lua"
+          ],
+          "methods": [
+            "AddAccountMoney",
+            "GetAccountMoney",
+            "GetManagmentName",
+            "GetResourceName",
+            "RemoveAccountMoney"
+          ],
+          "default": false
+        },
+        {
+          "name": "dhs-banking",
+          "resource": "DHS-BankingSim",
+          "shared": [],
+          "client": [],
+          "server": [
+            "modules/banking/dhs-banking/server.lua"
+          ],
+          "methods": [
+            "AddAccountMoney",
+            "GetAccountMoney",
+            "GetManagmentName",
+            "GetResourceName",
+            "RemoveAccountMoney"
+          ],
+          "default": false
+        },
+        {
+          "name": "fd_banking",
+          "resource": "fd_banking",
+          "shared": [],
+          "client": [],
+          "server": [
+            "modules/banking/fd_banking/server.lua"
+          ],
+          "methods": [
+            "AddAccountMoney",
+            "GetAccountMoney",
+            "GetManagmentName",
+            "GetResourceName",
+            "RemoveAccountMoney"
+          ],
+          "default": false
+        },
+        {
+          "name": "kartik-banking",
+          "resource": "kartik-banking",
+          "shared": [],
+          "client": [],
+          "server": [
+            "modules/banking/kartik-banking/server.lua"
+          ],
+          "methods": [
+            "AddAccountMoney",
+            "GetAccountMoney",
+            "GetManagmentName",
+            "GetResourceName",
+            "RemoveAccountMoney"
+          ],
+          "default": false
+        },
+        {
+          "name": "tgg-banking",
+          "resource": "tgg-banking",
+          "shared": [],
+          "client": [],
+          "server": [
+            "modules/banking/tgg-banking/server.lua"
+          ],
+          "methods": [
+            "AddAccountMoney",
+            "GetAccountMoney",
+            "GetManagmentName",
+            "GetResourceName",
+            "RemoveAccountMoney"
+          ],
+          "default": false
+        },
+        {
+          "name": "tgiann-bank",
+          "resource": "tgiann-bank",
+          "shared": [],
+          "client": [],
+          "server": [
+            "modules/banking/tgiann-bank/server.lua"
+          ],
+          "methods": [
+            "AddAccountMoney",
+            "GetAccountMoney",
+            "GetManagmentName",
+            "GetResourceName",
+            "RemoveAccountMoney"
+          ],
+          "default": false
+        },
+        {
+          "name": "wasabi_banking",
+          "resource": "wasabi_banking",
+          "shared": [],
+          "client": [],
+          "server": [
+            "modules/banking/wasabi_banking/server.lua"
+          ],
+          "methods": [
+            "AddAccountMoney",
+            "GetAccountMoney",
+            "GetManagmentName",
+            "GetResourceName",
+            "RemoveAccountMoney"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "phone": {
+      "namespace": "Phone",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/phone/_default/client.lua"
+          ],
+          "server": [
+            "modules/phone/_default/server.lua"
+          ],
+          "methods": [
+            "GetPhoneName",
+            "GetPlayerPhone",
+            "GetResourceName",
+            "SendEmail"
+          ],
+          "default": true
+        },
+        {
+          "name": "okokPhone",
+          "resource": "okokPhone",
+          "shared": [],
+          "client": [
+            "modules/phone/okokPhone/client.lua"
+          ],
+          "server": [
+            "modules/phone/okokPhone/server.lua"
+          ],
+          "methods": [
+            "GetPhoneName",
+            "GetPlayerPhone",
+            "GetResourceName",
+            "SendEmail"
+          ],
+          "default": false
+        },
+        {
+          "name": "lb-phone",
+          "resource": "lb-phone",
+          "shared": [],
+          "client": [
+            "modules/phone/lb-phone/client.lua"
+          ],
+          "server": [
+            "modules/phone/lb-phone/server.lua"
+          ],
+          "methods": [
+            "GetPhoneName",
+            "GetPlayerPhone",
+            "GetResourceName",
+            "SendEmail"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-phone",
+          "resource": "qb-phone",
+          "shared": [],
+          "client": [
+            "modules/phone/qb-phone/client.lua"
+          ],
+          "server": [
+            "modules/phone/qb-phone/server.lua"
+          ],
+          "methods": [
+            "GetPhoneName",
+            "GetPlayerPhone",
+            "GetResourceName",
+            "SendEmail"
+          ],
+          "default": false
+        },
+        {
+          "name": "gksphone",
+          "resource": "gksphone",
+          "shared": [],
+          "client": [
+            "modules/phone/gksphone/client.lua"
+          ],
+          "server": [
+            "modules/phone/gksphone/server.lua"
+          ],
+          "methods": [
+            "GetPhoneName",
+            "GetPlayerPhone",
+            "GetResourceName",
+            "SendEmail"
+          ],
+          "default": false
+        },
+        {
+          "name": "qs-smartphone",
+          "resource": "qs-smartphone",
+          "shared": [],
+          "client": [
+            "modules/phone/qs-smartphone/client.lua"
+          ],
+          "server": [
+            "modules/phone/qs-smartphone/server.lua"
+          ],
+          "methods": [
+            "GetPhoneName",
+            "GetPlayerPhone",
+            "GetResourceName",
+            "SendEmail"
+          ],
+          "default": false
+        },
+        {
+          "name": "yseries",
+          "resource": "yseries",
+          "shared": [],
+          "client": [
+            "modules/phone/yseries/client.lua"
+          ],
+          "server": [
+            "modules/phone/yseries/server.lua"
+          ],
+          "methods": [
+            "GetPhoneName",
+            "GetPlayerPhone",
+            "GetResourceName",
+            "SendEmail"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "doorlock": {
+      "namespace": "Doorlock",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/doorlock/_default/client.lua"
+          ],
+          "server": [
+            "modules/doorlock/_default/server.lua"
+          ],
+          "methods": [
+            "GetClosestDoor",
+            "GetResourceName",
+            "ToggleDoorLock"
+          ],
+          "default": true
+        },
+        {
+          "name": "doors_creator",
+          "resource": "doors_creator",
+          "shared": [],
+          "client": [
+            "modules/doorlock/doors_creator/client.lua"
+          ],
+          "server": [
+            "modules/doorlock/doors_creator/server.lua"
+          ],
+          "methods": [
+            "GetClosestDoor",
+            "GetResourceName",
+            "ToggleDoorLock"
+          ],
+          "default": false
+        },
+        {
+          "name": "ox_doorlock",
+          "resource": "ox_doorlock",
+          "shared": [],
+          "client": [
+            "modules/doorlock/ox_doorlock/client.lua"
+          ],
+          "server": [
+            "modules/doorlock/ox_doorlock/server.lua"
+          ],
+          "methods": [
+            "GetClosestDoor",
+            "GetResourceName",
+            "ToggleDoorLock"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-doorlock",
+          "resource": "qb-doorlock",
+          "shared": [],
+          "client": [
+            "modules/doorlock/qb-doorlock/client.lua"
+          ],
+          "server": [
+            "modules/doorlock/qb-doorlock/server.lua"
+          ],
+          "methods": [
+            "GetClosestDoor",
+            "GetResourceName",
+            "ToggleDoorLock"
+          ],
+          "default": false
+        },
+        {
+          "name": "rcore_doorlock",
+          "resource": "rcore_doorlock",
+          "shared": [],
+          "client": [
+            "modules/doorlock/rcore_doorlock/client.lua"
+          ],
+          "server": [
+            "modules/doorlock/rcore_doorlock/server.lua"
+          ],
+          "methods": [
+            "GetClosestDoor",
+            "GetResourceName",
+            "ToggleDoorLock"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "dispatch": {
+      "namespace": "Dispatch",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/dispatch/_default/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/_default/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": true
+        },
+        {
+          "name": "bub-mdt",
+          "resource": "bub-mdt",
+          "shared": [],
+          "client": [
+            "modules/dispatch/bub-mdt/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/bub-mdt/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "cd_dispatch",
+          "resource": "cd_dispatch",
+          "shared": [],
+          "client": [
+            "modules/dispatch/cd_dispatch/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/cd_dispatch/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "emergencydispatch",
+          "resource": "emergencydispatch",
+          "shared": [],
+          "client": [
+            "modules/dispatch/emergencydispatch/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/emergencydispatch/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "fd_dispatch",
+          "resource": "fd_dispatch",
+          "shared": [],
+          "client": [
+            "modules/dispatch/fd_dispatch/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/fd_dispatch/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "kartik-mdt",
+          "resource": "kartik-mdt",
+          "shared": [],
+          "client": [
+            "modules/dispatch/kartik-mdt/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/kartik-mdt/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "lb-tablet",
+          "resource": "lb-tablet",
+          "shared": [],
+          "client": [
+            "modules/dispatch/lb-tablet/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/lb-tablet/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "linden_outlawalert",
+          "resource": "linden_outlawalert",
+          "shared": [],
+          "client": [
+            "modules/dispatch/linden_outlawalert/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/linden_outlawalert/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "origen_police",
+          "resource": "origen_police",
+          "shared": [],
+          "client": [
+            "modules/dispatch/origen_police/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/origen_police/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "piotreq_gpt",
+          "resource": "piotreq_gpt",
+          "shared": [],
+          "client": [
+            "modules/dispatch/piotreq_gpt/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/piotreq_gpt/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "ps-dispatch",
+          "resource": "ps-dispatch",
+          "shared": [],
+          "client": [
+            "modules/dispatch/ps-dispatch/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/ps-dispatch/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "qs_dispatch",
+          "resource": "qs-dispatch",
+          "shared": [],
+          "client": [
+            "modules/dispatch/qs_dispatch/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/qs_dispatch/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "redutzu-mdt",
+          "resource": "redutzu-mdt",
+          "shared": [],
+          "client": [
+            "modules/dispatch/redutzu-mdt/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/redutzu-mdt/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "tk_dispatch",
+          "resource": "tk_dispatch",
+          "shared": [],
+          "client": [
+            "modules/dispatch/tk_dispatch/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/tk_dispatch/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        },
+        {
+          "name": "wasabi_mdt",
+          "resource": "wasabi_mdt",
+          "shared": [],
+          "client": [
+            "modules/dispatch/wasabi_mdt/client/client.lua"
+          ],
+          "server": [
+            "modules/dispatch/wasabi_mdt/server/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "SendAlert"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "clothing": {
+      "namespace": "Clothing",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/clothing/_default/client.lua"
+          ],
+          "server": [
+            "modules/clothing/_default/server.lua"
+          ],
+          "methods": [
+            "GetAppearance",
+            "GetResourceName",
+            "IsMale",
+            "OpenMenu",
+            "RestoreAppearance",
+            "SetAppearance",
+            "SetAppearanceExt"
+          ],
+          "default": true
+        },
+        {
+          "name": "illenium-appearance",
+          "resource": "illenium-appearance",
+          "shared": [
+            "modules/clothing/illenium-appearance/shared.lua"
+          ],
+          "client": [
+            "modules/clothing/illenium-appearance/client.lua"
+          ],
+          "server": [
+            "modules/clothing/illenium-appearance/server.lua"
+          ],
+          "methods": [
+            "GetAppearance",
+            "GetFullAppearanceData",
+            "GetResourceName",
+            "IsMale",
+            "OpenMenu",
+            "Revert",
+            "SetAppearance",
+            "SetAppearanceExt"
+          ],
+          "default": false
+        },
+        {
+          "name": "fivem-appearance",
+          "resource": "fivem-appearance",
+          "shared": [
+            "modules/clothing/fivem-appearance/shared.lua"
+          ],
+          "client": [
+            "modules/clothing/fivem-appearance/client.lua"
+          ],
+          "server": [
+            "modules/clothing/fivem-appearance/server.lua"
+          ],
+          "methods": [
+            "ConvertData",
+            "GetAppearance",
+            "GetFullAppearanceData",
+            "GetResourceName",
+            "IsMale",
+            "OpenMenu",
+            "Revert",
+            "SetAppearance",
+            "SetAppearanceExt"
+          ],
+          "default": false
+        },
+        {
+          "name": "rcore_clothing",
+          "resource": "rcore_clothing",
+          "shared": [],
+          "client": [
+            "modules/clothing/rcore_clothing/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "OpenMenu"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-clothing",
+          "resource": "qb-clothing",
+          "shared": [
+            "modules/clothing/qb-clothing/shared.lua"
+          ],
+          "client": [
+            "modules/clothing/qb-clothing/client.lua"
+          ],
+          "server": [
+            "modules/clothing/qb-clothing/server.lua"
+          ],
+          "methods": [
+            "ConvertFromDefault",
+            "ConvertToDefault",
+            "GetAppearance",
+            "GetFullAppearanceData",
+            "GetResourceName",
+            "IsMale",
+            "OpenMenu",
+            "Revert",
+            "SetAppearance",
+            "SetAppearanceExt"
+          ],
+          "default": false
+        },
+        {
+          "name": "esx_skin",
+          "resource": "esx_skin",
+          "shared": [
+            "modules/clothing/esx_skin/shared.lua"
+          ],
+          "client": [
+            "modules/clothing/esx_skin/client.lua"
+          ],
+          "server": [
+            "modules/clothing/esx_skin/server.lua"
+          ],
+          "methods": [
+            "ConvertFromDefault",
+            "ConvertToDefault",
+            "GetAppearance",
+            "GetFullAppearanceData",
+            "GetResourceName",
+            "IsMale",
+            "OpenMenu",
+            "Revert",
+            "Save",
+            "SetAppearance",
+            "SetAppearanceExt"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "housing": {
+      "namespace": "Housing",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/housing/_default/client.lua"
+          ],
+          "server": [
+            "modules/housing/_default/server.lua"
+          ],
+          "methods": [
+            "GetResourceName"
+          ],
+          "default": true
+        },
+        {
+          "name": "bcs-housing",
+          "resource": "bcs-housing",
+          "shared": [],
+          "client": [
+            "modules/housing/bcs-housing/client.lua"
+          ],
+          "server": [
+            "modules/housing/bcs-housing/server.lua"
+          ],
+          "methods": [
+            "GetResourceName"
+          ],
+          "default": false
+        },
+        {
+          "name": "esx_property",
+          "resource": "esx_property",
+          "shared": [],
+          "client": [
+            "modules/housing/esx_property/client.lua"
+          ],
+          "server": [
+            "modules/housing/esx_property/server.lua"
+          ],
+          "methods": [
+            "GetResourceName"
+          ],
+          "default": false
+        },
+        {
+          "name": "ps-housing",
+          "resource": "ps-housing",
+          "shared": [],
+          "client": [
+            "modules/housing/ps-housing/client.lua"
+          ],
+          "server": [
+            "modules/housing/ps-housing/server.lua"
+          ],
+          "methods": [
+            "GetResourceName"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-appartments",
+          "resource": "qb-appartments",
+          "shared": [],
+          "client": [
+            "modules/housing/qb-appartments/client.lua"
+          ],
+          "server": [
+            "modules/housing/qb-appartments/server.lua"
+          ],
+          "methods": [
+            "GetResourceName"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-houses",
+          "resource": "qb-houses",
+          "shared": [],
+          "client": [
+            "modules/housing/qb-houses/client.lua"
+          ],
+          "server": [
+            "modules/housing/qb-houses/server.lua"
+          ],
+          "methods": [
+            "GetResourceName"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "shops": {
+      "namespace": "Shops",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/shops/_default/client.lua"
+          ],
+          "server": [
+            "modules/shops/_default/server.lua"
+          ],
+          "methods": [
+            "AmountSelect",
+            "CompleteCheckout",
+            "CreateShop",
+            "FinalizeCheckOut",
+            "GetResourceName",
+            "OpenShop"
+          ],
+          "default": true
+        }
+      ]
+    },
+    "skills": {
+      "namespace": "Skills",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/skills/_default/client.lua"
+          ],
+          "server": [
+            "modules/skills/_default/server.lua"
+          ],
+          "methods": [
+            "AddXP",
+            "Create",
+            "GetResourceName",
+            "GetScaledXP",
+            "GetSkillLevel",
+            "GetXP",
+            "GetXPForLevel",
+            "GetXPRequiredForLevel",
+            "SetSkillLevel",
+            "SetXP"
+          ],
+          "default": true
+        },
+        {
+          "name": "evolent_skills",
+          "resource": "evolent_skills",
+          "shared": [],
+          "client": [
+            "modules/skills/evolent_skills/client.lua"
+          ],
+          "server": [
+            "modules/skills/evolent_skills/server.lua"
+          ],
+          "methods": [
+            "AddXp",
+            "Create",
+            "GetResourceName",
+            "GetSkillLevel",
+            "RemoveXp"
+          ],
+          "default": false
+        },
+        {
+          "name": "ot_skills",
+          "resource": "OT_skills",
+          "shared": [],
+          "client": [
+            "modules/skills/ot_skills/client.lua"
+          ],
+          "server": [
+            "modules/skills/ot_skills/server.lua"
+          ],
+          "methods": [
+            "AddXp",
+            "Create",
+            "GetResourceName",
+            "GetSkillLevel",
+            "RemoveXp"
+          ],
+          "default": false
+        },
+        {
+          "name": "pickle_xp",
+          "resource": "pickle_xp",
+          "shared": [],
+          "client": [
+            "modules/skills/pickle_xp/client.lua"
+          ],
+          "server": [
+            "modules/skills/pickle_xp/server.lua"
+          ],
+          "methods": [
+            "AddXp",
+            "Create",
+            "GetResourceName",
+            "GetSkillLevel",
+            "RemoveXp"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "bossmenu": {
+      "namespace": "BossMenu",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/bossmenu/_default/client.lua"
+          ],
+          "server": [
+            "modules/bossmenu/_default/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "OpenBossMenu"
+          ],
+          "default": true
+        },
+        {
+          "name": "esx_society",
+          "resource": "esx_society",
+          "shared": [],
+          "client": [
+            "modules/bossmenu/esx_society/client.lua"
+          ],
+          "server": [
+            "modules/bossmenu/esx_society/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "OpenBossMenu"
+          ],
+          "default": false
+        },
+        {
+          "name": "qb-management",
+          "resource": "qb-management",
+          "shared": [],
+          "client": [
+            "modules/bossmenu/qb-management/client.lua"
+          ],
+          "server": [
+            "modules/bossmenu/qb-management/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "OpenBossMenu"
+          ],
+          "default": false
+        },
+        {
+          "name": "qbx_management",
+          "resource": "qbx_management",
+          "shared": [],
+          "client": [
+            "modules/bossmenu/qbx_management/client.lua"
+          ],
+          "server": [
+            "modules/bossmenu/qbx_management/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "OpenBossMenu"
+          ],
+          "default": false
+        },
+        {
+          "name": "tk_bosstablet",
+          "resource": "tk_bosstablet",
+          "shared": [],
+          "client": [
+            "modules/bossmenu/tk_bosstablet/client.lua"
+          ],
+          "server": [
+            "modules/bossmenu/tk_bosstablet/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "OpenBossMenu"
+          ],
+          "default": false
+        },
+        {
+          "name": "zat-bossmenu",
+          "resource": "zat-bossmenu",
+          "shared": [],
+          "client": [
+            "modules/bossmenu/zat-bossmenu/client.lua"
+          ],
+          "server": [
+            "modules/bossmenu/zat-bossmenu/server.lua"
+          ],
+          "methods": [
+            "GetResourceName",
+            "OpenBossMenu"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "zones": {
+      "namespace": "cZones",
+      "providers": [
+        {
+          "name": "oxlib",
+          "resource": "ox_lib",
+          "shared": [],
+          "client": [
+            "modules/zones/oxlib/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "Create",
+            "Destroy",
+            "DestroyByResource",
+            "Get"
+          ],
+          "default": false
+        },
+        {
+          "name": "polyzone",
+          "resource": "PolyZone",
+          "shared": [],
+          "client": [
+            "modules/zones/polyzone/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "Create",
+            "Destroy",
+            "DestroyByResource",
+            "Get"
+          ],
+          "default": false
+        }
+      ]
+    },
+    "dialogue": {
+      "namespace": "Dialogue",
+      "providers": [
+        {
+          "name": "_default",
+          "resource": "native",
+          "shared": [],
+          "client": [
+            "modules/dialogue/_default/client/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "Close",
+            "Open"
+          ],
+          "default": true
+        }
+      ]
+    }
+  }
+}

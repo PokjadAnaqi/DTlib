@@ -1,11 +1,13 @@
-# 1.3.0-beta.1 validation
+# 1.3.0-beta.2 validation
 
-Run `python -m pip install lupa`, then `python tests/test_contracts.py`.
+Install lupa and run `python tests/test_contracts.py` and `python tests/test_adapter_pack.py`.
 
-Checks compile Lua 5.4 source (normalizing Cfx hash literals only inside the test compiler), load both manifest sides with Cfx stubs, initialize 219 provider/side combinations, and exercise export/event argument mapping and UI/gameplay behavior.
+- All 369 Lua files compile under the Lua 5.4 test compiler (Cfx hash literals normalized for compilation).
+- 83 client and 49 server/shared manifest scripts load with Cfx stubs.
+- 219 normalized registry provider/side combinations initialize.
+- A separate 219 complete source-pack provider/side combinations initialize in isolated runtimes.
+- All 22 named utilities load on their permitted runtime sides; path guards and actual missing-method delegation pass.
+- Every one of the 305 upstream module, library, locale and web files has a corresponding local path, verified against IMPORTED_FILES.json.
+- Lation and okok contract tests, inventory argument order, native skill progression, shop session/stock/refund behavior and native menu cancellation/nested opening pass.
 
-113 Lua files compile; 81 client and 47 server/shared manifest scripts load; all 219 provider/side initialization cases pass.
-
-Covered behavior: Lation alert/input/step progress/list menus; okok notify/text UI/fuel/keys/banking; inventory slot/metadata ordering; native skill leveling; shop session/stock validation and failed-delivery refund; explicit provider selection; unsupported operation discovery; native menu cancellation/nested opening; and absence of the imported source pack or iframe.
-
-These are static and simulated contract checks. They do not execute vendor resources or a live FiveM server. Purchased vendor versions, legacy database schemas, clothing persistence, dispatch delivery and in-game UI remain to be tested on the target server.
+These are static and simulated checks, not live vendor/FiveM execution. Purchased vendor versions, legacy database schemas, clothing persistence, dispatch delivery, shell spawning and in-game UI still require target-server testing. File inclusion and initialization do not prove every gameplay path works with every vendor release.

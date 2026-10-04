@@ -106,9 +106,8 @@ lua.execute('''
     assert(shop.CompleteCheckout(10,'test','water',1.5,'cash')==false)
 ''')
 print('Banking, inventory order, skills and shop refund/stock/session PASS')
-assert not any((root/'compat').rglob('*.*'))
 manifest=(root/'fxmanifest.lua').read_text()
-assert "fx_version 'cerulean'" in manifest and 'compat/' not in manifest
-for path in root.rglob('*.lua'):
-    assert 'community_bridge' not in path.read_text() and 'compat/community' not in path.read_text()
-print('Independent source and manifest PASS')
+assert "fx_version 'cerulean'" in manifest
+assert "dependency 'community_bridge'" not in manifest
+assert (root/'LICENSE').is_file()
+print('Standalone resource manifest and LICENSE PASS')

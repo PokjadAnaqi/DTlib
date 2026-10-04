@@ -1,3 +1,10 @@
+# 1.3.0-beta.2
+
+- Bundle every runtime provider module, library, locale and dialogue asset from the complete 22-category/153-profile source pack.
+- Add DT.AdapterPack for full provider signatures, DT.Ecosystem missing-method delegation and utility loading.
+- Keep DTlib bootstrap, normalized contracts, Lation/okok implementations and native helpers.
+- Preserve GPL LICENSE and original attribution; no external community_bridge resource required.
+
 # Changelog
 
 ## 1.3.0-beta.1

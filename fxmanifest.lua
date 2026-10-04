@@ -4,12 +4,14 @@ game 'gta5'
 name 'DTlib'
 author 'DT Ecosystem'
 description 'Independent modular runtime library for DT ecosystem resources'
-version '1.3.0-beta.1'
+version '1.3.0-beta.2'
 
 ui_page 'html/index.html'
 
 files {
     'init.lua',
+    'integrations/providers/**',
+    'html/ecosystem.js',
     'html/index.html',
     'html/style.css',
     'html/app.js',
@@ -25,7 +27,8 @@ shared_scripts {
     'lib/modules/shared.lua',
     'modules/framework/shared.lua',
     'modules/notify/shared.lua',
-    'modules/ecosystem/catalog.lua'
+    'modules/ecosystem/catalog.lua',
+    'modules/ecosystem/pack_catalog.lua'
 }
 
 client_scripts {
@@ -82,6 +85,7 @@ client_scripts {
     'modules/ecosystem/ui_bridge_client.lua',
     'modules/providers/*_shared.lua',
     'modules/providers/*_client.lua',
+    'modules/ecosystem/pack_runtime.lua',
     'modules/bootstrap/client.lua'
 }
 
@@ -115,5 +119,6 @@ server_scripts {
 
     'modules/providers/*_shared.lua',
     'modules/providers/*_server.lua',
+    'modules/ecosystem/pack_runtime.lua',
     'modules/bootstrap/server.lua'
 }

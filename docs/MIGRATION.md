@@ -89,3 +89,7 @@ Keep existing DT APIs and `@DTlib/init.lua`. Restart DTlib and consumers after r
 - Dialogue uses DT.Menu. Native zones use DT.Zone geometry under the compatibility profiles.
 - Server phone mail treats the email argument as sender and sends to the target player's mailbox. Client callers can mail only themselves.
 - Plate migration touches legacy inventory table names and invokes applicable vendor exports. Verify the schema of your installed version.
+
+## 1.3.0-beta.2
+
+The full source pack is bundled locally again. DTlib remains the only bridge resource to start. Full source signatures are under `DT.AdapterPack`, uppercase source utility names are accepted by `DT.Ecosystem.Utility`, and Language/VersionChecker helpers are available again. DT.Ecosystem.Require continues accepting utility names; path-based loading is explicit through DT.AdapterPack.Require. Restart DTlib and consumers after configuring providers.

@@ -82,6 +82,19 @@ function E.Get(category, requested)
         if not ok then return nil,'provider_initialization_failed:'..tostring(api) end
         if type(api)~='table' then return nil,'invalid_provider_api' end
         api.GetResourceName=function() return provider.resource end
+        -- Retain DT contracts, and expose every additional source-pack method.
+        -- Providers are selected once per category in the source pack; restart after changing config.
+        for _,method in ipairs(provider.methods) do
+            if api[method]==nil then
+                local categoryKey,resourceKey,methodKey=category,provider.resource,method
+                api[method]=function(...)
+                    local full,reason=DT.AdapterPack.Get(categoryKey,resourceKey)
+                    if not full then return nil,reason end
+                    if not DTUtils.isCallable(full[methodKey]) then return nil,'unsupported_method:'..methodKey end
+                    return full[methodKey](...)
+                end
+            end
+        end
         instances[key]=api
     end
     return instances[key]
@@ -132,7 +145,11 @@ for category,definition in pairs(DTEcosystemCatalog) do
 end
 local utilities={}
 function P.RegisterUtility(name, api) utilities[name]=api end
-function E.Utility(name) return utilities[name],utilities[name] and nil or 'unknown_utility' end
+function E.Utility(name)
+    if utilities[name] then return utilities[name] end
+    if DT.AdapterPack then return DT.AdapterPack.Utility(name) end
+    return nil,'unknown_utility'
+end
 function E.Require(name)
     if type(name)~='string' or name:find('/',1,true) or name:find('..',1,true) then return nil,'invalid_module_name' end
     return E.Utility(name)

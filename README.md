@@ -1,6 +1,6 @@
-# DTlib 1.3.0-beta.1
+# DTlib 1.3.0-beta.2
 
-DTlib is an independent FiveM runtime library with its own provider registry, adapters, UI, callbacks and gameplay helpers.
+DTlib is a standalone FiveM resource with its own provider registry, UI, callbacks and gameplay helpers. It now bundles the complete provider/module/utility source pack, with no community_bridge resource dependency.
 
 Lation Modern UI: alert, notify, text UI, progress with steps, input, context menu and list menu. okok integrations: Notify, TextUI, GasStation, Garage, Banking and Phone.
 
@@ -21,3 +21,5 @@ Optional provider resources are installed separately. The default manifest uses 
 - [Changelog](docs/CHANGELOG.md)
 
 This is a pre-release. Simulation checks do not replace live FiveM testing with your installed vendor versions. Licensed under GPL-3.0; see [LICENSE](LICENSE).
+
+Full source-pack APIs: `DT.AdapterPack.Get(category, resource)`, `DT.AdapterPack.Call(category, method, ...)`, and `DT.Ecosystem.Utility(name)`. See [full pack integration](docs/ADAPTER_PACK.md) and [source notices](THIRD_PARTY_NOTICES.md).

@@ -29,3 +29,5 @@ Provider profile names and actual resource names can differ in case or spelling.
 Use `ECOSYSTEM_PROVIDERS.json` for exact names, client/server availability and
 method lists (`clientMethods` / `serverMethods`). Native defaults and utility modules are documented in `ECOSYSTEM.md`.
 The matrix describes adapter coverage, not access to the actual third-party resources.
+
+Every matrix provider now includes its full local source. For side availability and source methods, see ADAPTER_SOURCES.json. Full signatures are exposed via DT.AdapterPack; DT.Ecosystem preserves normalized DT contracts and adds missing methods. Utilities and dialogue UI are included.
