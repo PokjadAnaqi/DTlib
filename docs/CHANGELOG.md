@@ -1,3 +1,8 @@
+# 1.3.0-beta.8
+
+- Narrow native protection banners to 300px, bounded to the viewport.
+- Retain existing countdown, progress, positions and notification providers.
+
 # 1.3.0-beta.7
 
 - Add native Delta banner notifications with image/Font Awesome icon, subtitle, readable message and lifetime bar.

@@ -22,3 +22,8 @@
 @media(prefers-reduced-motion:reduce){.notify,.notify-leaving{animation-duration:.01ms}.notify-lifetime{animation:none}}
 
 .notify-banner{padding:15px 16px 14px;border-radius:4px;background:linear-gradient(120deg,rgba(13,22,23,.96),rgba(9,16,18,.94));border-left:3px solid var(--notify-accent)}.notify-banner .notify-picture{float:left;width:52px;height:52px;flex-basis:52px;border-radius:4px}.notify-banner .notify-title{font-size:16px;letter-spacing:0;font-weight:700}.notify-banner .notify-subtitle{font-size:13px;color:var(--muted);font-weight:400}.notify-banner .notify-copy{display:contents}.notify-banner{display:block}.notify-banner .notify-picture{margin:0 12px 10px 0}.notify-banner .notify-desc{clear:both;margin-top:12px;font-size:13px;line-height:1.55}.notify-remaining{clear:both;border-top:1px solid var(--line);margin-top:10px;padding-top:9px;font-size:17px;font-weight:700;color:var(--notify-accent);font-variant-numeric:tabular-nums}.notify-banner .notify-count{position:absolute;right:8px;top:8px}
+
+/* Compact banner width with alignment preserved. */
+.notify-banner{width:min(300px,calc(100vw - 32px));align-self:flex-end;padding:12px 13px 13px}
+.notify-lane.top-left .notify-banner,.notify-lane.center-left .notify-banner,.notify-lane.bottom-left .notify-banner{align-self:flex-start}
+.notify-lane.top .notify-banner,.notify-lane.bottom .notify-banner{align-self:center}

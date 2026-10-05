@@ -1,4 +1,4 @@
-# DTlib 1.3.0-beta.7
+# DTlib 1.3.0-beta.8
 
 DTlib is a standalone FiveM resource with its own provider registry, UI, callbacks and gameplay helpers. It includes modular provider adapters and shared utilities for DT ecosystem scripts.
 
