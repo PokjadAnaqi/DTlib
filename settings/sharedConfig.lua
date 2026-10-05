@@ -29,6 +29,7 @@ DTConfig.Console = {
 
 DTConfig.UI = {
     notifyDuration = 4500,
+    notifyMaxVisible = 5,
     notifyPosition = 'top-right',
     notifySize = 'md',
     resolveItemLabels = true,

@@ -13,6 +13,7 @@ function N.type(value)
 end
 function N.position(value)
     value=tostring(value or DTConfig.UI.notifyPosition or 'top-right'):lower()
+    local aliases={topleft='top-left',topright='top-right',bottomleft='bottom-left',bottomright='bottom-right'};value=aliases[value] or value
     if value=='centre-left' then value='center-left' elseif value=='centre-right' then value='center-right' end
     if value=='top-center' then value='top' elseif value=='bottom-center' then value='bottom' end
     return N.validPositions[value] and value or 'top-right'
@@ -26,7 +27,7 @@ function N.resolveText(text)
 end
 function N.payload(data,description,notifyType)
     if type(data)=='string' then data={title=data,description=description,type=notifyType} else data=DTUtils.copy(data or {}) end
-    local p={id=data.id,title=N.resolveText(data.title),message=N.resolveText(data.message or data.description),type=N.type(data.type),duration=math.max(0,tonumber(data.duration) or DTConfig.UI.notifyDuration or 4500),position=N.position(data.position),size=N.validSizes[data.size] and data.size or (DTConfig.UI.notifySize or 'md'),icon=data.icon,iconColor=data.iconColor,iconAnimation=data.iconAnimation,bgColor=data.bgColor,txtColor=data.txtColor,titleColor=data.titleColor,sound=data.sound,showDuration=data.showDuration,style=data.style,alignIcon=data.alignIcon}
-    if not p.title and not p.message then p.title='DT SYSTEM' end
+    local p={layout=data.layout=='banner' and 'banner' or nil,subtitle=N.resolveText(data.subtitle or data.subject),image=data.image,progress=data.progress,countdown=data.countdown,persistent=data.persistent==true,stack=data.stack,maxVisible=math.max(1,math.min(8,tonumber(DTConfig.UI.notifyMaxVisible) or 5)),id=data.id,title=N.resolveText(data.title),message=N.resolveText(data.message or data.description),type=N.type(data.type),duration=math.max(0,tonumber(data.duration) or DTConfig.UI.notifyDuration or 4500),position=N.position(data.position),size=N.validSizes[data.size] and data.size or (DTConfig.UI.notifySize or 'md'),icon=data.icon,iconColor=data.iconColor,iconAnimation=data.iconAnimation,bgColor=data.bgColor,txtColor=data.txtColor,titleColor=data.titleColor,sound=data.sound,showDuration=data.showDuration,style=data.style,alignIcon=data.alignIcon}
+    if not p.title and not p.message then p.title='NOTIFICATION' end
     return p
 end

@@ -401,3 +401,22 @@ See [ECOSYSTEM.md](ECOSYSTEM.md) for signatures and examples.
 ## Callback lifecycle — beta.4
 
 DTConfig.CallbackTimeout defaults to 30000 milliseconds. Await/AwaitClient raise callback_timeout when the other side does not reply, and release pending requests on the owning resource stopping or target player disconnecting. Existing success/error contracts remain. Callback arguments and return values preserve leading/trailing nil slots. Register callbacks again after restarting their consumer resource.
+
+## Delta banner notifications — beta.7
+
+Client: `DT.NotifyBanner(data)` or `exports.DTlib:NotifyBanner(data)`. Server: `DT.NotifyBanner(source, data)`. The banner always uses DTlib native NUI; ordinary `DT.Notify` keeps its configured provider. `DT.Notify({layout='banner', ...})` works too, including NotifyAll/NotifyPlayers.
+
+```lua
+DT.NotifyBanner({
+    title = 'PROTECTION ACTIVE',
+    subtitle = 'Lorazin',
+    description = 'Poison resistance is active for 10 minutes.',
+    image = 'nui://ox_inventory/web/images/lorazin.png',
+    type = 'success', duration = 6500, position = 'top-right',
+    progress = true, id = 'lorazin-protection'
+})
+```
+
+Use `icon='fa-solid fa-shield-halved'` instead of image. Images accept HTTPS, nui://, or local relative paths; GTA CHAR_* texture names are not image URLs. `subject` aliases subtitle. No raw HTML is rendered. Duration is clamped to 250–86400000 ms in native UI (zero uses the default duration; use persistent=true for an untimed card). Positions: top-left, top, top-right, center-left, center-right, bottom-left, bottom, bottom-right; Bulletin-style topleft/topright/bottomleft/bottomright aliases are accepted. `progress=false` hides the lifetime bar; `stack=false` disables duplicate stacking. `DTConfig.UI.notifyMaxVisible` controls 1–8 cards per position (default 5); overflow queues up to 50 per position. Matching IDs update active/queued cards and restart visible lifetime. Duplicate messages stack with a count and refreshed lifetime. UI suspension discards notifications and clears timers/queues. No Bulletin export emulation or notification audio is added.
+
+Banner countdown displays minutes/seconds by default; set countdown=false to hide it. Re-send DT.NotifyBanner with the same id to replace content and refresh its duration. Remove it with DT.RemoveNotifyBanner(id) on client, or DT.RemoveNotifyBanner(source,id) on server. persistent=true leaves the card visible until explicitly removed or UI suspension. Protection/pill authority and persistence belong to the consumer script, not the UI.

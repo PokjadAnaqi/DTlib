@@ -31,3 +31,7 @@ Dialogue files are relocated intact to html/dialogue. The root NUI iframe resolv
 ## Verified beta.6 regression run
 
 369 Lua files compile; 82 client and 48 server/shared manifest scripts load. Both sets of 219 provider/side cases pass. Behavioral Easytime tests cover automatic selection ahead of qb aliases, GetAllData/GetWeather fallback, normalized weather/time, explicit aliases and copied data snapshots. Database and beta.4 lifecycle regressions pass. Python bytecode/cache files are excluded from repository and installation ZIP. Live FiveM/vendor testing remains required.
+
+## beta.7 banner checks
+
+Client/server banner API routing and native provider isolation pass. Renderer tests verify bounded queue, expiry, ID replacement, duplicate stacking, escaped text, image fallback, countdown and removal/clear timer cleanup. Existing Lua/provider/Easytime/lifecycle checks pass. Real FiveM NUI and installed Font Awesome CDN/image availability still require in-game validation.

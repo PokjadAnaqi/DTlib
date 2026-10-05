@@ -1,3 +1,10 @@
+# 1.3.0-beta.7
+
+- Add native Delta banner notifications with image/Font Awesome icon, subtitle, readable message and lifetime bar.
+- Add DT.NotifyBanner on client/server; force only banner calls to native UI while retaining configured notify providers.
+- Add positioned queues, bounded visible cards, duplicate stacking and ID replacement.
+- Clear timers/queues during UI suspension; retain beta.6 weather fix.
+
 # 1.3.0-beta.6
 
 - Fixed the advertised `cd_easytime` weather provider: the source pack existed but was not registered or loaded by the DT.Weather runtime.

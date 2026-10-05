@@ -7,9 +7,16 @@ local function A()
 end
 function DT.NotifyProvider() local a=A(); return a and a.publicName or 'native' end
 function DT.Notify(data,description,notifyType)
-    local p=DT.NotifyUtil.payload(data,description,notifyType); local a=A();
+    local p=DT.NotifyUtil.payload(data,description,notifyType); local a=p.layout=='banner' and DT.Modules.Get('notify','native') or A();
     if a and a.send then local ok,err=pcall(a.send,a,p); if ok and err~=false then return true end; DT.Debug('Notify provider failed, using native:',err) end
     local n=DT.Modules.Get('notify','native'); return n and n:send(p) or false
 end
 RegisterNetEvent('DTlib:client:notify',function(data) DT.Notify(data) end)
 exports('Notify',function(...) return DT.Notify(...) end)
+
+function DT.NotifyBanner(data) local p=DTUtils.copy(type(data)=='table' and data or {message=tostring(data or '')});p.layout='banner';return DT.Notify(p) end
+exports('NotifyBanner',function(data) return DT.NotifyBanner(data) end)
+
+function DT.RemoveNotifyBanner(id) if type(id)~='string' and type(id)~='number' then return false end;SendNUIMessage({action='notify:remove',data={id=id}});return true end
+RegisterNetEvent('DTlib:client:removeNotifyBanner',function(id) DT.RemoveNotifyBanner(id) end)
+exports('RemoveNotifyBanner',function(id) return DT.RemoveNotifyBanner(id) end)
