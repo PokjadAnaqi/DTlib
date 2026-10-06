@@ -165,7 +165,8 @@ DTConfig.Minigames = {
 DTConfig.Security = {
     defaultWindowMs = 10000,
     defaultMaxCalls = 10,
-    adminAce = 'group.admin'
+    adminAce = 'admin',
+    godAce = 'god'
 }
 
 DTConfig.Discord = {

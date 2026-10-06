@@ -1,3 +1,9 @@
+# 1.3.0-beta.10
+
+- Accept ACE objects `admin` and `god` by default for DTlib admin tools.
+- Document group assignments using the requested server.cfg ACE rules.
+- Test both accepted permissions and denied access.
+
 # 1.3.0-beta.9
 
 - Add `/dtlib:admin` registry hub for ecosystem admin panel commands.

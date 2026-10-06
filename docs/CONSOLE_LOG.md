@@ -12,7 +12,7 @@ On `ensure DTlib`, the server prints the detected framework, inventory, target, 
 dtlib:status
 ```
 
-Run it from the server console to print the current DTlib runtime status again. In-game use requires the configured admin ACE (`group.admin` by default).
+Run it from the server console to print the current DTlib runtime status again. In-game use requires the configured admin ACE (`admin` or `god` by default).
 
 ## Configuration (`settings/sharedConfig.lua`)
 

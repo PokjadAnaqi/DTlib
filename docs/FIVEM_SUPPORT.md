@@ -85,8 +85,8 @@ local vehicle = DT.OneSync.CreateVehicle(
 Server only:
 
 ```lua
-DT.Ace.Allowed(source, 'group.admin')
-DT.Ace.Has(source, 'group.admin')
+DT.Ace.Allowed(source, 'admin')
+DT.Ace.Has(source, 'admin')
 ```
 
 ACE permission checks should remain server-authoritative.

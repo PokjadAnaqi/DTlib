@@ -438,3 +438,8 @@ exports.DTlib:RegisterAdminTool({
 ```
 
 The registered command must be a client command that opens that resource's existing admin UI. `id` is unique per resource registry; `label` and `description` are shown in the hub. The entry appears only while its registering resource is started. Use `exports.DTlib:UnregisterAdminTool('zombies')` when needed. Register each script's existing panel command; the hub does not discover arbitrary UIs automatically. Keep every panel's own server-side admin checks.
+
+
+## Admin ACE groups — beta.10
+
+DTlib accepts ACE object `admin` or `god` by default. Configure `adminAce` and `godAce` in `DTConfig.Security` if needed. Assign server principals in `server.cfg`; see the Security section above. `DT.Security.IsAdmin(source, ace)` with an explicit ACE checks that exact ACE object.

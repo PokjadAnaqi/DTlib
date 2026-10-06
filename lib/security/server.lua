@@ -6,7 +6,9 @@ end
 
 function DT.Security.IsAdmin(source, ace)
     if source == 0 then return true end
-    return IsPlayerAceAllowed(source, ace or DTConfig.Security.adminAce)
+    if ace then return IsPlayerAceAllowed(source, ace) end
+    local security=DTConfig.Security or {}
+    return IsPlayerAceAllowed(source, security.adminAce or 'admin') or IsPlayerAceAllowed(source, security.godAce or 'god')
 end
 
 function DT.Security.RateLimit(source, key, maxCalls, windowMs)
