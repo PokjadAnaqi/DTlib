@@ -1,4 +1,4 @@
-# DTlib 1.3.0-beta.8
+# DTlib 1.3.0-beta.9
 
 DTlib is a standalone FiveM resource with its own provider registry, UI, callbacks and gameplay helpers. It includes modular provider adapters and shared utilities for DT ecosystem scripts.
 
@@ -27,3 +27,8 @@ This is a pre-release. Simulation checks do not replace live FiveM testing with 
 Full source-pack APIs: `DT.AdapterPack.Get(category, resource)`, `DT.AdapterPack.Call(category, method, ...)`, and `DT.Ecosystem.Utility(name)`. See [full pack integration](docs/ADAPTER_PACK.md) and [source notices](THIRD_PARTY_NOTICES.md).
 
 Provider source now lives directly in `modules/<category>/<provider>`. Utilities are in `lib`, locales in `locales`, and dialogue assets in `web`. The integrations folder has been removed; catalogue and runtime are consolidated.
+
+
+## Central admin hub — beta.9
+
+Open `/dtlib:admin` to see registered ecosystem admin panels. The server checks `DT.Security.RequireAdmin` before opening the hub. Each consumer resource must register its existing panel command with DTlib; see `docs/API.md`. Its own panel must keep its normal server-side permission checks.

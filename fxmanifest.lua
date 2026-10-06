@@ -4,7 +4,7 @@ game 'gta5'
 name 'DTlib'
 author 'DT Ecosystem'
 description 'Independent modular runtime library for DT ecosystem resources'
-version '1.3.0-beta.8'
+version '1.3.0-beta.9'
 
 ui_page 'html/index.html'
 
@@ -31,6 +31,7 @@ client_scripts {
 
     'lib/fivem/client.lua',
     'lib/callback/client.lua',
+    'lib/admin/client.lua',
 
     'modules/ecosystem/runtime.lua',
 
@@ -156,6 +157,7 @@ server_scripts {
     'modules/notify/server.lua',
 
     'lib/security/server.lua',
+    'lib/admin/server.lua',
     'lib/discord/server.lua',
     'modules/waypoint/dtlib/server.lua',
 

@@ -1,7 +1,8 @@
-# 1.3.0-beta.8
+# 1.3.0-beta.9
 
-- Narrow native protection banners to 300px, bounded to the viewport.
-- Retain existing countdown, progress, positions and notification providers.
+- Add `/dtlib:admin` registry hub for ecosystem admin panel commands.
+- Gate hub access through server-side DT.Security.RequireAdmin and rate limit requests.
+- Keep panel-specific authorization in each consumer resource.
 
 # 1.3.0-beta.7
 

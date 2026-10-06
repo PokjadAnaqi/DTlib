@@ -422,4 +422,19 @@ Use `icon='fa-solid fa-shield-halved'` instead of image. Images accept HTTPS, nu
 Banner countdown displays minutes/seconds by default; set countdown=false to hide it. Re-send DT.NotifyBanner with the same id to replace content and refresh its duration. Remove it with DT.RemoveNotifyBanner(id) on client, or DT.RemoveNotifyBanner(source,id) on server. persistent=true leaves the card visible until explicitly removed or UI suspension. Protection/pill authority and persistence belong to the consumer script, not the UI.
 
 
-Beta.8: native banner width is 300px, bounded to viewport width minus 32px. Position alignment is preserved.
+## Central admin hub — beta.9
+
+Open `/dtlib:admin` to display registered, running-resource panels. DTlib checks the caller with `DT.Security.RequireAdmin` on the server and rate-limits hub requests. Existing panels retain their own authorization checks.
+
+Register from each consumer's **client script** after DTlib starts:
+
+```lua
+exports.DTlib:RegisterAdminTool({
+    id = 'zombies',
+    label = 'Zombie Admin',
+    description = 'Manage zombie settings and zones',
+    command = 'zombies:admin' -- command without leading slash
+})
+```
+
+The registered command must be a client command that opens that resource's existing admin UI. `id` is unique per resource registry; `label` and `description` are shown in the hub. The entry appears only while its registering resource is started. Use `exports.DTlib:UnregisterAdminTool('zombies')` when needed. Register each script's existing panel command; the hub does not discover arbitrary UIs automatically. Keep every panel's own server-side admin checks.
