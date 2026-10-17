@@ -172,7 +172,9 @@ DTConfig.Security = {
 DTConfig.Discord = {
     tokenConvar = 'dt_eco_discord_bot_token',
     guildIdConvar = 'dt_eco_discord_guild_id',
-    cacheSeconds = 60
+    cacheSeconds = 60,
+    timeoutMs = 10000,
+    maxCacheEntries = 512
 }
 
 -- DTlib's local provider registry. External resources are optional backends.

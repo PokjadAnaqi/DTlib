@@ -20,4 +20,5 @@ function A:getSlotWithItem(i,m,s) return exports.ox_inventory:GetSlotWithItem(i,
 function A:getSlotsWithItem(i,m,s) return exports.ox_inventory:GetSlotsWithItem(i,m,s) end
 function A:suppressItemNotifications(s) exports.ox_inventory:suppressItemNotifications(s==true); return true end
 function A:getItemData(i) local ok,v=pcall(function() return exports.ox_inventory:Items(i) end); return ok and v or nil end
+function A:items(item) return exports.ox_inventory:Items(item) end
 DT.Modules.Register('inventory','ox_inventory',A)

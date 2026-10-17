@@ -26,3 +26,6 @@
 /* Keep compact banners anchored inside the wider feed lanes. */
 .notify-lane.top-right .notify-banner,.notify-lane.bottom-right .notify-banner,.notify-lane.center-right .notify-banner{align-self:flex-end}
 .notify-lane.top .notify-banner,.notify-lane.bottom .notify-banner{align-self:center}
+
+/* Native menu detail parity. */
+#modal{padding:24px;box-sizing:border-box}.menu-icon{width:26px;flex-shrink:0}.menu-image{width:52px;height:52px;object-fit:contain;flex-shrink:0}.menu-copy{min-width:0;overflow-wrap:anywhere}.menu-metadata{opacity:.8}.menu-copy progress{display:block;width:100%;height:6px;margin-top:8px}

@@ -4,7 +4,7 @@ game 'gta5'
 name 'DTlib'
 author 'DT Ecosystem'
 description 'Independent modular runtime library for DT ecosystem resources'
-version '1.3.0-beta.10'
+version '1.3.0-beta.11'
 
 ui_page 'html/index.html'
 
@@ -47,6 +47,7 @@ client_scripts {
     'modules/inventory/qb-inventory/dt_client.lua',
     'modules/ecosystem/inventory_client.lua',
     'modules/inventory/client.lua',
+    'modules/inventory/catalog.lua',
 
     'modules/target/none/client.lua',
     'modules/target/ox_target/dt_client.lua',
@@ -142,6 +143,7 @@ server_scripts {
     'modules/inventory/qb-inventory/dt_server.lua',
     'modules/ecosystem/inventory_server.lua',
     'modules/inventory/server.lua',
+    'modules/inventory/catalog.lua',
 
     'modules/database/ghmattimysql/server.lua',
     'modules/database/none/server.lua',

@@ -8,6 +8,23 @@ local function call(m,...)
     local a=A(); if not a or type(a[m])~='function' then return nil,'unsupported_backend' end; return a[m](a,...)
 end
 local itemCache={}
+local cacheProvider,cacheFramework
+local function currentProvider()
+    local adapter=A()
+    local framework=DT.Framework.Name and DT.Framework.Name() or ''
+    if cacheProvider~=adapter or cacheFramework~=framework then
+        itemCache={};cacheProvider=adapter;cacheFramework=framework
+    end
+    return adapter
+end
+function DT.Inventory.Supports(method)
+    if type(method)~='string' or method=='' then return false end
+    local aliases={CanCarryItem='canCarry',GetItemCount='getCount',GetInventoryItems='getItems'}
+    local key=aliases[method] or method:sub(1,1):lower()..method:sub(2)
+    local a=currentProvider()
+    if a and a.supports then return a:supports(key)==true end
+    return a~=nil and type(a[key])=='function'
+end
 function DT.Inventory.Name() local a=A(); return a and a.publicName or 'framework' end
 function DT.Inventory.Available() local a=A(); return a and a.resource~='framework' end
 function DT.Inventory.SetGetPlayerNameMethod(cb) if not DTUtils.isCallable(cb) then return false,'callback_required' end; return call('setGetPlayerNameMethod',cb) end
@@ -43,8 +60,29 @@ function DT.Inventory.CanUseWeapons() return not LocalPlayer or not LocalPlayer.
 function DT.Inventory.SetInstance(instance,rep) if not LocalPlayer or not LocalPlayer.state then return false end; LocalPlayer.state:set('instance',instance,rep~=false); return true end
 function DT.Inventory.GetInstance() return LocalPlayer and LocalPlayer.state and LocalPlayer.state.instance or nil end
 function DT.Inventory.GetItemData(item)
-    if type(item)~='string' or item=='' then return nil end; if itemCache[item]~=nil then return itemCache[item] or nil end
-    local d=call('getItemData',item); if type(d)=='table' then d.name=d.name or item; itemCache[item]=d; return d end; itemCache[item]=false
+    if type(item)~='string' or item=='' then return nil,'invalid_item' end
+    local a=currentProvider()
+    local cached=itemCache[item]
+    if cached and GetGameTimer()-cached.at<60000 and GetGameTimer()>=cached.at then
+        return DTUtils.copy(cached.data)
+    end
+    if not a or type(a.getItemData)~='function' then return nil,'unsupported_backend' end
+    local ok,data=pcall(a.getItemData,a,item)
+    if not ok then return nil,'provider_not_ready' end
+    -- Never cache misses: an inventory may still be loading its definitions.
+    if type(data)~='table' then return nil,'item_not_found' end
+    data=DTUtils.copy(data);data.name=data.name or item
+    itemCache[item]={data=data,at=GetGameTimer()}
+    return DTUtils.copy(data)
 end
 function DT.Inventory.GetItemLabel(item) local d=DT.Inventory.GetItemData(item); local l=d and (d.label or d.displayName or d.name); return l and tostring(l) or nil end
 function DT.Inventory.ClearItemCache(item) if type(item)=='string' and item~='' then itemCache[item]=nil else itemCache={} end; return true end
+
+AddEventHandler('onClientResourceStart',function() DT.Inventory.ClearItemCache() end)
+AddEventHandler('onClientResourceStop',function() DT.Inventory.ClearItemCache() end)
+function DT.Inventory.Items(item)
+    local value,err=call('items',item)
+    if value~=nil then return value end
+    if item then return DT.Inventory.GetItemData(item) end
+    return nil,err or 'catalog_unavailable'
+end

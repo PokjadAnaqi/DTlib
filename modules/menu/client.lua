@@ -1,5 +1,7 @@
 local menuItems,menuCallback,activeId,activeProvider,exitCallback={},nil,nil,nil,nil
 local menuId=0
+local canClose=true
+local owner=nil
 local function execute(index)
     local item=menuItems[index]
     if not item or item.disabled or item.readOnly then return end
@@ -15,6 +17,7 @@ local function execute(index)
 end
 function DT.Menu.Open(data,callback)
     data=data or {};menuId=menuId+1
+    canClose=data.canClose~=false;owner=GetInvokingResource() or GetCurrentResourceName()
     local id=tostring(data.id or ('dtlib_menu_%s'):format(menuId))
     menuItems=data.items or data.options or {};menuCallback=callback or data.onSelect
     activeId=id;activeProvider=DT.UI.Adapter('menu',data.provider)
@@ -45,6 +48,10 @@ RegisterNUICallback('menuSelect',function(data,callback)
     if item.shouldClose~=false and item.close~=false then SetNuiFocus(false,false);SendNUIMessage({action='menu:close',data={}}) end
     execute(index)
 end)
-RegisterNUICallback('menuClose',function(_,callback) callback({ok=true});DT.Menu.Close() end)
+RegisterNUICallback('menuClose',function(_,callback) callback({ok=true});if canClose then DT.Menu.Close() end end)
 exports('MenuOpen',function(...) return DT.Menu.Open(...) end)
 exports('MenuClose',function(...) return DT.Menu.Close(...) end)
+
+AddEventHandler('onClientResourceStop',function(resource)
+    if activeId and (resource==owner or resource==GetCurrentResourceName()) then DT.Menu.Close() end
+end)

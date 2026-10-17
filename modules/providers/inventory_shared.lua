@@ -26,7 +26,7 @@ for _,definition in ipairs(DTEcosystemCatalog.inventory.providers) do
     P.Register('inventory',definition.resource,function(resource)
         local spec=specs[resource] or {order='framework'}
         local api={};local stashes={}
-        function api.Items(item) local all=definitions(resource,spec) or {};return item and all[item] or all end
+        function api.Items(item) local all=definitions(resource,spec);if type(all)~='table' then return nil,'catalog_unavailable' end;if item then return all[item] end;return all end
         api.GetItemInfo=api.Items
         function api.GetPlayerInventory(src)
             if resource=='codem-inventory' and P.Server then return P.Export(resource,'GetInventory',DT.Player.GetIdentifier(src),src) end

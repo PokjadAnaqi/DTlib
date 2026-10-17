@@ -30,3 +30,9 @@ RegisterNetEvent('DTlib:client:adminOpen',function()
     DT.Menu.Open({id='dtlib_admin_hub',title='DT SCRIPT ADMIN',subtitle='Registered ecosystem tools',position='center',items=items})
 end)
 RegisterCommand('dtlib:admin',function() TriggerServerEvent('DTlib:server:adminOpen') end,false)
+
+AddEventHandler('onClientResourceStop',function(resource)
+    for key,tool in pairs(registered) do if tool.resource==resource then registered[key]=nil end end
+end)
+-- Consumers may re-register tools when DTlib restarts.
+CreateThread(function() Wait(0);TriggerEvent('DTlib:admin:ready') end)

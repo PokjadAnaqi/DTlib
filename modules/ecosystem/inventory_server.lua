@@ -8,15 +8,19 @@ for _,p in ipairs(DTEcosystemCatalog.inventory.providers) do
     if not p.default and not DT.Modules.Get('inventory',p.resource) then
         local name=p.name
         local A={resource=p.resource,publicName=p.resource}
+        function A:supports(method)
+            local names={items='Items',getItemData='GetItemInfo',getCount='GetItemCount',getItems='GetPlayerInventory',getSlot='GetItemBySlot',canCarry='CanCarryItem',addItem='AddItem',removeItem='RemoveItem',setMetadata='SetMetadata',registerStash='RegisterStash',forceOpen='OpenStash',updateVehicle='UpdatePlate'}
+            return names[method]~=nil and DT.Ecosystem.Supports('inventory',names[method],name)
+        end
         function A:available() return DTConfig.Ecosystem.enabled~=false and DTUtils.isStarted(self.resource) end
         function A:addItem(src,item,count,metadata,slot) return call(name,'AddItem',src,item,count,slot,metadata) end
         function A:removeItem(src,item,count,metadata,slot) return call(name,'RemoveItem',src,item,count,slot,metadata) end
         function A:getCount(...) return call(name,'GetItemCount',...) end
-        function A:canCarry(...) local r,e=call(name,'CanCarryItem',...);return r==true,e end
+        function A:canCarry(...) return call(name,'CanCarryItem',...) end
         function A:getItems(...) return call(name,'GetPlayerInventory',...) end
         function A:getSlot(...) return call(name,'GetItemBySlot',...) end
         function A:getItemData(...) return call(name,'GetItemInfo',...) end
-        function A:items(item) local items=call(name,'Items');return item and items and items[item] or items end
+        function A:items(item) local items,err=call(name,'Items');if type(items)~='table' then return nil,err end;if item then return items[item] end;return items end
         function A:registerStash(...) return call(name,'RegisterStash',...) end
         function A:forceOpen(src,kind,id) return call(name,'OpenStash',src,kind,type(id)=='table' and id.id or id) end
         function A:setMetadata(src,slot,metadata)

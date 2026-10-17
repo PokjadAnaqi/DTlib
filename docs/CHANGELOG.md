@@ -1,3 +1,16 @@
+# 1.3.0-beta.11
+
+- Keep native banners at 300px; support absolute `expiresAt` and discard expired queued cards.
+- Fix inventory misses and stale definition caches across provider changes and resource lifecycle events; copy cached definitions before returning them.
+- Add normalized inventory catalogue/image APIs, per-method capability checks, usable-item facade and positive finite integer validation for add/remove/carry counts.
+- Expose QB/ESX framework catalogue fallback and client-side item definitions; fix unknown item lookup returning the complete registry.
+- Add Discord request timeout, protected decoding, duplicate request coalescing, bounded guild/user cache and rate-limit cooldown handling.
+- Release UI suspension tokens when their owner stops; clean up registered admin tools and native menus on owner stop.
+- Rebind consumer function wrappers after DTlib restart, expose readiness, settle waiting placement/minigame requests and provide restart-aware admin registration.
+- Add database connection-ready probe with caller timeout.
+- Improve native menu image/icon/metadata/progress support, positioning and read-only/canClose handling; render Font Awesome TextUI icons.
+- Correct admin ACE and HTML asset documentation. Consumer-specific fixes and additional proposed gameplay services remain separate work; see BETA11.md.
+
 # 1.3.0-beta.10
 
 - Accept ACE objects `admin` and `god` by default for DTlib admin tools.

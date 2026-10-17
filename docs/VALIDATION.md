@@ -35,3 +35,18 @@ Dialogue files are relocated intact to html/dialogue. The root NUI iframe resolv
 ## beta.7 banner checks
 
 Client/server banner API routing and native provider isolation pass. Renderer tests verify bounded queue, expiry, ID replacement, duplicate stacking, escaped text, image fallback, countdown and removal/clear timer cleanup. Existing Lua/provider/Easytime/lifecycle checks pass. Real FiveM NUI and installed Font Awesome CDN/image availability still require in-game validation.
+
+## beta.11 regression checks
+
+Run the existing Python/Node suites plus `python tests/test_hardening.py` and
+`node tests/test_native_ui.js`. The additions cover inventory miss recovery,
+copied definitions, cache expiry/provider stop, normalized catalogues, invalid
+counts and capability errors; Discord timeout/late response/invalid JSON,
+guild cache isolation, 429 cooldown and concurrent request coalescing; owner UI
+cleanup; stable consumer wrappers across restart; database readiness/failure/
+timeout; native UI detail handling; and absolute banner/queued expiry.
+
+These are simulations. No live FiveM, CEF visual, vendor backend or multiplayer
+performance test is claimed. After installation, check the item selector against
+your actual inventory, admin open/save permissions, restart recovery, provider
+readiness and expired protection banners on a test server.

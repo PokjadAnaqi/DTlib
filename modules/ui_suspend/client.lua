@@ -1,4 +1,5 @@
 local suspendTokens = {}
+local tokenOwners = {}
 local suspendCount = 0
 local tokenCounter = 0
 local restoreState = nil
@@ -294,6 +295,7 @@ function DT.UI.RestorePlacement(force)
     for token, reason in pairs(suspendTokens) do
         if reason == 'placement' then
             suspendTokens[token] = nil
+        tokenOwners[token] = nil
             suspendCount = math.max(0, suspendCount - 1)
             removed = true
         end
@@ -321,6 +323,7 @@ function DT.UI.Suspend(reason)
     tokenCounter = tokenCounter + 1
     local token = ('dtlib-ui-%s-%s'):format(GetGameTimer(), tokenCounter)
     suspendTokens[token] = reason
+    tokenOwners[token] = GetInvokingResource() or GetCurrentResourceName()
     suspendCount = suspendCount + 1
 
     if suspendCount == 1 then
@@ -341,9 +344,11 @@ function DT.UI.Resume(token)
 
     if token and reason then
         suspendTokens[token] = nil
+        tokenOwners[token] = nil
         suspendCount = math.max(0, suspendCount - 1)
     elseif not token and suspendCount > 0 then
         suspendTokens = {}
+        tokenOwners = {}
         suspendCount = 0
         reason = 'unknown'
     else
@@ -379,3 +384,17 @@ exports('UIResume', DT.UI.Resume)
 exports('UIIsSuspended', DT.UI.IsSuspended)
 exports('UIRestorePlacement', DT.UI.RestorePlacement)
 exports('UIRecoverPlacement', DT.UI.RestorePlacement)
+
+-- Resource stop cleanup releases only that owner's tokens. Nested owners remain suspended.
+AddEventHandler('onClientResourceStop',function(resource)
+    if resource==GetCurrentResourceName() then
+        if suspendCount>0 then
+            suspendTokens={};tokenOwners={};suspendCount=0;restoreGeneration=restoreGeneration+1
+            applyExternalRestore(restoreState or lastPlacementState or {},true,'resource_stop')
+        end
+        return
+    end
+    local owned={}
+    for token,owner in pairs(tokenOwners) do if owner==resource then owned[#owned+1]=token end end
+    for _,token in ipairs(owned) do DT.UI.Resume(token) end
+end)

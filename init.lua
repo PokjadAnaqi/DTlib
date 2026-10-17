@@ -27,9 +27,20 @@ local function wrapCfxFunctionRef(ref)
     end
 end
 
-local function normalizeFunctionRefs(value, seen)
-    if isCfxFunctionRef(value) then
-        return wrapCfxFunctionRef(value)
+local liveObject
+local ready=false
+local function liveFunction(path)
+    return function(...)
+        if not ready then return nil,'dtlib_unavailable' end
+        local fn=liveObject
+        for _,key in ipairs(path) do fn=type(fn)=='table' and fn[key] or nil end
+        if type(fn)~='function' and not isCfxFunctionRef(fn) then return nil,'unsupported_api' end
+        return fn(...)
+    end
+end
+local function normalizeFunctionRefs(value, seen, path)
+    if isCfxFunctionRef(value) or type(value)=='function' then
+        return liveFunction(path or {})
     end
 
     if type(value) ~= 'table' then
@@ -45,8 +56,8 @@ local function normalizeFunctionRefs(value, seen)
     seen[value] = normalized
 
     for key, entry in pairs(value) do
-        local normalizedKey = normalizeFunctionRefs(key, seen)
-        normalized[normalizedKey] = normalizeFunctionRefs(entry, seen)
+        local entryPath={table.unpack(path or {})};entryPath[#entryPath+1]=key
+        normalized[key] = normalizeFunctionRefs(entry, seen, entryPath)
     end
 
     return normalized
@@ -60,6 +71,7 @@ if not ok or type(object) ~= 'table' then
     error(('[DTlib] Failed to acquire DT object for %s: %s'):format(resource, tostring(object)), 2)
 end
 
+liveObject=object;ready=true
 DT = normalizeFunctionRefs(object)
 DTlib = DT
 
@@ -116,6 +128,7 @@ if not IsDuplicityVersion() then
     end)
 
     local function placementRequest(action, payload, options)
+        if not ready then return {confirmed=false,cancelled=true,reason='dtlib_unavailable'} end
         local token = newPlacementToken()
         local handle = promise.new()
         placementPending[token] = {
@@ -140,6 +153,13 @@ if not IsDuplicityVersion() then
         return result
     end
 
+    AddEventHandler('onClientResourceStop',function(name)
+        if name~='DTlib' then return end
+        placementActiveToken=nil
+        for token,pending in pairs(placementPending) do
+            placementPending[token]=nil;pending.promise:resolve({confirmed=false,cancelled=true,reason='dtlib_stopped'})
+        end
+    end)
     local Placement = {}
 
     function Placement.Edit(entity, options)
@@ -237,6 +257,7 @@ if not IsDuplicityVersion() then
     end)
 
     local function minigameRequest(game, payload, onNode)
+        if not ready then return false,'dtlib_unavailable' end
         if minigameActive[game] then return false, 'busy' end
 
         local token = nextMinigameToken(game)
@@ -253,6 +274,13 @@ if not IsDuplicityVersion() then
         return result.success == true, result.reason
     end
 
+    AddEventHandler('onClientResourceStop',function(name)
+        if name~='DTlib' then return end
+        minigameActive={skill=nil,signal=nil,pattern=nil}
+        for token,pending in pairs(minigamePending) do
+            minigamePending[token]=nil;pending.promise:resolve({success=false,reason='dtlib_stopped'})
+        end
+    end)
     local Minigame = {}
 
     function Minigame.Provider(game)
@@ -394,6 +422,7 @@ if not IsDuplicityVersion() then
         pending[token]=nil;waiter:resolve(result)
     end)
     local function uiRequest(action,data)
+        if not ready then return nil,'dtlib_unavailable' end
         sequence=sequence+1
         local token=('%s:%s:ui:%s'):format(resource,GetGameTimer(),sequence)
         local waiter=promise.new();pending[token]=waiter
@@ -408,5 +437,57 @@ if not IsDuplicityVersion() then
     AddEventHandler('onClientResourceStop',function(name)
         if name~='DTlib' then return end
         for token,waiter in pairs(pending) do pending[token]=nil;waiter:resolve({n=2,[2]='dtlib_stopped'}) end
+    end)
+end
+
+-- Stable local function wrappers rebind to the new DTlib object after a restart.
+function DT.IsReady() return ready end
+function DT.AwaitReady(timeoutMs)
+    timeoutMs=tonumber(timeoutMs) or 10000
+    if timeoutMs~=timeoutMs or timeoutMs<0 or timeoutMs==math.huge then return false,'invalid_timeout' end
+    local deadline=GetGameTimer()+math.min(timeoutMs,60000)
+    while not ready do
+        if GetGameTimer()>=deadline then return false,'dtlib_timeout' end
+        Wait(50)
+    end
+    return true
+end
+local resourceStart=IsDuplicityVersion() and 'onResourceStart' or 'onClientResourceStart'
+local resourceStop=IsDuplicityVersion() and 'onResourceStop' or 'onClientResourceStop'
+local generation=0
+AddEventHandler(resourceStop,function(name)
+    if name=='DTlib' then generation=generation+1;ready=false;liveObject=nil end
+end)
+AddEventHandler(resourceStart,function(name)
+    if name~='DTlib' then return end
+    generation=generation+1;local current=generation
+    CreateThread(function()
+        for attempt=1,100 do
+            if current~=generation then return end
+            local success,fresh=pcall(function() return exports.DTlib:GetObject() end)
+            if success and type(fresh)=='table' then
+                liveObject=fresh;ready=true;DT.Version=fresh.Version
+                TriggerEvent('DTlib:consumer:ready',resource,DT.Version)
+                return
+            end
+            Wait(100)
+        end
+    end)
+end)
+if not IsDuplicityVersion() then
+    local tools={}
+    DT.Admin=DT.Admin or {}
+    function DT.Admin.RegisterTool(data)
+        local success,err=exports.DTlib:RegisterAdminTool(data)
+        if success then tools[data.id]=data end
+        return success,err
+    end
+    function DT.Admin.UnregisterTool(id)
+        tools[id]=nil
+        if not ready then return true end
+        return exports.DTlib:UnregisterAdminTool(id)
+    end
+    AddEventHandler('DTlib:admin:ready',function()
+        for _,data in pairs(tools) do exports.DTlib:RegisterAdminTool(data) end
     end)
 end

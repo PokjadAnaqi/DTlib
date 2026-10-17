@@ -44,6 +44,7 @@ const DTNotifications = (() => {
         }
     }
     function arm(l,card) {
+        if(card.data.deadline!=null)card.data.duration=Math.max(0,card.data.deadline-Date.now());
         clearTimeout(card.timer);clearInterval(card.interval);render(card);
         if(card.data.persistent)return;
         const end=Date.now()+card.data.duration;
@@ -56,11 +57,18 @@ const DTNotifications = (() => {
     }
     function pump(l) {
         while(l.queue.length && l.active.length < l.limit) {
-            const card=l.queue.shift();card.el=document.createElement('div');l.el.appendChild(card.el);l.active.push(card);arm(l,card);
+            const card=l.queue.shift();if(card.data.deadline!=null&&card.data.deadline<=Date.now())continue;card.el=document.createElement('div');l.el.appendChild(card.el);l.active.push(card);arm(l,card);
         }
     }
     function send(raw) {
-        const d=clean(raw),l=lane(d.position);
+        const d=clean(raw);
+        if(Number.isFinite(Number(raw.expiresAt))&&Number(raw.expiresAt)>0){
+            const serverTime=Number(raw.serverTime);
+            d.deadline=serverTime>0?Date.now()+(Number(raw.expiresAt)-serverTime)*1000:Number(raw.expiresAt)*1000;
+            d.persistent=false;
+            if(d.deadline<=Date.now()){if(d.id!=null)remove(d.id);return;}
+        }
+        const l=lane(d.position);
         l.limit=Math.max(1,Math.min(8,Number(d.maxVisible)||5));
         const match=l.active.concat(l.queue).find(c=>d.id!=null ? c.data.id===d.id : d.stack!==false && c.data.stack!==false && c.data.id==null && key(c.data)===key(d));
         if(match) {match.data=d;if(d.id==null)match.count++;if(match.el)arm(l,match);return;}

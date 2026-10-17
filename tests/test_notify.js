@@ -24,3 +24,12 @@ send({image:'nui://ox_inventory/web/images/pill.png',title:'IMAGE',progress:fals
 vm.runInContext('DTNotifications.clear()',ctx);
 send({id:'protection',title:'Protection',duration:1800000,countdown:true});card=root.children[0].children[0];assert.equal(card.remaining,undefined);assert.equal(card.children[1].children.at(-1).textContent,'30 minutes 0 seconds');advance(1000);[...intervals.values()].forEach(f=>f());assert.equal(card.children[1].children.at(-1).textContent,'29 minutes 59 seconds');vm.runInContext("DTNotifications.remove('protection')",ctx);assert.equal(intervals.size,0);assert.equal(root.children[0].children.length,0);
 console.log('Native banners: queue/lifetime, ID replacement, stacking, safe text, image fallback and timer cleanup PASS');
+vm.runInContext('DTNotifications.clear()',ctx);
+send({id:'blocker',title:'Blocker',duration:5000});
+send({id:'expired',title:'Expired queued banner',expiresAt:1001,serverTime:1000});
+advance(5180);assert.equal(root.children[0].children.length,0);
+send({id:'absolute',title:'Absolute',expiresAt:1100,serverTime:1000,countdown:true});
+advance(20000);[...intervals.values()].forEach(f=>f());
+assert.equal(root.children[0].children[0].children[1].children.at(-1).textContent,'1 minute 20 seconds');
+send({id:'absolute',expiresAt:1000,serverTime:1001});assert.equal(root.children[0].children.length,0);
+console.log('Absolute banner expiry, queued expiry and expired ID removal PASS');

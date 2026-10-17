@@ -208,7 +208,12 @@ if not DT.Security.RateLimit(source, 'claim_reward', 3, 10000) then return end
 if not DT.Security.RequireAdmin(source) then return end
 ```
 
-Default admin ACE is `group.admin`.
+Default admin ACE objects are `admin` or `god`, granted to the matching server principals:
+
+```cfg
+add_ace group.god god allow
+add_ace group.admin admin allow
+```
 
 ## Discord (server)
 
@@ -443,3 +448,10 @@ The registered command must be a client command that opens that resource's exist
 ## Admin ACE groups — beta.10
 
 DTlib accepts ACE object `admin` or `god` by default. Configure `adminAce` and `godAce` in `DTConfig.Security` if needed. Assign server principals in `server.cfg`; see the Security section above. `DT.Security.IsAdmin(source, ace)` with an explicit ACE checks that exact ACE object.
+
+## beta.11 additions
+
+See [BETA11.md](BETA11.md) for inventory `GetCatalog`, `GetItemImage`, `Supports`,
+`RegisterUsableItem`, database `AwaitReady`, consumer readiness/rebinding,
+restart-aware `DT.Admin.RegisterTool`, Discord failure handling and banner expiry.
+It also documents the changed unsupported `CanCarry` result and upgrade limits.
