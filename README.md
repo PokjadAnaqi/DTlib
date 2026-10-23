@@ -1,4 +1,4 @@
-# DTlib 1.3.0-beta.11
+# DTlib 1.3.0
 
 DTlib is a standalone FiveM resource with its own provider registry, UI, callbacks and gameplay helpers. It includes modular provider adapters and shared utilities for DT ecosystem scripts.
 
@@ -23,7 +23,11 @@ Optional provider resources are installed separately. The default manifest uses 
 - [Changelog](docs/CHANGELOG.md)
 - [beta.11 ecosystem migration and API additions](docs/BETA11.md)
 
-This is a pre-release. Simulation checks do not replace live FiveM testing with your installed vendor versions. Licensed under GPL-3.0; see [LICENSE](LICENSE).
+Official 1.3.0 release. Simulation checks do not replace live FiveM testing with your installed vendor versions. Licensed under GPL-3.0; see [LICENSE](LICENSE).
+
+Discord profile/avatar lookup only requires the shared server convar
+`dt_eco_discord_bot_token` and the player's Discord identifier. Guild ID is
+optional for profiles and required only for roles/guild membership checks.
 
 Full source-pack APIs: `DT.AdapterPack.Get(category, resource)`, `DT.AdapterPack.Call(category, method, ...)`, and `DT.Ecosystem.Utility(name)`. See [full pack integration](docs/ADAPTER_PACK.md) and [source notices](THIRD_PARTY_NOTICES.md).
 

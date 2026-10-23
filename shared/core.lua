@@ -1,5 +1,5 @@
 DT = DT or {}
-DT.Version = '1.3.0-beta.11'
+DT.Version = '1.3.0'
 DT.Config = DTConfig
 DT.Utils = DTUtils
 

@@ -1,3 +1,11 @@
+# 1.3.0 — official
+
+- Promote the 1.3.0 beta line to the official release, including the Discord token-only profile/avatar hotfix below.
+- Align resource metadata and `DT.Version` with `1.3.0`; publish as a normal release rather than a pre-release.
+- Retain the full provider registry, Lation/okok integrations, native UI, callbacks, gameplay helpers, inventory hardening and restart recovery from beta.11.
+- Keep HTML-only UI assets, 300px banners, `admin`/`god` ACE defaults and the shared Discord token convar.
+- Package the resource as `DTlib.zip` with one `DTlib/` root. Simulation validation is documented; live vendor/FiveM testing remains deployment-specific.
+
 # beta.11 Discord profile hotfix
 
 - Fetch global user profiles and avatars through `/users/{id}` using the shared bot token, without requiring a Guild ID.
