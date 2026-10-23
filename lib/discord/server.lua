@@ -7,7 +7,7 @@ local function bounded(value,default,min,max)
     return math.max(min,math.min(max,value))
 end
 local function token() return GetConvar(config().tokenConvar or 'dt_eco_discord_bot_token','') end
-local function guildId() return GetConvar(config().guildIdConvar or 'dt_discord_guild_id','') end
+local function guildId() return GetConvar(config().guildIdConvar or 'dt_eco_discord_guild_id','') end
 local function discordId(source)
     local identifier=GetPlayerIdentifierByType(source,'discord')
     return identifier and identifier:match('^discord:(%d+)$') or nil
@@ -52,20 +52,18 @@ local function request(endpoint)
     return result.data,result.error
 end
 function DT.Discord.GetId(source) return discordId(source) end
-function DT.Discord.GetMember(source,force)
-    local id,guild=discordId(source),guildId()
-    if not id then return nil,'missing_discord_identifier' end
-    if guild=='' then return nil,'missing_discord_guild_id' end
-    if not guild:match('^%d+$') then return nil,'invalid_discord_guild_id' end
-    local key=guild..':'..id
+local function cachedRequest(key,endpoint,force)
     local now=os.time()
     if not force and cache[key] and cache[key].expires>now then return DTUtils.copy(cache[key].data) end
     if pending[key] then
         local result=Citizen.Await(pending[key]);return result.data and DTUtils.copy(result.data),result.error
     end
     local waiter=promise.new();pending[key]=waiter
-    local ok,data,err=pcall(request,('/guilds/%s/members/%s'):format(guild,id))
+    local ok,data,err=pcall(request,endpoint)
     if not ok then data=nil;err='discord_request_failed' end
+    if data and key:sub(1,5)=='user:' and tostring(data.id or '')~=key:sub(6) then
+        data=nil;err='discord_invalid_user'
+    end
     if data then
         local total,oldest,oldestExpiry=0,nil,math.huge
         for k,entry in pairs(cache) do
@@ -79,16 +77,43 @@ function DT.Discord.GetMember(source,force)
     pending[key]=nil;waiter:resolve({data=data,error=err})
     return data and DTUtils.copy(data),err
 end
+function DT.Discord.GetUser(source,force)
+    local id=discordId(source)
+    if not id then return nil,'missing_discord_identifier' end
+    local data,err=cachedRequest('user:'..id,('/users/%s'):format(id),force)
+    if not data then return nil,err end
+    if tostring(data.id or '')~=id then return nil,'discord_invalid_user' end
+    return data
+end
+function DT.Discord.GetMember(source,force)
+    local id,guild=discordId(source),guildId()
+    if not id then return nil,'missing_discord_identifier' end
+    if guild=='' then
+        -- Compatibility for profile consumers that already read member.user.
+        -- This is not proof of guild membership and must never grant a role.
+        local user,err=DT.Discord.GetUser(source,force)
+        if not user then return nil,err end
+        return {user=user,roles={},profileOnly=true}
+    end
+    if not guild:match('^%d+$') then return nil,'invalid_discord_guild_id' end
+    return cachedRequest('member:'..guild..':'..id,('/guilds/%s/members/%s'):format(guild,id),force)
+end
 function DT.Discord.ClearCache() cache={};return true end
 function DT.Discord.HasRole(source,roleId)
+    if guildId()=='' then return false,'missing_discord_guild_id' end
     local member,err=DT.Discord.GetMember(source)
     if not member then return false,err end
     return DTUtils.tableContains(member.roles or {},tostring(roleId))
 end
-function DT.Discord.GetAvatar(source)
-    local member,err=DT.Discord.GetMember(source)
-    if not member then return nil,err end
-    local user=member.user or {}
+function DT.Discord.GetAvatar(source,force)
+    -- Global avatars belong to the user, not to a guild member.
+    local user,err=DT.Discord.GetUser(source,force)
+    if not user and guildId()~='' then
+        local member,memberErr=DT.Discord.GetMember(source,force)
+        user=member and member.user
+        err=memberErr or err
+    end
+    if not user then return nil,err end
     if not user.id then return nil,'missing_user' end
     if user.avatar then return ('https://cdn.discordapp.com/avatars/%s/%s.png?size=256'):format(user.id,user.avatar) end
     local discriminator=tonumber(user.discriminator) or 0

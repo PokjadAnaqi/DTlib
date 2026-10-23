@@ -12,14 +12,19 @@ Use `settings/clientConfig.lua` and `settings/serverConfig.lua` for settings tha
 
 ## Discord
 
-Discord credentials are intentionally kept outside the resource. These are the only convars DTlib reads:
+Discord credentials stay outside the resource. Profiles and global avatars only
+require this shared server convar (use `set`, not replicated `setr`):
 
 ```cfg
 set dt_eco_discord_bot_token "YOUR_TOKEN"
-set dt_eco_discord_guild_id "YOUR_GUILD_ID"
+# Optional, for roles/guild membership only:
+# set dt_eco_discord_guild_id "YOUR_GUILD_ID"
 ```
 
 Never store the bot token inside the DTlib resource.
+Players still need a `discord:` identifier. Missing identifiers, inaccessible
+users, invalid tokens and API errors are reported to callers; they are not fixed
+by removing the Guild ID requirement. Keep an avatar placeholder on failure.
 
 ## v1.2.0 ecosystem expansion
 

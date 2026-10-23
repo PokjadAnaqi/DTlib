@@ -1,3 +1,10 @@
+# beta.11 Discord profile hotfix
+
+- Fetch global user profiles and avatars through `/users/{id}` using the shared bot token, without requiring a Guild ID.
+- Add `DT.Discord.GetUser` and keep the `GetMember().user` profile shape when the Guild ID is omitted, marked `profileOnly = true` with no roles.
+- Keep role checks fail-closed without a Guild ID; retain timeout, request coalescing, cache limits and rate-limit handling.
+- Do not modify the published beta.11 tag; this hotfix is delivered from main and the updated installation ZIP.
+
 # 1.3.0-beta.11
 
 - Keep native banners at 300px; support absolute `expiresAt` and discard expired queued cards.

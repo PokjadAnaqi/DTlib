@@ -219,12 +219,28 @@ add_ace group.admin admin allow
 
 ```lua
 local discordId = DT.Discord.GetId(source)
+local user = DT.Discord.GetUser(source) -- global profile; no Guild ID required
 local member = DT.Discord.GetMember(source)
 local premium = DT.Discord.HasRole(source, 'ROLE_ID')
 local avatar = DT.Discord.GetAvatar(source)
 ```
 
-Token is read from `dt_eco_discord_bot_token`; guild ID from `dt_eco_discord_guild_id`.
+Profiles and global avatars only require `dt_eco_discord_bot_token` plus the
+player's `discord:` identifier. `GetUser(source, force)` returns the Discord user
+object; `GetAvatar(source, force)` uses that user's avatar and does not require
+a Guild ID. No real token is stored in this resource.
+
+`dt_eco_discord_guild_id` is optional for profiles, but required for role checks
+and actual guild-member data. Without it, `GetMember` returns
+`{user = user, roles = {}, profileOnly = true}` for compatibility with existing
+profile consumers. This is not evidence of guild membership. `HasRole` returns
+`false, 'missing_discord_guild_id'` when no Guild ID is configured.
+
+```cfg
+set dt_eco_discord_bot_token "YOUR_BOT_TOKEN"
+# Only for role/membership checks:
+# set dt_eco_discord_guild_id "YOUR_GUILD_ID"
+```
 
 ## Vehicle (client)
 
