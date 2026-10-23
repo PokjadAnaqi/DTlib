@@ -1,3 +1,10 @@
+# 1.3.1
+
+- Add a central DTlib official-release checker at server start and every 60 minutes by default.
+- Print one DTlib update notice and a sorted list of active resources using DTlib; never print per-consumer dependency-outdated warnings.
+- Detect consumers from dependency metadata or @DTlib script imports. Suppress duplicate messages for the same installed/latest pair; bound requests with timeout and use ETag caching.
+- Add UpdateCheck settings, CheckForUpdates and GetDTlibConsumers exports, with semantic version comparison including beta-to-official ordering.
+
 # 1.3.0 — official
 
 - Promote the 1.3.0 beta line to the official release, including the Discord token-only profile/avatar hotfix below.

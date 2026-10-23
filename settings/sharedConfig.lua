@@ -195,3 +195,12 @@ DTConfig.Ecosystem = {
 
 -- Awaited cross-resource callbacks fail cleanly if the other side never replies.
 DTConfig.CallbackTimeout = 30000
+
+-- One central official-release check; consumer resources are listed, not checked.
+DTConfig.UpdateCheck = {
+    enabled = true,
+    intervalMinutes = 60,
+    logUpToDate = true,
+    listConsumers = true,
+    includeStopped = false
+}
