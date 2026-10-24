@@ -1,16 +1,16 @@
 ---@diagnostic disable: duplicate-set-field
-if GetResourceState('Renewed-Weathersync') == 'missing' then return end
+if GetResourceState('cd_easytime') == 'missing' then return end
 Weather = Weather or {}
 
 ---This will toggle the players weather/time sync
 ---@param toggle boolean
 ---@return nil
 Weather.ToggleSync = function(toggle)
-    LocalPlayer.state.syncWeather = toggle
+    TriggerEvent('cd_easytime:PauseSync', not toggle)
 end
 
 Weather.GetResourceName = function()
-    return "renewed-weathersync"
+    return "cd_easytime"
 end
 
 return Weather

@@ -1,3 +1,9 @@
+# Unreleased
+
+- Consolidate weather adapters and legacy compatibility APIs into one folder per provider.
+- Make automatic ecosystem weather selection and runtime status use DT.Weather.Name(), including Easytime before QB compatibility aliases.
+- Refresh source paths and preserve short provider aliases.
+
 # 1.3.1
 
 - Add a central DTlib official-release checker at server start and every 60 minutes by default.
@@ -112,3 +118,4 @@
 - Added source, manifest, provider initialization and behavioral contract tests.
 
 This version changes the legacy helper loader and native skill persistence. See [MIGRATION.md](MIGRATION.md). Older release history remains in the repository tags.
+
