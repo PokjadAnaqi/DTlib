@@ -54,6 +54,11 @@ local function selectProvider(category, wanted)
     if not P.Enabled() then return nil,'disabled' end
     wanted=wanted or configured(category)
     if wanted=='none' or wanted=='disabled' or wanted=='off' then return nil,'disabled' end
+    if category=='weather' then
+        wanted=tostring(wanted):lower()
+        wanted=({qb='qb-weathersync',renewed='Renewed-Weathersync',easytime='cd_easytime',['cd-easytime']='cd_easytime'})[wanted] or wanted
+        if wanted=='auto' and DT.Weather.Name then wanted=DT.Weather.Name() end
+    end
     wanted=resourceAliases[wanted] or wanted
     if wanted=='qb' then wanted=category=='inventory' and 'qb-inventory' or category=='target' and 'qb-target' or 'qb-core' end
     for _,definition in ipairs(catalog.providers) do
@@ -290,6 +295,11 @@ local function choose(category, forced)
     local catalog=DTAdapterCatalog[category]
     if not catalog then return nil,'unknown_category' end
     local wanted=tostring(forced or config(category))
+    if category=='weather' then
+        wanted=wanted:lower()
+        wanted=({qb='qb-weathersync',renewed='Renewed-Weathersync',easytime='cd_easytime',['cd-easytime']='cd_easytime'})[wanted] or wanted
+        if wanted=='auto' and DT.Weather.Name then wanted=DT.Weather.Name() end
+    end
     if wanted=='disabled' or wanted=='none' or wanted=='off' then return nil,'disabled' end
     local aliases={lation='lation_ui',lationui='lation_ui',ox='ox_lib',oxlib='ox_lib',dt='native',dtlib='native',dtgrid='ox_inventory',qb=category=='inventory' and 'qb-inventory' or category=='target' and 'qb-target' or 'qb-core'}
     wanted=aliases[wanted] or wanted
@@ -346,6 +356,9 @@ function E.Get(category, forced)
     if not enabled() then return nil,'disabled' end
     local p,reason=choose(category,forced)
     if not p then return nil,reason end
+    -- Weather has a live DTlib provider factory; keep legacy calls on that same
+    -- selection instead of pinning the first source-pack weather module.
+    if category=='weather' and DT.Weather.Name then return DT.Ecosystem.Get(category,p.resource) end
     local cached=selected[category]
     if cached then
         if cached.name==p.name then return env[namespace(category)] end

@@ -883,19 +883,19 @@
     },
     {
       "upstream": "modules/weather/_default/client.lua",
-      "dtlib": "modules/weather/_default/client.lua"
+      "dtlib": "modules/weather/native/compat.lua"
     },
     {
       "upstream": "modules/weather/cd_easytime/client.lua",
-      "dtlib": "modules/weather/cd_easytime/client.lua"
+      "dtlib": "modules/weather/cd_easytime/compat.lua"
     },
     {
       "upstream": "modules/weather/qb-weathersync/client/client.lua",
-      "dtlib": "modules/weather/qb-weathersync/client/client.lua"
+      "dtlib": "modules/weather/qb-weathersync/compat.lua"
     },
     {
       "upstream": "modules/weather/renewed-weathersync/client/client.lua",
-      "dtlib": "modules/weather/renewed-weathersync/client/client.lua"
+      "dtlib": "modules/weather/renewed-weathersync/compat.lua"
     },
     {
       "upstream": "modules/zones/oxlib/client.lua",
@@ -1223,3 +1223,4 @@
     }
   ]
 }
+

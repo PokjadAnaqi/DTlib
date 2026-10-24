@@ -5,14 +5,14 @@ manifest = (ROOT / 'fxmanifest.lua').read_text()
 client = (ROOT / 'modules/weather/client.lua').read_text()
 server = (ROOT / 'modules/weather/server.lua').read_text()
 
-assert "modules/weather/cd_easytime/dt_client.lua" in manifest
-assert "modules/weather/cd_easytime/dt_server.lua" in manifest
+assert "modules/weather/cd_easytime/client.lua" in manifest
+assert "modules/weather/cd_easytime/server.lua" in manifest
 assert "'cd_easytime'" in client
 assert "'cd_easytime'" in server
 assert "{'Renewed-Weathersync','cd_easytime','qb-weathersync'}" in client
 assert "{'Renewed-Weathersync','cd_easytime','qb-weathersync'}" in server
-assert (ROOT / 'modules/weather/cd_easytime/dt_client.lua').exists()
-assert (ROOT / 'modules/weather/cd_easytime/dt_server.lua').exists()
+assert (ROOT / 'modules/weather/cd_easytime/client.lua').exists()
+assert (ROOT / 'modules/weather/cd_easytime/server.lua').exists()
 
 from harness import load_manifest
 for server_side in [False, True]:
@@ -40,3 +40,4 @@ for server_side in [False, True]:
     else:
         lua.execute('local t=DT.Weather.GetTime();assert(t.hour==15 and t.minute==20 and t.second==25)')
 print('Easytime client/server auto priority, exports, normalization, aliases, snapshots and legacy fallback PASS')
+

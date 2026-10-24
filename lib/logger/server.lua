@@ -97,9 +97,7 @@ function DT.Logger.GetRuntimeStatus()
         ox = 'oxmysql'
     }, {'oxmysql', 'ghmattimysql'})
 
-    local weather = detect(DTConfig.Adapters.weather, {
-        renewed = 'Renewed-Weathersync', qb = 'qb-weathersync'
-    }, {'Renewed-Weathersync', 'qb-weathersync', 'cd_easytime'})
+    local weather = DT.Weather.Name and DT.Weather.Name() or 'native'
 
     local uiConfigured = DTConfig.Adapters.ui or 'auto'
     if uiConfigured == 'lation' or uiConfigured == 'lationui' then uiConfigured = 'lation_ui' end
@@ -203,3 +201,4 @@ AddEventHandler('onResourceStop', function(resource)
     if not category or not DTConfig.Console.resourceEvents then return end
     DT.Logger.Warn('RESOURCE', ('%s backend stopped: %s'):format(category, resource))
 end)
+
