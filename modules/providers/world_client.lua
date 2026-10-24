@@ -1,7 +1,7 @@
 local P=DT.Providers
 for _,definition in ipairs(DTEcosystemCatalog.target.providers) do
     P.Register('target',definition.resource,function(resource)
-        local adapter=DT.Modules.Get('target',resource=='native' and 'none' or resource);assert(adapter,'target_adapter_missing')
+        local adapter=DT.Modules.Get('target',DTConfig.Interaction and DTConfig.Interaction.mode=='interact' and 'dtlib_interact' or resource=='native' and 'none' or resource);assert(adapter,'target_adapter_missing')
         local api={}
         local function call(method,...)
             if not adapter[method] then return nil,'unsupported_method:'..method end

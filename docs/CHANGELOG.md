@@ -1,3 +1,10 @@
+# 1.4.0-beta.1
+
+- Add React/TSX native menu, input, TextUI and progress UI with compiled html/dist assets.
+- Add opt-in DT.Target E/DUI interactions with zones/entities/models, gates and owner cleanup.
+- Preserve default ox_target/qb-target routing and 300px notification banners.
+- See BETA140.md for setup, compatibility scope and live testing requirements.
+
 # 1.3.2
 
 - Consolidate weather adapters and legacy compatibility APIs into one folder per provider.

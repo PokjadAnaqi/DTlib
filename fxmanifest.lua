@@ -4,9 +4,9 @@ game 'gta5'
 name 'DTlib'
 author 'DT Ecosystem'
 description 'Independent modular runtime library for DT ecosystem resources'
-version '1.3.2'
+version '1.4.0-beta.1'
 
-ui_page 'html/index.html'
+ui_page 'html/dist/index.html'
 
 files {
     'init.lua',
@@ -53,6 +53,7 @@ client_scripts {
     'modules/target/ox_target/dt_client.lua',
     'modules/target/qb-target/dt_client.lua',
     'modules/target/sleepless_interact/dt_client.lua',
+    'modules/target/interact/client.lua',
     'modules/target/client.lua',
 
     'modules/notify/lation_ui/dt_client.lua',

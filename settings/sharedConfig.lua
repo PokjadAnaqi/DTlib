@@ -1,6 +1,9 @@
 DTConfig = DTConfig or {}
 
 DTConfig.Debug = false
+-- Beta opt-in. target retains the installed target resource's UI.
+-- interact routes DT.Target registrations to DTlib's E/DUI engine.
+DTConfig.Interaction = {mode='target', key='E', drawDistance=8.0, interactDistance=2.0, requireLook=true, maxOptions=5}
 DTConfig.Strict = false
 
 DTConfig.Adapters = {

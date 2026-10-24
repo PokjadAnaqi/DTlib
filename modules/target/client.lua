@@ -1,6 +1,9 @@
 local aliases={ox='ox_target',qb='qb-target'}
 local managed={}
-local function A() return DT.Modules.Resolve('target',DTConfig.Adapters.target,{'ox_target','qb-target','sleepless_interact'},aliases,'none') end
+local function A()
+    if DTConfig.Interaction and DTConfig.Interaction.mode=='interact' then return DT.Modules.Get('target','dtlib_interact') end
+    return DT.Modules.Resolve('target',DTConfig.Adapters.target,{'ox_target','qb-target','sleepless_interact'},aliases,'none')
+end
 local function call(m,...) local a=A(); if not a or type(a[m])~='function' then return nil,'unsupported_backend' end; return a[m](a,...) end
 function DT.Target.Name() local a=A(); return a and a.publicName or 'none' end
 function DT.Target.Available() local a=A(); return a and a.resource~='none' end

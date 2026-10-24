@@ -85,3 +85,4 @@ const DTNotifications = (() => {
     return {send,clear,remove};
 })();
 function notify(data) { DTNotifications.send(data); }
+if(typeof window!=='undefined')window.DTNotifications=DTNotifications;
