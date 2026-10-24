@@ -4,7 +4,7 @@ game 'gta5'
 name 'DTlib'
 author 'DT Ecosystem'
 description 'Independent modular runtime library for DT ecosystem resources'
-version '1.3.1'
+version '1.3.2'
 
 ui_page 'html/index.html'
 
@@ -177,4 +177,3 @@ server_scripts {
     'modules/version/server/update.lua',
     'modules/bootstrap/server.lua'
 }
-

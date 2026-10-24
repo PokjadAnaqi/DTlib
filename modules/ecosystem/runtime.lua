@@ -358,7 +358,7 @@ function E.Get(category, forced)
     if not p then return nil,reason end
     -- Weather has a live DTlib provider factory; keep legacy calls on that same
     -- selection instead of pinning the first source-pack weather module.
-    if category=='weather' then return DT.Ecosystem.Get(category,p.resource) end
+    if category=='weather' and DT.Weather.Name then return DT.Ecosystem.Get(category,p.resource) end
     local cached=selected[category]
     if cached then
         if cached.name==p.name then return env[namespace(category)] end
@@ -492,4 +492,3 @@ exports('GetAdapterPackStatus',function() return E.Status() end)
 exports('AdapterPackCall',function(...) return E.Call(...) end)
 
 end
-

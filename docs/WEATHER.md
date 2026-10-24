@@ -20,5 +20,5 @@ The manifest and bundled source catalog use these consolidated paths.
 Short configuration aliases qb, renewed and easytime remain supported.
 
 Install into a fresh DTlib folder to remove obsolete qb, renewed and _default
-directories. Existing release ZIPs are unchanged until a new release is published.
+directories. DTlib 1.3.2 includes the consolidated layout.
 Check the active provider using dtlib:status from the server console.
