@@ -5,6 +5,7 @@ local function map(result,fields)
     if type(result)~='table' then return result end; local named=false; local out={}; for i=1,#(fields or {}) do local f=fields[i]; if f.name then out[f.name]=result[i]; named=true else out[i]=result[i] end end; return named and out or result
 end
 function DT.Input.Await(data)
+    TriggerEvent('DTlib:interact:release')
     data=data or {}; if active or waiter then return nil,'busy' end; local fields=data.fields or data.options or {}; local a=DT.UI.Adapter('input',data.provider); activeProvider=a
     if a.publicName~='native' then active=true; local ok,result=pcall(a.await,a,data,fields); active=false; activeProvider=nil; if ok then return map(result,fields) end; DT.Debug('Input provider failed, using native:',result) end
     waiter=promise.new(); local n=DT.Modules.Get('input','native'); activeProvider=n; n:open(data,fields); local result=Citizen.Await(waiter); waiter=nil; activeProvider=nil; return result

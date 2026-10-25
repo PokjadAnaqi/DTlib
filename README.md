@@ -1,3 +1,5 @@
+> v1.4.0-beta.2: interaction UI/input is now owned by the separately distributed DT_interact resource. DTlib keeps its DT.Target bridge and existing optional target adapters. See docs/STANDALONE_INTERACT.md. Runtime version and boot target reporting are aligned with the installed manifest/provider.
+
 # DTlib 1.4.0-beta.1
 
 Beta: React native panels and optional E/DUI interactions. See [beta setup and limitations](docs/BETA140.md).

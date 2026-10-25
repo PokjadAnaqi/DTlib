@@ -1,0 +1,22 @@
+from harness import load_manifest, root
+lua,_=load_manifest(False,['DT_interact'])
+lua.execute('''
+assert(DT.Target.Name()=='DT_interact');assert(DT.Target.Available())
+DT.Target.AddGlobalPlayer({{name='trade',label='Trade',custom=123,icon='fa-solid fa-handshake',onSelect=function(d) end}})
+local call=calls[#calls];assert(call.resource=='DT_interact' and call.method=='addGlobalPlayer')
+assert(call.args[2][1].custom==123 and call.args[3]=='consumer')
+DT.Target.AddLocalEntity(2,{{label='Local',name='local'}},3)
+call=calls[#calls];assert(call.method=='addLocalEntity' and call.args[3][1].distance==3 and call.args[4]=='consumer')
+DT.Target.AddBoxZone({coords=vec3(0,0,0),size=vec3(2,2,2),label='Terminal',options={{label='Open'}}})
+call=calls[#calls];assert(call.method=='addBoxZone' and call.args[2].label=='Terminal' and call.args[3]=='consumer')
+DT.Target.RemoveZone(123);call=calls[#calls];assert(call.method=='removeZone' and call.args[4]=='consumer')
+DTConfig.Interaction.mode='interact';assert(DT.Target.Name()=='DT_interact')
+DTConfig.Interaction.mode='target'
+local api=DT.Ecosystem.Get('target','DT_interact');assert(api and api.GetResourceName()=='DT_interact')
+api.AddGlobalPlayer({{label='Legacy',action=function(e) end}})
+call=calls[#calls];assert(call.resource=='DT_interact' and call.args[3]=='consumer')
+''')
+assert not (root/'modules/target/interact/client.lua').exists()
+assert not (root/'html/src/interact.tsx').exists()
+assert 'modules/target/DT_interact/dt_client.lua' in (root/'fxmanifest.lua').read_text()
+print('DT.Target and legacy ecosystem route to standalone DT_interact, retaining caller ownership and custom fields PASS')

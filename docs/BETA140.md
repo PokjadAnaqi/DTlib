@@ -1,3 +1,5 @@
+> Historical beta notes. The current standalone interaction setup is documented in STANDALONE_INTERACT.md.
+
 # DTlib 1.4.0-beta.1
 
 Native menu, input, TextUI and progress now render through React/TypeScript.

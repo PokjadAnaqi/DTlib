@@ -1,8 +1,9 @@
-local aliases={ox='ox_target',qb='qb-target'}
+local aliases={ox='ox_target',qb='qb-target',interact='DT_interact',dt_interact='DT_interact'}
 local managed={}
 local function A()
-    if DTConfig.Interaction and DTConfig.Interaction.mode=='interact' then return DT.Modules.Get('target','dtlib_interact') end
-    return DT.Modules.Resolve('target',DTConfig.Adapters.target,{'ox_target','qb-target','sleepless_interact'},aliases,'none')
+    -- Legacy interact mode now selects the external resource; no embedded engine remains.
+    if DTConfig.Interaction and DTConfig.Interaction.mode=='interact' then return DT.Modules.Get('target','DT_interact') end
+    return DT.Modules.Resolve('target',DTConfig.Adapters.target,{'DT_interact','ox_target','qb-target','sleepless_interact'},aliases,'none')
 end
 local function call(m,...) local a=A(); if not a or type(a[m])~='function' then return nil,'unsupported_backend' end; return a[m](a,...) end
 function DT.Target.Name() local a=A(); return a and a.publicName or 'none' end

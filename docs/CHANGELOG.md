@@ -1,3 +1,14 @@
+# 1.4.0-beta.2 — Standalone interaction bridge
+
+- Move interaction UI/input out of DTlib; DT.Target now supports the independent DT_interact resource in target mode.
+- Prioritize DT_interact when auto-detecting a target backend; retain optional existing target adapters.
+- Preserve consumer ownership, custom fields and callable option references across the adapter.
+- Release interaction focus before DTlib menu/input opens and forward progress/UI suspension lifecycle events.
+- Read DT.Version from fxmanifest metadata so boot logs, GetVersion and update checks report the installed version.
+- Align server target status and resource lifecycle watching with the client adapter selection.
+- Bundle native UI Font Awesome fonts locally; retain editable TSX in the release branch.
+- DT_interact is distributed separately and is not included in this repository or release asset.
+
 # 1.4.0-beta.1
 
 - Add React/TSX native menu, input, TextUI and progress UI with compiled html/dist assets.

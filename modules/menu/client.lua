@@ -16,6 +16,7 @@ local function execute(index)
     if item.command then ExecuteCommand(item.command) end
 end
 function DT.Menu.Open(data,callback)
+    TriggerEvent('DTlib:interact:release')
     data=data or {};menuId=menuId+1
     canClose=data.canClose~=false;owner=GetInvokingResource() or GetCurrentResourceName()
     local id=tostring(data.id or ('dtlib_menu_%s'):format(menuId))

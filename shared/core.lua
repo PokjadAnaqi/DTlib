@@ -1,5 +1,6 @@
 DT = DT or {}
-DT.Version = '1.4.0-beta.1'
+-- Keep runtime exports, boot logs and the update checker aligned with the manifest.
+DT.Version = GetResourceMetadata(GetCurrentResourceName(), 'version', 0) or 'unknown'
 DT.Config = DTConfig
 DT.Utils = DTUtils
 

@@ -2,6 +2,7 @@ import React,{useEffect,useState} from 'react';
 import {createRoot} from 'react-dom/client';
 import {post,image} from './bridge';
 import '../style.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
 type Data=Record<string,any>;
 export function Icon({value,color}:{value?:string;color?:string}){const tokens=String(value||'').split(/\s+/).filter(t=>/^fa-[a-z0-9-]+$/.test(t));return <span style={{color}}>{tokens.length?<i className={(tokens.some(t=>['fa-solid','fa-regular','fa-brands'].includes(t))?'':'fa-solid ')+tokens.join(' ')}/>:value}</span>}
 export function App(){

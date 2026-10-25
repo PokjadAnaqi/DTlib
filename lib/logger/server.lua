@@ -13,8 +13,10 @@ local watchedResources = {
     ox_core = 'Framework',
     ox_inventory = 'Inventory',
     ['qb-inventory'] = 'Inventory',
+    DT_interact = 'Target',
     ox_target = 'Target',
     ['qb-target'] = 'Target',
+    sleepless_interact = 'Target',
     oxmysql = 'Database',
     ghmattimysql = 'Database',
     ['Renewed-Weathersync'] = 'Weather',
@@ -89,9 +91,14 @@ function DT.Logger.GetRuntimeStatus()
         ox = 'ox_inventory', dtgrid = 'ox_inventory', qb = 'qb-inventory'
     }, {'ox_inventory', 'qb-inventory'})
 
-    local target = detect(DTConfig.Adapters.target, {
-        ox = 'ox_target', qb = 'qb-target'
-    }, {'ox_target', 'qb-target'})
+    local targetPreferred = DTConfig.Adapters.target
+    if DTConfig.Interaction and DTConfig.Interaction.mode == 'interact' then targetPreferred = 'DT_interact' end
+    local targetAliases = {ox = 'ox_target', qb = 'qb-target', interact = 'DT_interact', dt_interact = 'DT_interact'}
+    local targetCandidates = {'DT_interact', 'ox_target', 'qb-target', 'sleepless_interact'}
+    local target = detect(targetPreferred, targetAliases, targetCandidates)
+    if not target and not (DTConfig.Interaction and DTConfig.Interaction.mode == 'interact') then
+        target = detect('auto', targetAliases, targetCandidates)
+    end
 
     local database = detect(DTConfig.Adapters.database, {
         ox = 'oxmysql'
