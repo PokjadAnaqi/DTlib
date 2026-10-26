@@ -1,3 +1,5 @@
+> v1.4.0-beta.4: QBX player-data caching, bounded progress polling and callback failure context. Pair with separately distributed DT_interact beta.13. See docs/RELEASE_1.4.0_BETA4.md.
+
 > v1.4.0-beta.3: reduce idle resmon overhead with an on-demand gizmo tick and idle waypoint/zone guards. See docs/RELEASE_1.4.0_BETA3.md.
 
 > v1.4.0-beta.2: interaction UI/input is now owned by the separately distributed DT_interact resource. DTlib keeps its DT.Target bridge and existing optional target adapters. See docs/STANDALONE_INTERACT.md. Runtime version and boot target reporting are aligned with the installed manifest/provider.

@@ -1,4 +1,5 @@
 local callbacks = {}
+local lastFailure = {}
 local owners = {}
 local clientPending = {}
 local requestId = 0
@@ -19,6 +20,7 @@ function DT.Callback.Unregister(name)
     local existed = callbacks[name] ~= nil
     callbacks[name] = nil
     owners[name] = nil
+    lastFailure[name] = nil
     return existed
 end
 
@@ -34,6 +36,11 @@ RegisterNetEvent('DTlib:callback:server:request', function(id, name, ...)
         local result = table.pack(pcall(cb, src, table.unpack(args, 1, args.n)))
         local ok = result[1]
         if not ok then
+            local now = GetGameTimer()
+            if not lastFailure[name] or now - lastFailure[name] >= 10000 then
+                lastFailure[name] = now
+                print(('[DTlib:callback] side=server name=%s owner=%s source=%s failed: %s'):format(tostring(name), tostring(owners[name]), tostring(src), tostring(result[2])))
+            end
             TriggerClientEvent('DTlib:callback:server:response', src, id, false, tostring(result[2]))
             return
         end
@@ -72,7 +79,7 @@ AddEventHandler('playerDropped',function()
     end
 end)
 AddEventHandler('onResourceStop',function(resource)
-    for name,owner in pairs(owners) do if owner==resource then callbacks[name]=nil;owners[name]=nil end end
+    for name,owner in pairs(owners) do if owner==resource then callbacks[name]=nil;owners[name]=nil;lastFailure[name]=nil end end
     for id,entry in pairs(clientPending) do
         if resource==GetCurrentResourceName() or entry.owner==resource then
             clientPending[id]=nil;entry.waiter:resolve({ok=false,values=table.pack('callback_resource_stopped:'..resource)})

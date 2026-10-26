@@ -1,3 +1,10 @@
+# 1.4.0-beta.4 — P1 bridge overhead
+
+- Cache event-updated QBX player data; move legacy hydration into a coalesced background coroutine.
+- Cache progress adapter/backend state with forced-confirm and lifecycle/config invalidation.
+- Add throttled callback failure context (side/name/owner/source) without logging arguments.
+- Pair with standalone DT_interact beta.13; see RELEASE_1.4.0_BETA4.md.
+
 # 1.4.0-beta.3 — Idle resmon overhead
 
 - Start/stop the gizmo frame tick on demand; preserve placement rendering and held-ESC cleanup.
