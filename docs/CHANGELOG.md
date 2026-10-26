@@ -1,3 +1,9 @@
+# 1.4.0-beta.3 — Idle resmon overhead
+
+- Start/stop the gizmo frame tick on demand; preserve placement rendering and held-ESC cleanup.
+- Skip empty waypoint visibility work and unnecessary zone position reads.
+- Add behavioral idle/lifecycle regression tests; see RELEASE_1.4.0_BETA3.md for validation and in-game comparison steps.
+
 # 1.4.0-beta.2 — Standalone interaction bridge
 
 - Move interaction UI/input out of DTlib; DT.Target now supports the independent DT_interact resource in target mode.

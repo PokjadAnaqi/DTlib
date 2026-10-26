@@ -78,12 +78,13 @@ end
 CreateThread(function()
     while true do
         local sleep = next(zones) and 100 or 1000
-        local now = GetGameTimer()
-        local coords = GetEntityCoords(PlayerPedId())
+        local now = next(zones) and GetGameTimer() or 0
+        local coords -- Read player position once, only when a zone is due.
 
         for _, zone in pairs(zones) do
             if now - zone.lastTick >= zone.interval then
                 zone.lastTick = now
+                coords = coords or GetEntityCoords(PlayerPedId())
                 local isInside = contains(zone, coords)
                 if isInside and not zone.inside then
                     zone.inside = true

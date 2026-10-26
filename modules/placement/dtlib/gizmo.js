@@ -7,6 +7,21 @@ let session = null;
 let sequence = 0;
 let pauseGuardUntil = 0;
 let deferredCursorExit = false;
+let runtimeTick = null;
+
+function stopRuntimeTick() {
+    if (runtimeTick === null) return;
+    clearTick(runtimeTick);
+    runtimeTick = null;
+}
+
+function ensureRuntimeTick() {
+    if (runtimeTick !== null) return;
+    runtimeTick = setTick(() => {
+        tickPlacement();
+        if (!session && pauseGuardUntil <= 0 && !deferredCursorExit) stopRuntimeTick();
+    });
+}
 
 const CURSOR_NORMAL = 1;
 const CURSOR_GRAB = 3;
@@ -507,6 +522,7 @@ function start(entity, id, options) {
         phi: 1.0,
     };
 
+    ensureRuntimeTick();
     EnterCursorMode();
     if (opts.camera !== 'gameplay' && opts.cameraMode !== 'gameplay') {
         ensureOrbitCamera(session);
@@ -596,6 +612,7 @@ RegisterKeyMapping('+dtlibPlacementGround', 'DTlib Placement: Snap object to gro
 
 on('onResourceStop', (resourceName) => {
     if (resourceName !== GetCurrentResourceName()) return;
+    stopRuntimeTick();
     if (session) {
         const active = session;
         session = null;
@@ -608,7 +625,7 @@ on('onResourceStop', (resourceName) => {
     pauseGuardUntil = 0;
 });
 
-setTick(() => {
+function tickPlacement() {
     guardPauseMenu();
     if (!session) return;
     const active = session;
@@ -660,4 +677,4 @@ setTick(() => {
         if (active.options.enableCancel === false) return;
         finish(true, 'cancelled');
     }
-});
+}

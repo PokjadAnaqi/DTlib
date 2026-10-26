@@ -625,38 +625,42 @@ CreateThread(function()
     local maxVisible = tonumber(config.rendering and config.rendering.maxVisible) or 18
 
     while enabled do
-        local camPos = GetFinalRenderedCamCoord()
-        local candidates = {}
-        local newSet = {}
+        if #waypointArray == 0 then
+            Wait(500)
+        else
+            local camPos = GetFinalRenderedCamCoord()
+            local candidates = {}
+            local newSet = {}
 
-        for i = 1, #waypointArray do
-            local waypoint = waypointArray[i]
-            if waypoint and waypoint.active and shouldRender(waypoint, camPos) then
-                candidates[#candidates + 1] = waypoint
+            for i = 1, #waypointArray do
+                local waypoint = waypointArray[i]
+                if waypoint and waypoint.active and shouldRender(waypoint, camPos) then
+                    candidates[#candidates + 1] = waypoint
+                end
             end
-        end
 
-        table.sort(candidates, function(a, b) return a.distanceSq < b.distanceSq end)
+            table.sort(candidates, function(a, b) return a.distanceSq < b.distanceSq end)
 
-        local newRenderList = {}
-        local count = math.min(#candidates, maxVisible)
-        for i = 1, count do
-            local waypoint = candidates[i]
-            acquireDui(waypoint)
-            newRenderList[#newRenderList + 1] = waypoint
-            newSet[waypoint.id] = true
-        end
-
-        for id in pairs(renderingSet) do
-            if not newSet[id] then
-                local waypoint = localWaypoints[id]
-                if waypoint then releaseDui(waypoint) end
+            local newRenderList = {}
+            local count = math.min(#candidates, maxVisible)
+            for i = 1, count do
+                local waypoint = candidates[i]
+                acquireDui(waypoint)
+                newRenderList[#newRenderList + 1] = waypoint
+                newSet[waypoint.id] = true
             end
-        end
 
-        renderingSet = newSet
-        renderList = newRenderList
-        Wait(updateInterval)
+            for id in pairs(renderingSet) do
+                if not newSet[id] then
+                    local waypoint = localWaypoints[id]
+                    if waypoint then releaseDui(waypoint) end
+                end
+            end
+
+            renderingSet = newSet
+            renderList = newRenderList
+            Wait(updateInterval)
+        end
     end
 end)
 
