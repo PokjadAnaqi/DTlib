@@ -4,7 +4,7 @@ game 'gta5'
 name 'DTlib'
 author 'DT Ecosystem'
 description 'Independent modular runtime library for DT ecosystem resources'
-version '1.4.0-beta.4'
+version '1.4.0-beta.5'
 
 ui_page 'html/dist/index.html'
 
