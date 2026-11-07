@@ -27,7 +27,7 @@ Do not include `@ox_lib/init.lua` in a DT resource merely for generic callbacks,
 
 ## Recommended server.cfg
 
-DTlib no longer requires any `dtlib_*` convars. Keep runtime configuration inside `settings/sharedConfig.lua`.
+DTlib no longer requires any `dtlib_*` convars. Keep runtime configuration inside `config/shared.lua`.
 
 ```cfg
 # Optional UI/backend resources first, then DTlib.
@@ -39,7 +39,7 @@ set dt_eco_discord_bot_token "YOUR_BOT_TOKEN"
 set dt_eco_discord_guild_id "YOUR_GUILD_ID"
 ```
 
-Core adapter selection now lives in `settings/sharedConfig.lua`:
+Core adapter selection now lives in `config/shared.lua`:
 
 ```lua
 DTConfig.Debug = false

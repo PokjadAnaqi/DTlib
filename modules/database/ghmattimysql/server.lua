@@ -1,5 +1,11 @@
-local A={resource='ghmattimysql',publicName='ghmattimysql'}
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:query(q,p) return exports.ghmattimysql:executeSync(q,p or {}) end
-function A:transaction(q,p) return exports.ghmattimysql:transactionSync(q,p) end
-DT.Modules.Register('database','ghmattimysql',A)
+local adapter = { resource = 'ghmattimysql', publicName = 'ghmattimysql' }
+function adapter:available()
+    return DTUtils.isStarted(self.resource)
+end
+function adapter:query(query, payload)
+    return exports.ghmattimysql:executeSync(query, payload or {})
+end
+function adapter:transaction(query, payload)
+    return exports.ghmattimysql:transactionSync(query, payload)
+end
+DT.Modules.Register('database', 'ghmattimysql', adapter)

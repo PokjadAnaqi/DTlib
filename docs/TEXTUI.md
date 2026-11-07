@@ -22,7 +22,7 @@ Provider behaviour:
 - `ox_lib`: uses exported TextUI functions with compact multiline content and max-width styling.
 - `native`: uses DTlib NUI vertical control card.
 
-UI auto-detection priority is `lation_ui`, then `ox_lib`, then DTlib native. Set `DTConfig.Adapters.ui` in `settings/sharedConfig.lua` to `native`, `lation_ui`, or `ox_lib` to force a provider.
+UI auto-detection priority is `lation_ui`, then `ox_lib`, then DTlib native. Set `DTConfig.Adapters.ui` in `config/shared.lua` to `native`, `lation_ui`, or `ox_lib` to force a provider.
 
 
 ## Placement camera compatibility

@@ -9,7 +9,9 @@ end
 function DT.Modules.Register(category, name, adapter)
     category = normalizeCategory(category)
     name = tostring(name or '')
-    if category == '' or name == '' or type(adapter) ~= 'table' then return false end
+    if category == '' or name == '' or type(adapter) ~= 'table' then
+        return false
+    end
 
     local providers = DT.Modules._providers[category]
     if not providers then
@@ -44,15 +46,29 @@ function DT.Modules.Resolve(category, configured, candidates, aliases, fallback)
         local provider = providers[name]
         if not provider then
             for key, candidate in pairs(providers) do
-                if tostring(key):lower()==tostring(name):lower() then provider=candidate;break end
+                if tostring(key):lower() == tostring(name):lower() then
+                    provider = candidate
+                    break
+                end
             end
         end
-        if not provider then return nil end
+        if not provider then
+            return nil
+        end
         if provider.available then
             local ok, result = pcall(provider.available, provider)
-            if not ok or result ~= true then return nil end
-        elseif provider.resource and provider.resource ~= 'native' and provider.resource ~= 'standalone' and provider.resource ~= 'none' then
-            if not DTUtils.isStarted(provider.resource) then return nil end
+            if not ok or result ~= true then
+                return nil
+            end
+        elseif
+            provider.resource
+            and provider.resource ~= 'native'
+            and provider.resource ~= 'standalone'
+            and provider.resource ~= 'none'
+        then
+            if not DTUtils.isStarted(provider.resource) then
+                return nil
+            end
         end
         return provider
     end
@@ -65,8 +81,8 @@ function DT.Modules.Resolve(category, configured, candidates, aliases, fallback)
         end
     end
 
-    for i = 1, #(candidates or {}) do
-        local name = candidates[i]
+    for index = 1, #(candidates or {}) do
+        local name = candidates[index]
         local provider = usable(name)
         if provider then
             DT.Modules._selected[category] = name
@@ -91,8 +107,12 @@ function DT.Modules.Selected(category)
 end
 
 function DT.Modules.Call(adapter, method, ...)
-    if type(adapter) ~= 'table' then return nil, 'provider_unavailable' end
-    local fn = adapter[method]
-    if type(fn) ~= 'function' then return nil, 'unsupported_backend' end
-    return fn(adapter, ...)
+    if type(adapter) ~= 'table' then
+        return nil, 'provider_unavailable'
+    end
+    local handler = adapter[method]
+    if type(handler) ~= 'function' then
+        return nil, 'unsupported_backend'
+    end
+    return handler(adapter, ...)
 end

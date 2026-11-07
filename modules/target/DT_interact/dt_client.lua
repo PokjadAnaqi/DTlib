@@ -1,30 +1,91 @@
-local A={resource='DT_interact',publicName='DT_interact'}
-local function owner() return GetInvokingResource() or GetCurrentResourceName() end
+local adapter = { resource = 'DT_interact', publicName = 'DT_interact' }
+local function owner()
+    return GetInvokingResource() or GetCurrentResourceName()
+end
 local function options(value)
-    local out={};if value and value.label then value={value} end
-    for _,raw in ipairs(value or {}) do
-        local o={};for k,v in pairs(raw) do o[k]=v end
-        o.onSelect=DTUtils.wrapCallable(raw.onSelect or raw.action)
-        o.canInteract=DTUtils.wrapCallable(raw.canInteract);out[#out+1]=o
-    end;return out
+    local out = {}
+    if value and value.label then
+        value = { value }
+    end
+    for _, raw in ipairs(value or {}) do
+        local result = {}
+        for key, entry in pairs(raw) do
+            result[key] = entry
+        end
+        result.onSelect = DTUtils.wrapCallable(raw.onSelect or raw.action)
+        result.canInteract = DTUtils.wrapCallable(raw.canInteract)
+        out[#out + 1] = result
+    end
+    return out
 end
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:disable(state) return exports.DT_interact:disableTargeting(state==true) end
-function A:isActive() return exports.DT_interact:isActive() end
-function A:getOptions(...) return exports.DT_interact:getTargetOptions(...) end
-function A:addGlobal(o) return exports.DT_interact:addGlobalOption(options(o),owner()) end
-function A:removeGlobal(n) return exports.DT_interact:removeGlobalOption(n,owner()) end
-function A:addGlobalKind(kind,o) local h=exports.DT_interact;return h['addGlobal'..kind](h,options(o),owner()) end
-function A:removeGlobalKind(kind,n) local h=exports.DT_interact;return h['removeGlobal'..kind](h,n,owner()) end
-function A:addEntity(e,o,d) local list=options(o);for _,v in ipairs(list) do v.distance=v.distance or d end;return exports.DT_interact:addLocalEntity(e,list,owner()) end
-function A:removeEntity(e,n) return exports.DT_interact:removeLocalEntity(e,n,owner()) end
-function A:addNetworkEntity(e,o) return exports.DT_interact:addEntity(e,options(o),owner()) end
-function A:removeNetworkEntity(e,n) return exports.DT_interact:removeEntity(e,n,owner()) end
-function A:addModel(m,o,d) local list=options(o);for _,v in ipairs(list) do v.distance=v.distance or d end;return exports.DT_interact:addModel(m,list,owner()) end
-function A:removeModel(m,n) return exports.DT_interact:removeModel(m,n,owner()) end
-for public in pairs({Sphere=true,Box=true,Poly=true}) do local name=public
-    A['add'..name..'Zone']=function(_,d) local copy={};for k,v in pairs(d) do copy[k]=v end;copy.options=options(d.options);local h=exports.DT_interact;return h['add'..name..'Zone'](h,copy,owner()) end
+function adapter:available()
+    return DTUtils.isStarted(self.resource)
 end
-function A:zoneExists(id) return exports.DT_interact:zoneExists(id) end
-function A:removeZone(id) return exports.DT_interact:removeZone(id,true,owner()) end
-DT.Modules.Register('target','DT_interact',A)
+function adapter:disable(state)
+    return exports.DT_interact:disableTargeting(state == true)
+end
+function adapter:isActive()
+    return exports.DT_interact:isActive()
+end
+function adapter:getOptions(...)
+    return exports.DT_interact:getTargetOptions(...)
+end
+function adapter:addGlobal(result)
+    return exports.DT_interact:addGlobalOption(options(result), owner())
+end
+function adapter:removeGlobal(count)
+    return exports.DT_interact:removeGlobalOption(count, owner())
+end
+function adapter:addGlobalKind(kind, result)
+    local handle = exports.DT_interact
+    return handle['addGlobal' .. kind](handle, options(result), owner())
+end
+function adapter:removeGlobalKind(kind, count)
+    local handle = exports.DT_interact
+    return handle['removeGlobal' .. kind](handle, count, owner())
+end
+function adapter:addEntity(entry, result, data)
+    local list = options(result)
+    for _, entryValue in ipairs(list) do
+        entryValue.distance = entryValue.distance or data
+    end
+    return exports.DT_interact:addLocalEntity(entry, list, owner())
+end
+function adapter:removeEntity(entry, count)
+    return exports.DT_interact:removeLocalEntity(entry, count, owner())
+end
+function adapter:addNetworkEntity(entry, result)
+    return exports.DT_interact:addEntity(entry, options(result), owner())
+end
+function adapter:removeNetworkEntity(entry, count)
+    return exports.DT_interact:removeEntity(entry, count, owner())
+end
+function adapter:addModel(method, result, data)
+    local list = options(result)
+    for _, entry in ipairs(list) do
+        entry.distance = entry.distance or data
+    end
+    return exports.DT_interact:addModel(method, list, owner())
+end
+function adapter:removeModel(method, count)
+    return exports.DT_interact:removeModel(method, count, owner())
+end
+for public in pairs({ Sphere = true, Box = true, Poly = true }) do
+    local name = public
+    adapter['add' .. name .. 'Zone'] = function(_, data)
+        local copy = {}
+        for key, entry in pairs(data) do
+            copy[key] = entry
+        end
+        copy.options = options(data.options)
+        local handle = exports.DT_interact
+        return handle['add' .. name .. 'Zone'](handle, copy, owner())
+    end
+end
+function adapter:zoneExists(id)
+    return exports.DT_interact:zoneExists(id)
+end
+function adapter:removeZone(id)
+    return exports.DT_interact:removeZone(id, true, owner())
+end
+DT.Modules.Register('target', 'DT_interact', adapter)

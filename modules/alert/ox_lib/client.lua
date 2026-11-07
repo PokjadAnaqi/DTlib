@@ -1,5 +1,20 @@
-local A={resource='ox_lib',publicName='ox_lib'}
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:await(d) return exports.ox_lib:alertDialog({header=d.header or d.title or 'CONFIRM',content=d.content or d.description or '',centered=d.centered==true,cancel=d.cancel~=false,size=d.size,overflow=d.overflow,labels=d.labels}) end
-function A:close() exports.ox_lib:closeAlertDialog(); return true end
-DT.Modules.Register('alert','ox_lib',A)
+local adapter = { resource = 'ox_lib', publicName = 'ox_lib' }
+function adapter:available()
+    return DTUtils.isStarted(self.resource)
+end
+function adapter:await(data)
+    return exports.ox_lib:alertDialog({
+        header = data.header or data.title or 'CONFIRM',
+        content = data.content or data.description or '',
+        centered = data.centered == true,
+        cancel = data.cancel ~= false,
+        size = data.size,
+        overflow = data.overflow,
+        labels = data.labels,
+    })
+end
+function adapter:close()
+    exports.ox_lib:closeAlertDialog()
+    return true
+end
+DT.Modules.Register('alert', 'ox_lib', adapter)

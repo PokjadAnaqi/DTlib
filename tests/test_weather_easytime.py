@@ -1,4 +1,5 @@
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 manifest = (ROOT / 'fxmanifest.lua').read_text()
@@ -9,8 +10,8 @@ assert "modules/weather/cd_easytime/client.lua" in manifest
 assert "modules/weather/cd_easytime/server.lua" in manifest
 assert "'cd_easytime'" in client
 assert "'cd_easytime'" in server
-assert "{'Renewed-Weathersync','cd_easytime','qb-weathersync'}" in client
-assert "{'Renewed-Weathersync','cd_easytime','qb-weathersync'}" in server
+assert "{'Renewed-Weathersync','cd_easytime','qb-weathersync'}" in re.sub(r'\s+', '', client)
+assert "{'Renewed-Weathersync','cd_easytime','qb-weathersync'}" in re.sub(r'\s+', '', server)
 assert (ROOT / 'modules/weather/cd_easytime/client.lua').exists()
 assert (ROOT / 'modules/weather/cd_easytime/server.lua').exists()
 

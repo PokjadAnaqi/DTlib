@@ -8,10 +8,10 @@ inventory, target, UI, database, or notification resources directly.
 
 ```text
 DTlib/
-├─ settings/
-│  ├─ sharedConfig.lua
-│  ├─ clientConfig.lua
-│  └─ serverConfig.lua
+├─ config/
+│  ├─ shared.lua
+│  ├─ client.lua
+│  └─ server.lua
 ├─ shared/
 │  ├─ core.lua
 │  └─ utils.lua

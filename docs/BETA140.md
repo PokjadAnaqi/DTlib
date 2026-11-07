@@ -10,7 +10,7 @@ its own resource. Build with npm ci and npm run build inside html.
 
 ## E interaction (opt-in)
 
-Set DTConfig.Interaction.mode = 'interact' in settings/sharedConfig.lua before
+Set DTConfig.Interaction.mode = 'interact' in config/shared.lua before
 starting DTlib and its consumers. The default 'target' keeps your installed
 ox_target/qb-target UI. Restart DTlib and consumers after changing modes.
 

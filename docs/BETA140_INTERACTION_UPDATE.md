@@ -8,7 +8,7 @@ Based on the published v1.4.0-beta.1 source at commit e8ce49fc40a02f6a29f2ac4de1
 
 Replace the DTlib folder with the fresh folder from this ZIP. Merge your existing settings rather than overwriting them blindly. Keep `fx_version 'cerulean'`.
 
-In `settings/sharedConfig.lua`:
+In `config/shared.lua`:
 
 ```lua
 DTConfig.Interaction.mode = 'interact'

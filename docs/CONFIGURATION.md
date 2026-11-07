@@ -4,11 +4,16 @@ DTlib v1.2.0 does not use `dtlib_*` convars. Runtime selection and behaviour are
 
 ## Shared settings
 
-Edit `settings/sharedConfig.lua` for framework, inventory, target, database, weather, UI, notify, console logging, placement, waypoint, minigames, security, debug and strict-mode settings.
+Edit `config/shared.lua` for framework, inventory, target, database, weather, UI, notify, console logging, placement, waypoint, minigames, security, debug and strict-mode settings.
 
 ## Client/server settings
 
-Use `settings/clientConfig.lua` and `settings/serverConfig.lua` for settings that should only exist on one runtime side.
+Use `config/client.lua` and `config/server.lua` for settings that should only exist on one runtime side.
+
+When upgrading an existing beta 6 installation, copy your values from
+`settings/sharedConfig.lua`, `settings/clientConfig.lua` and `settings/serverConfig.lua`
+into `config/shared.lua`, `config/client.lua` and `config/server.lua` respectively.
+The configuration globals and keys are the same.
 
 ## Discord
 

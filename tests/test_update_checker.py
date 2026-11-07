@@ -9,7 +9,7 @@ lua.execute('''
     function GetResourceByFindIndex(i) return resources[i+1] end
     function GetNumResourceMetadata(name,key) return #(metadata[name] and metadata[name][key] or {}) end
     function GetResourceMetadata(name,key,i) return (metadata[name] and metadata[name][key] or {})[i+1] end
-    logs={};print=function(s) logs[#logs+1]=s end
+    logs={};DT.Logger.Info=function(_, message) logs[#logs+1]=message end
     requests=0;timeouts={};SetTimeout=function(_,fn) timeouts[#timeouts+1]=fn end
     PerformHttpRequest=function(url,cb,method,body,headers) requests=requests+1;response=cb;requestHeaders=headers;assert(url:find('/releases/latest',1,true)) end
     json.decode=function(body) if body=='bad' then error('bad json') end;return payload end
@@ -24,14 +24,15 @@ lua.execute('''
     assert(#DT.Update.ListConsumers()==2)
     assert(DT.Update.Check());assert(DT.Update.Check()==false and requests==1)
     payload={tag_name='v1.3.2'};response(200,'ok',{etag='test'})
-    assert(#logs==5 and logs[1]:find('UPDATE AVAILABLE',1,true))
-    assert(logs[4]:find('DT_gather',1,true) and logs[5]:find('DT_questsystem',1,true))
+    assert(#logs==1 and logs[1]:find('Update available',1,true))
+    assert(logs[1]:find('2 consumers',1,true))
+    assert(not logs[1]:find('DT_gather',1,true))
     for _,line in ipairs(logs) do assert(not line:find('Dependency',1,true)) end
-    DT.Update.Check();assert(requestHeaders['If-None-Match']=='test');response(304,'',{});assert(#logs==5)
-    DT.Update.Check();payload={tag_name='v1.3.3'};response(200,'ok',{});assert(#logs==10)
-    DT.Update.Check();response(200,'bad',{});assert(#logs==10)
-    DT.Update.Check();payload={tag_name='v1.3.4-beta.1',prerelease=true};response(200,'ok',{});assert(#logs==10)
-    DT.Update.Check();local late=response;timeouts[#timeouts]();assert(DT.Update.Check());late(200,'ok',{});response(403,'',{});assert(#logs==10)
+    DT.Update.Check();assert(requestHeaders['If-None-Match']=='test');response(304,'',{});assert(#logs==1)
+    DT.Update.Check();payload={tag_name='v1.3.3'};response(200,'ok',{});assert(#logs==2)
+    DT.Update.Check();response(200,'bad',{});assert(#logs==2)
+    DT.Update.Check();payload={tag_name='v1.3.4-beta.1',prerelease=true};response(200,'ok',{});assert(#logs==2)
+    DT.Update.Check();local late=response;timeouts[#timeouts]();assert(DT.Update.Check());late(200,'ok',{});response(403,'',{});assert(#logs==2)
     DTConfig.UpdateCheck.includeStopped=true;assert(#DT.Update.ListConsumers()==3)
     DTConfig.UpdateCheck.enabled=false;assert(DT.Update.Check()==false)
 ''')

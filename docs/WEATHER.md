@@ -1,6 +1,6 @@
 # Weather providers
 
-Set `DTConfig.Adapters.weather = 'auto'` in settings/sharedConfig.lua.
+Set `DTConfig.Adapters.weather = 'auto'` in config/shared.lua.
 Start your weather resource before DTlib. DTlib selects only started resources:
 Renewed-Weathersync, then cd_easytime, then qb-weathersync, then native.
 

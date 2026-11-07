@@ -1,3 +1,28 @@
 /* API69 — Apocalypse Industrial / shared DT Ecosystem tokens */
-@font-face{font-family:"Space Grotesk";src:url("./fonts/space-grotesk.woff2") format("woff2");font-weight:300 700;font-style:normal;font-display:swap}
-:root{--dt-bg:rgba(17,20,19,.95);--dt-surface:rgba(255,255,255,.035);--dt-hover:rgba(255,255,255,.075);--dt-text:#e8e6dd;--dt-muted:#a4a69e;--dt-accent:#d6bb58;--dt-danger:#ce6257;--dt-success:#a4b77a;--dt-info:#91adb4;--dt-border:rgba(232,230,221,.20);--dt-line:rgba(232,230,221,.10);--dt-shadow:0 8px 24px rgba(0,0,0,.25);--dt-font:"Space Grotesk",Arial,sans-serif;--dt-space-1:4px;--dt-space-2:8px;--dt-space-3:12px;--dt-space-4:16px;--dt-space-5:24px}
+@font-face {
+    font-family: 'Space Grotesk';
+    src: url('./fonts/space-grotesk.woff2') format('woff2');
+    font-weight: 300 700;
+    font-style: normal;
+    font-display: swap;
+}
+:root {
+    --dt-bg: rgba(17, 20, 19, 0.95);
+    --dt-surface: rgba(255, 255, 255, 0.035);
+    --dt-hover: rgba(255, 255, 255, 0.075);
+    --dt-text: #e8e6dd;
+    --dt-muted: #a4a69e;
+    --dt-accent: #d6bb58;
+    --dt-danger: #ce6257;
+    --dt-success: #a4b77a;
+    --dt-info: #91adb4;
+    --dt-border: rgba(232, 230, 221, 0.2);
+    --dt-line: rgba(232, 230, 221, 0.1);
+    --dt-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    --dt-font: 'Space Grotesk', Arial, sans-serif;
+    --dt-space-1: 4px;
+    --dt-space-2: 8px;
+    --dt-space-3: 12px;
+    --dt-space-4: 16px;
+    --dt-space-5: 24px;
+}

@@ -16,7 +16,7 @@ DT.UI.UsingLation()   -- boolean
 DT.UI.UsingOxLib()    -- boolean
 ```
 
-Set `DTConfig.Adapters.ui = 'auto'` in `settings/sharedConfig.lua` to prefer Lation, then ox_lib, then the DTlib native UI.
+Set `DTConfig.Adapters.ui = 'auto'` in `config/shared.lua` to prefer Lation, then ox_lib, then the DTlib native UI.
 
 ## Notifications
 
@@ -208,10 +208,9 @@ if not DT.Security.RateLimit(source, 'claim_reward', 3, 10000) then return end
 if not DT.Security.RequireAdmin(source) then return end
 ```
 
-Default admin ACE objects are `admin` or `god`, granted to the matching server principals:
+The default admin ACE is `admin`, as granted by the [Qbox recipe](https://github.com/Qbox-project/txAdminRecipe/blob/main/permissions.cfg). With `frameworkAdmin = true`, the active QB-Core adapter also checks `HasPermission(source, 'admin')` and the active ESX adapter accepts `admin` or `superadmin` from `getGroup()`. Set `frameworkAdmin = false` for ACE-only access. To retain a legacy `god` grant, set `godAce = 'god'` and grant that ACE separately.
 
 ```cfg
-add_ace group.god god allow
 add_ace group.admin admin allow
 ```
 
@@ -461,9 +460,9 @@ exports.DTlib:RegisterAdminTool({
 The registered command must be a client command that opens that resource's existing admin UI. `id` is unique per resource registry; `label` and `description` are shown in the hub. The entry appears only while its registering resource is started. Use `exports.DTlib:UnregisterAdminTool('zombies')` when needed. Register each script's existing panel command; the hub does not discover arbitrary UIs automatically. Keep every panel's own server-side admin checks.
 
 
-## Admin ACE groups — beta.10
+## Admin ACE groups
 
-DTlib accepts ACE object `admin` or `god` by default. Configure `adminAce` and `godAce` in `DTConfig.Security` if needed. Assign server principals in `server.cfg`; see the Security section above. `DT.Security.IsAdmin(source, ace)` with an explicit ACE checks that exact ACE object.
+DTlib uses the `admin` ACE from Qbox by default. Add staff identifiers to `group.admin` in the server's permissions configuration. `group.mod` and `group.support` do not inherit admin. Configure `adminAce` and `godAce` in `DTConfig.Security` for other setups. `DT.Security.IsAdmin(source, ace)` with an explicit ACE checks that exact ACE object.
 
 ## beta.11 additions
 

@@ -8,7 +8,9 @@ local normaliseResult
 -- registered key mappings / disabled-control state, while every GTA PAD control
 -- remains disabled so no key or mouse button can trigger PED behaviour.
 local function rememberFrozenPed(sessionRef, ped)
-    if not sessionRef or not ped or ped == 0 or not DoesEntityExist(ped) then return end
+    if not sessionRef or not ped or ped == 0 or not DoesEntityExist(ped) then
+        return
+    end
     sessionRef.frozenPeds = sessionRef.frozenPeds or {}
     if sessionRef.frozenPeds[ped] == nil then
         sessionRef.frozenPeds[ped] = IsEntityPositionFrozen(ped) == true
@@ -16,14 +18,18 @@ local function rememberFrozenPed(sessionRef, ped)
 end
 
 local function restoreFrozenPeds(sessionRef)
-    if not sessionRef then return end
+    if not sessionRef then
+        return
+    end
 
     local restored = {}
     if type(sessionRef.frozenPeds) == 'table' then
         for ped, wasFrozen in pairs(sessionRef.frozenPeds) do
             if DoesEntityExist(ped) then
                 FreezeEntityPosition(ped, wasFrozen == true)
-                if wasFrozen ~= true then SetEntityVelocity(ped, 0.0, 0.0, 0.0) end
+                if wasFrozen ~= true then
+                    SetEntityVelocity(ped, 0.0, 0.0, 0.0)
+                end
                 restored[ped] = true
             end
         end
@@ -35,7 +41,9 @@ local function restoreFrozenPeds(sessionRef)
         local originalPed = tonumber(sessionRef.playerPed) or 0
         if originalPed ~= 0 and DoesEntityExist(originalPed) and not restored[originalPed] then
             FreezeEntityPosition(originalPed, sessionRef.playerWasFrozen == true)
-            if sessionRef.playerWasFrozen ~= true then SetEntityVelocity(originalPed, 0.0, 0.0, 0.0) end
+            if sessionRef.playerWasFrozen ~= true then
+                SetEntityVelocity(originalPed, 0.0, 0.0, 0.0)
+            end
             restored[originalPed] = true
         end
     end
@@ -44,11 +52,15 @@ local function restoreFrozenPeds(sessionRef)
 end
 
 local function captureTextUIState()
-    if not DT.TextUI then return nil end
+    if not DT.TextUI then
+        return nil
+    end
 
     if DT.TextUI.GetState then
         local ok, state = pcall(DT.TextUI.GetState)
-        if ok and type(state) == 'table' then return state end
+        if ok and type(state) == 'table' then
+            return state
+        end
     end
 
     if DT.TextUI.IsOpen then
@@ -62,15 +74,21 @@ local function captureTextUIState()
 end
 
 local function restoreTextUIState(state)
-    if type(state) ~= 'table' or not DT.TextUI then return end
+    if type(state) ~= 'table' or not DT.TextUI then
+        return
+    end
 
     CreateThread(function()
         Wait(0)
-        if activeSession then return end
+        if activeSession then
+            return
+        end
 
         if DT.TextUI.Restore then
             local ok, restored = pcall(DT.TextUI.Restore, state)
-            if ok and restored ~= false then return end
+            if ok and restored ~= false then
+                return
+            end
         end
 
         if DT.TextUI.Show then
@@ -80,10 +98,14 @@ local function restoreTextUIState(state)
 end
 
 local function lockPlacementPlayer(sessionRef)
-    if not sessionRef or sessionRef.freezePlayer == false then return end
+    if not sessionRef or sessionRef.freezePlayer == false then
+        return
+    end
 
     local ped = PlayerPedId()
-    if ped == 0 or not DoesEntityExist(ped) then return end
+    if ped == 0 or not DoesEntityExist(ped) then
+        return
+    end
 
     rememberFrozenPed(sessionRef, ped)
     FreezeEntityPosition(ped, true)
@@ -113,7 +135,9 @@ end
 
 local function number(value, fallback)
     value = tonumber(value)
-    if value == nil then return fallback end
+    if value == nil then
+        return fallback
+    end
     return value
 end
 
@@ -130,7 +154,9 @@ local function copyVec3(value, fallback)
         return { x = number(value.x, 0.0), y = number(value.y, 0.0), z = number(value.z, 0.0) }
     end
 
-    if fallback then return copyVec3(fallback) end
+    if fallback then
+        return copyVec3(fallback)
+    end
     return { x = 0.0, y = 0.0, z = 0.0 }
 end
 
@@ -140,25 +166,33 @@ local function toVector3(value)
 end
 
 local function callable(value)
-    if DTUtils and DTUtils.isCallable then return DTUtils.isCallable(value) end
+    if DTUtils and DTUtils.isCallable then
+        return DTUtils.isCallable(value)
+    end
     return type(value) == 'function'
 end
 
-local function invoke(fn, ...)
-    if not callable(fn) then return end
-    local ok, err = pcall(fn, ...)
+local function invoke(handler, ...)
+    if not callable(handler) then
+        return
+    end
+    local ok, errorMessage = pcall(handler, ...)
     if not ok then
         if DT.Logger and DT.Logger.Warn then
-            DT.Logger.Warn('PLACEMENT', ('Placement callback failed: %s'):format(tostring(err)))
+            DT.Logger.Warn('PLACEMENT', ('Placement callback failed: %s'):format(tostring(errorMessage)))
         else
-            print(('[DTlib] [PLACEMENT] callback failed: %s'):format(tostring(err)))
+            print(('[DTlib] [PLACEMENT] callback failed: %s'):format(tostring(errorMessage)))
         end
     end
 end
 
 local function requestControl(entity, timeout)
-    if not NetworkGetEntityIsNetworked(entity) then return true end
-    if NetworkHasControlOfEntity(entity) then return true end
+    if not NetworkGetEntityIsNetworked(entity) then
+        return true
+    end
+    if NetworkHasControlOfEntity(entity) then
+        return true
+    end
 
     local deadline = GetGameTimer() + (timeout or 1000)
     repeat
@@ -190,10 +224,11 @@ local function requestModel(model, timeout)
     return hash
 end
 
-
 local function objectGizmoAvailable()
     local state = GetResourceState('object_gizmo')
-    if state ~= 'started' then return false, nil end
+    if state ~= 'started' then
+        return false, nil
+    end
 
     local version = GetResourceMetadata('object_gizmo', 'version', 0) or ''
     local major = tonumber(tostring(version):match('(%d+)')) or 0
@@ -202,14 +237,23 @@ local function objectGizmoAvailable()
 end
 
 local function placementProvider(requested)
-    local configured = requested and tostring(requested):lower() or (DTConfig.Placement and tostring(DTConfig.Placement.provider or 'native'):lower() or 'native')
-    if configured == 'native' or configured == 'dtlib' or configured == 'dtlib_gizmo' or configured == 'legacy' or configured == 'v1.0.6' then
+    local configured = requested and tostring(requested):lower()
+        or (DTConfig.Placement and tostring(DTConfig.Placement.provider or 'native'):lower() or 'native')
+    if
+        configured == 'native'
+        or configured == 'dtlib'
+        or configured == 'dtlib_gizmo'
+        or configured == 'legacy'
+        or configured == 'v1.0.6'
+    then
         return 'dtlib_gizmo'
     end
 
     if configured == 'object_gizmo' or configured == 'object' or configured == 'external' or configured == 'auto' then
         local available, version = objectGizmoAvailable()
-        if available then return 'object_gizmo', version end
+        if available then
+            return 'object_gizmo', version
+        end
     end
 
     return 'dtlib_gizmo'
@@ -261,17 +305,19 @@ local function objectGizmoOptions(options, origin)
             maxRadius = number(orbit.maxRadius or options.cameraMaxDistance, orbitDefaults.maxRadius or 25.0),
             zoomStep = number(orbit.zoomStep or options.cameraZoomStep, orbitDefaults.zoomStep or 0.75),
             sensitivity = number(orbit.sensitivity, orbitDefaults.sensitivity or 0.005),
-            blend = number(orbit.blend, orbitDefaults.blend or 250)
-        }
+            blend = number(orbit.blend, orbitDefaults.blend or 250),
+        },
     }
 end
 
-local function sameVec(a, b, epsilon)
-    if not a or not b then return false end
+local function sameVec(firstPoint, secondPoint, epsilon)
+    if not firstPoint or not secondPoint then
+        return false
+    end
     epsilon = epsilon or 0.0005
-    return math.abs(a.x - b.x) <= epsilon
-        and math.abs(a.y - b.y) <= epsilon
-        and math.abs(a.z - b.z) <= epsilon
+    return math.abs(firstPoint.x - secondPoint.x) <= epsilon
+        and math.abs(firstPoint.y - secondPoint.y) <= epsilon
+        and math.abs(firstPoint.z - secondPoint.z) <= epsilon
 end
 
 local function startExternalChangeWatcher(sessionRef)
@@ -282,7 +328,9 @@ local function startExternalChangeWatcher(sessionRef)
 
         while activeSession == sessionRef and sessionRef.provider == 'object_gizmo' do
             Wait(interval)
-            if activeSession ~= sessionRef or not DoesEntityExist(sessionRef.entity) then break end
+            if activeSession ~= sessionRef or not DoesEntityExist(sessionRef.entity) then
+                break
+            end
 
             local coords = GetEntityCoords(sessionRef.entity)
             local rotation = GetEntityRotation(sessionRef.entity, 2)
@@ -309,7 +357,7 @@ local function placementHelp(options)
             title = options.helpTitle or 'CONTROLS',
             description = options.helpText,
             position = options.helpPosition or 'right-center',
-            icon = options.helpIcon or 'fa-solid fa-up-down-left-right'
+            icon = options.helpIcon or 'fa-solid fa-up-down-left-right',
         }
     end
 
@@ -317,34 +365,34 @@ local function placementHelp(options)
         {
             label = 'Move / Translate',
             icon = 'fa-solid fa-up-down-left-right',
-            keybind = 'W'
+            keybind = 'W',
         },
         {
             label = 'Rotate',
             icon = 'fa-solid fa-rotate',
-            keybind = 'R'
-        }
+            keybind = 'R',
+        },
     }
 
     if options.enableScale == true then
         controls[#controls + 1] = {
             label = 'Scale',
             icon = 'fa-solid fa-maximize',
-            keybind = 'S'
+            keybind = 'S',
         }
     end
 
     controls[#controls + 1] = {
         label = 'Local / World',
         icon = 'fa-solid fa-globe',
-        keybind = 'Q'
+        keybind = 'Q',
     }
 
     if options.__objectGizmoProvider == true and options.enableSnapToggle ~= false then
         controls[#controls + 1] = {
             label = 'Toggle Snap',
             icon = 'fa-solid fa-magnet',
-            keybind = 'X'
+            keybind = 'X',
         }
     end
 
@@ -352,7 +400,7 @@ local function placementHelp(options)
         controls[#controls + 1] = {
             label = 'Copy Transform',
             icon = 'fa-solid fa-copy',
-            keybind = 'C'
+            keybind = 'C',
         }
     end
 
@@ -360,12 +408,12 @@ local function placementHelp(options)
         controls[#controls + 1] = {
             label = 'Orbit Object Camera',
             icon = 'fa-solid fa-camera-rotate',
-            keybind = 'LMB DRAG'
+            keybind = 'LMB DRAG',
         }
         controls[#controls + 1] = {
             label = 'Zoom Object Camera',
             icon = 'fa-solid fa-magnifying-glass',
-            keybind = 'WHEEL'
+            keybind = 'WHEEL',
         }
     end
 
@@ -373,7 +421,7 @@ local function placementHelp(options)
         controls[#controls + 1] = {
             label = 'Snap to Ground',
             icon = 'fa-solid fa-arrow-down',
-            keybind = 'LALT'
+            keybind = 'LALT',
         }
     end
 
@@ -381,7 +429,7 @@ local function placementHelp(options)
         label = 'Confirm',
         icon = 'fa-solid fa-check',
         iconColor = '#2dd4a7',
-        keybind = 'ENTER'
+        keybind = 'ENTER',
     }
 
     if options.enableCancel ~= false then
@@ -389,7 +437,7 @@ local function placementHelp(options)
             label = 'Cancel',
             icon = 'fa-solid fa-xmark',
             iconColor = '#ef6464',
-            keybind = 'ESC'
+            keybind = 'ESC',
         }
     end
 
@@ -402,24 +450,34 @@ local function placementHelp(options)
         bgColor = options.helpBgColor or '#1E1F24',
         txtColor = options.helpTextColor or '#E4E4E7',
         options = controls,
-        allowWhileSuspended = true
+        allowWhileSuspended = true,
     }
 end
 
 local function showHud(options)
-    if options.showHelp == false or not DT.TextUI or not DT.TextUI.Show then return end
+    if options.showHelp == false or not DT.TextUI or not DT.TextUI.Show then
+        return
+    end
     pcall(DT.TextUI.Show, placementHelp(options))
 end
 
 local function hideHud(options)
-    if options.showHelp == false or not DT.TextUI or not DT.TextUI.Hide then return end
+    if options.showHelp == false or not DT.TextUI or not DT.TextUI.Hide then
+        return
+    end
     pcall(DT.TextUI.Hide)
 end
 
 local function startObjectGizmoHudBridge(sessionRef)
-    if not DT.UI or not DT.UI.UsingLation or not DT.UI.UsingLation() then return false end
-    if sessionRef.options.showHelp == false then return false end
-    if GetResourceState('sleepless_prompts') == 'started' then return false end
+    if not DT.UI or not DT.UI.UsingLation or not DT.UI.UsingLation() then
+        return false
+    end
+    if sessionRef.options.showHelp == false then
+        return false
+    end
+    if GetResourceState('sleepless_prompts') == 'started' then
+        return false
+    end
 
     sessionRef.options.__objectGizmoProvider = true
     showHud(sessionRef.options)
@@ -430,7 +488,9 @@ local function startObjectGizmoHudBridge(sessionRef)
     CreateThread(function()
         while activeSession == sessionRef and sessionRef.provider == 'object_gizmo' do
             if GetResourceState('sleepless_prompts') ~= 'started' and GetResourceState('ox_lib') == 'started' then
-                pcall(function() exports['ox_lib']:hideTextUI() end)
+                pcall(function()
+                    exports['ox_lib']:hideTextUI()
+                end)
             end
             Wait(100)
         end
@@ -438,7 +498,6 @@ local function startObjectGizmoHudBridge(sessionRef)
 
     return true
 end
-
 
 normaliseResult = function(data, entity)
     data = type(data) == 'table' and data or {}
@@ -456,12 +515,13 @@ normaliseResult = function(data, entity)
         handle = entity,
         confirmed = data.confirmed == true,
         cancelled = data.cancelled == true,
-        reason = data.reason or (data.confirmed == true and 'confirmed' or (data.cancelled == true and 'cancelled' or nil)),
+        reason = data.reason
+            or (data.confirmed == true and 'confirmed' or (data.cancelled == true and 'cancelled' or nil)),
         limited = data.limited == true,
         coords = toVector3(coords),
         position = toVector3(coords),
         rotation = toVector3(rotation),
-        heading = number(data.heading, DoesEntityExist(entity) and GetEntityHeading(entity) or 0.0)
+        heading = number(data.heading, DoesEntityExist(entity) and GetEntityHeading(entity) or 0.0),
     }
 
     return result
@@ -479,7 +539,7 @@ local function busyResult(entity)
         coords = coords,
         position = coords,
         rotation = rotation,
-        heading = DoesEntityExist(entity) and GetEntityHeading(entity) or 0.0
+        heading = DoesEntityExist(entity) and GetEntityHeading(entity) or 0.0,
     }
 end
 
@@ -509,14 +569,16 @@ local function serialisableOptions(options, origin)
             zoomStep = number(orbit.zoomStep or options.cameraZoomStep, defaults.zoomStep or 0.75),
             sensitivity = number(orbit.sensitivity or options.cameraSensitivity, defaults.sensitivity or 0.005),
             blend = number(orbit.blend, defaults.blend or 250),
-            dragThresholdPx = number(orbit.dragThresholdPx, defaults.dragThresholdPx or 4.0)
+            dragThresholdPx = number(orbit.dragThresholdPx, defaults.dragThresholdPx or 4.0),
         },
-        origin = copyVec3(options.origin, origin)
+        origin = copyVec3(options.origin, origin),
     }
 end
 
 AddEventHandler('DTlib:gizmo:change', function(id, data)
-    if not activeSession or activeSession.id ~= id then return end
+    if not activeSession or activeSession.id ~= id then
+        return
+    end
     local result = normaliseResult(data, activeSession.entity)
     invoke(activeSession.options.onChange, result)
     TriggerEvent('DTlib:placement:changed', result)
@@ -526,14 +588,18 @@ AddEventHandler('DTlib:gizmo:change', function(id, data)
 end)
 
 AddEventHandler('DTlib:gizmo:error', function(id, message)
-    if not activeSession or activeSession.id ~= id then return end
+    if not activeSession or activeSession.id ~= id then
+        return
+    end
     if DT.Logger and DT.Logger.Error then
         DT.Logger.Error('PLACEMENT', ('Gizmo runtime error: %s'):format(tostring(message)))
     end
 end)
 
 AddEventHandler('DTlib:gizmo:result', function(id, data)
-    if not activeSession or activeSession.id ~= id then return end
+    if not activeSession or activeSession.id ~= id then
+        return
+    end
     activeSession.promise:resolve(data)
 end)
 
@@ -553,18 +619,24 @@ function DT.Placement.IsActive()
 end
 
 function DT.Placement.GetState()
-    if not activeSession then return nil end
+    if not activeSession then
+        return nil
+    end
     return {
         id = activeSession.id,
         entity = activeSession.entity,
-        resource = activeSession.resource
+        resource = activeSession.resource,
     }
 end
 
 function DT.Placement.Cancel()
-    if not activeSession then return false end
+    if not activeSession then
+        return false
+    end
     if activeSession.provider == 'object_gizmo' then
-        local ok = pcall(function() exports['object_gizmo']:cancelGizmo() end)
+        local ok = pcall(function()
+            exports['object_gizmo']:cancelGizmo()
+        end)
         return ok
     end
     TriggerEvent('DTlib:gizmo:cancel', activeSession.id)
@@ -572,9 +644,13 @@ function DT.Placement.Cancel()
 end
 
 function DT.Placement.Confirm()
-    if not activeSession then return false end
+    if not activeSession then
+        return false
+    end
     if activeSession.provider == 'object_gizmo' then
-        local ok = pcall(function() exports['object_gizmo']:confirmGizmo() end)
+        local ok = pcall(function()
+            exports['object_gizmo']:confirmGizmo()
+        end)
         return ok
     end
     TriggerEvent('DTlib:gizmo:confirm', activeSession.id)
@@ -584,16 +660,24 @@ end
 function DT.Placement.Edit(entity, options)
     entity = tonumber(entity) or 0
     options = type(options) == 'table' and options or {}
-    if options.distanceLimit == nil and DTConfig.Placement then options.distanceLimit = DTConfig.Placement.distanceLimit end
-    if options.showHelp == nil and DTConfig.Placement then options.showHelp = DTConfig.Placement.showHelp end
-    if options.outline == nil and DTConfig.Placement then options.outline = DTConfig.Placement.outline end
+    if options.distanceLimit == nil and DTConfig.Placement then
+        options.distanceLimit = DTConfig.Placement.distanceLimit
+    end
+    if options.showHelp == nil and DTConfig.Placement then
+        options.showHelp = DTConfig.Placement.showHelp
+    end
+    if options.outline == nil and DTConfig.Placement then
+        options.outline = DTConfig.Placement.outline
+    end
     -- Placement controls are an editor state: freeze the PED by default so
     -- W/R/Q/S keybinds cannot move, punch, or trigger gameplay animations.
     if options.freezePlayer == nil then
         options.freezePlayer = not DTConfig.Placement or DTConfig.Placement.freezePlayer ~= false
     end
 
-    if activeSession then return busyResult(entity) end
+    if activeSession then
+        return busyResult(entity)
+    end
     if entity == 0 or not DoesEntityExist(entity) then
         local result = busyResult(entity)
         result.reason = 'entity_missing'
@@ -601,9 +685,14 @@ function DT.Placement.Edit(entity, options)
     end
 
     local provider, providerVersion = placementProvider(options.provider)
-    if options.camera == nil and options.cameraMode == nil then options.camera = 'orbit' end
-    if provider ~= 'object_gizmo' and options.requestControl ~= false
-        and not requestControl(entity, number(options.controlTimeout, 1000)) then
+    if options.camera == nil and options.cameraMode == nil then
+        options.camera = 'orbit'
+    end
+    if
+        provider ~= 'object_gizmo'
+        and options.requestControl ~= false
+        and not requestControl(entity, number(options.controlTimeout, 1000))
+    then
         local result = busyResult(entity)
         result.reason = 'network_control_failed'
         return result
@@ -644,8 +733,12 @@ function DT.Placement.Edit(entity, options)
     -- Official object_gizmo owns its own prompt/TextUI. DTlib only displays
     -- its Lation/native placement help when the dependency-free fallback is used.
     if provider ~= 'object_gizmo' then
-        if options.freezeEntity ~= false then FreezeEntityPosition(entity, true) end
-        if options.disableCollision == true then SetEntityCollision(entity, false, false) end
+        if options.freezeEntity ~= false then
+            FreezeEntityPosition(entity, true)
+        end
+        if options.disableCollision == true then
+            SetEntityCollision(entity, false, false)
+        end
         showHud(options)
     end
 
@@ -654,7 +747,7 @@ function DT.Placement.Edit(entity, options)
         entity = entity,
         resource = sessionRef.resource,
         provider = provider,
-        providerVersion = providerVersion
+        providerVersion = providerVersion,
     })
 
     local raw
@@ -669,7 +762,10 @@ function DT.Placement.Edit(entity, options)
             raw = resultOrError
         else
             if DT.Logger and DT.Logger.Warn then
-                DT.Logger.Warn('PLACEMENT', ('object_gizmo v3 provider failed; using DTlib fallback: %s'):format(tostring(resultOrError)))
+                DT.Logger.Warn(
+                    'PLACEMENT',
+                    ('object_gizmo v3 provider failed; using DTlib fallback: %s'):format(tostring(resultOrError))
+                )
             end
             if sessionRef.externalHud then
                 hideHud(options)
@@ -683,8 +779,12 @@ function DT.Placement.Edit(entity, options)
                 FreezeEntityPosition(sessionRef.playerPed, true)
                 SetEntityVelocity(sessionRef.playerPed, 0.0, 0.0, 0.0)
             end
-            if options.freezeEntity ~= false then FreezeEntityPosition(entity, true) end
-            if options.disableCollision == true then SetEntityCollision(entity, false, false) end
+            if options.freezeEntity ~= false then
+                FreezeEntityPosition(entity, true)
+            end
+            if options.disableCollision == true then
+                SetEntityCollision(entity, false, false)
+            end
             showHud(options)
             TriggerEvent('DTlib:gizmo:start', entity, id, serialisableOptions(options, origin))
             raw = Citizen.Await(promiseHandle)
@@ -702,9 +802,13 @@ function DT.Placement.Edit(entity, options)
 
     -- Mark inactive before any HUD/player restore. Several UI resources
     -- intentionally ignore show requests while a placement session is active.
-    if activeSession == sessionRef then activeSession = nil end
+    if activeSession == sessionRef then
+        activeSession = nil
+    end
 
-    if provider ~= 'object_gizmo' or sessionRef.externalHud then hideHud(options) end
+    if provider ~= 'object_gizmo' or sessionRef.externalHud then
+        hideHud(options)
+    end
     options.__objectGizmoProvider = nil
 
     -- Player recovery must run before external UI recovery. A broken/slow UI
@@ -762,14 +866,16 @@ function DT.Placement.Edit(entity, options)
     end
 
     local finishedOptions = sessionRef.options
-    if result.confirmed then invoke(finishedOptions.onConfirm, result)
-    else invoke(finishedOptions.onCancel, result) end
+    if result.confirmed then
+        invoke(finishedOptions.onConfirm, result)
+    else
+        invoke(finishedOptions.onCancel, result)
+    end
     invoke(finishedOptions.onFinish, result)
     TriggerEvent('DTlib:placement:finished', result)
 
     return result
 end
-
 
 CreateThread(function()
     local pauseControls = { 199, 200, 202, 322 }
@@ -782,16 +888,16 @@ CreateThread(function()
             end
 
             for pad = 0, 2 do
-                for i = 1, #pauseControls do
-                    DisableControlAction(pad, pauseControls[i], true)
+                for index = 1, #pauseControls do
+                    DisableControlAction(pad, pauseControls[index], true)
                 end
             end
             SetPauseMenuActive(false)
 
             if not activeSession and pauseReleaseGuard then
                 local held = false
-                for i = 1, #pauseControls do
-                    local control = pauseControls[i]
+                for index = 1, #pauseControls do
+                    local control = pauseControls[index]
                     if IsDisabledControlPressed(0, control) or IsControlPressed(0, control) then
                         held = true
                         break
@@ -826,7 +932,7 @@ function DT.Placement.PlaceProp(model, options)
             handle = 0,
             confirmed = false,
             cancelled = true,
-            reason = modelError
+            reason = modelError,
         }
     end
 
@@ -848,17 +954,25 @@ function DT.Placement.PlaceProp(model, options)
             handle = 0,
             confirmed = false,
             cancelled = true,
-            reason = 'create_failed'
+            reason = 'create_failed',
         }
     end
 
     SetEntityHeading(entity, number(options.heading, GetEntityHeading(ped)))
-    if options.alpha then SetEntityAlpha(entity, math.floor(number(options.alpha, 255)), false) end
-    if options.snapInitialToGround == true then PlaceObjectOnGroundProperly_2(entity) end
+    if options.alpha then
+        SetEntityAlpha(entity, math.floor(number(options.alpha, 255)), false)
+    end
+    if options.snapInitialToGround == true then
+        PlaceObjectOnGroundProperly_2(entity)
+    end
 
     local editOptions = {}
-    for key, value in pairs(options) do editOptions[key] = value end
-    if editOptions.freezeEntity == nil then editOptions.freezeEntity = true end
+    for key, value in pairs(options) do
+        editOptions[key] = value
+    end
+    if editOptions.freezeEntity == nil then
+        editOptions.freezeEntity = true
+    end
     if editOptions.freezeAfter == nil then
         if DTConfig.Placement then
             editOptions.freezeAfter = DTConfig.Placement.freezeAfter
@@ -866,7 +980,9 @@ function DT.Placement.PlaceProp(model, options)
             editOptions.freezeAfter = true
         end
     end
-    if editOptions.restoreOnCancel == nil then editOptions.restoreOnCancel = true end
+    if editOptions.restoreOnCancel == nil then
+        editOptions.restoreOnCancel = true
+    end
 
     local result = DT.Placement.Edit(entity, editOptions)
     if result.cancelled and options.deleteOnCancel ~= false and DoesEntityExist(entity) then
@@ -886,16 +1002,22 @@ DT.PropPlacement = DT.Placement
 -- lives in the consumer resource while the actual placement session remains
 -- owned by DTlib, avoiding cross-resource yield/function-reference issues.
 AddEventHandler('DTlib:placement:bridge:request', function(token, action, payload)
-    if type(token) ~= 'string' or token == '' then return end
+    if type(token) ~= 'string' or token == '' then
+        return
+    end
     payload = type(payload) == 'table' and payload or {}
 
     if action == 'cancel' then
-        if activeSession and activeSession.bridgeToken == token then DT.Placement.Cancel() end
+        if activeSession and activeSession.bridgeToken == token then
+            DT.Placement.Cancel()
+        end
         return
     end
 
     if action == 'confirm' then
-        if activeSession and activeSession.bridgeToken == token then DT.Placement.Confirm() end
+        if activeSession and activeSession.bridgeToken == token then
+            DT.Placement.Confirm()
+        end
         return
     end
 
@@ -926,7 +1048,9 @@ exports('PlacementIsActive', DT.Placement.IsActive)
 exports('PlacementProvider', DT.Placement.Provider)
 
 AddEventHandler('onResourceStop', function(resource)
-    if resource ~= GetCurrentResourceName() then return end
+    if resource ~= GetCurrentResourceName() then
+        return
+    end
     if activeSession then
         local uiRestored = false
         if activeSession.uiSuspendToken and DT.UI and DT.UI.Resume then
@@ -937,12 +1061,16 @@ AddEventHandler('onResourceStop', function(resource)
             pcall(restoreFrozenPeds, activeSession)
         end
         if activeSession.provider == 'object_gizmo' then
-            pcall(function() exports['object_gizmo']:cancelGizmo() end)
+            pcall(function()
+                exports['object_gizmo']:cancelGizmo()
+            end)
         else
             TriggerEvent('DTlib:gizmo:cancel', activeSession.id)
         end
         activeSession = nil
-        if not uiRestored and DT.UI and DT.UI.RestorePlacement then pcall(DT.UI.RestorePlacement, true) end
+        if not uiRestored and DT.UI and DT.UI.RestorePlacement then
+            pcall(DT.UI.RestorePlacement, true)
+        end
     elseif DT.UI and DT.UI.RestorePlacement then
         pcall(DT.UI.RestorePlacement, true)
     end

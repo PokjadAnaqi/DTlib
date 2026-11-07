@@ -1,5 +1,7 @@
 function DT.Vehicle.GetPlate(vehicle)
-    if not vehicle or vehicle == 0 then return nil end
+    if not vehicle or vehicle == 0 then
+        return nil
+    end
     return DTUtils.trim(GetVehicleNumberPlateText(vehicle))
 end
 
@@ -8,17 +10,19 @@ function DT.Vehicle.GetClosest(coords, radius)
     radius = radius or 5.0
     local vehicles = GetGamePool('CVehicle')
     local closest, distance
-    for i = 1, #vehicles do
-        local dist = #(coords - GetEntityCoords(vehicles[i]))
+    for index = 1, #vehicles do
+        local dist = #(coords - GetEntityCoords(vehicles[index]))
         if dist <= radius and (not distance or dist < distance) then
-            closest, distance = vehicles[i], dist
+            closest, distance = vehicles[index], dist
         end
     end
     return closest, distance
 end
 
 function DT.Vehicle.GetProperties(vehicle)
-    if not vehicle or vehicle == 0 or not DoesEntityExist(vehicle) then return nil end
+    if not vehicle or vehicle == 0 or not DoesEntityExist(vehicle) then
+        return nil
+    end
     local color1, color2 = GetVehicleColours(vehicle)
     local pearl, wheel = GetVehicleExtraColours(vehicle)
     return {
@@ -32,18 +36,32 @@ function DT.Vehicle.GetProperties(vehicle)
         color1 = color1,
         color2 = color2,
         pearlescentColor = pearl,
-        wheelColor = wheel
+        wheelColor = wheel,
     }
 end
 
 function DT.Vehicle.SetProperties(vehicle, props)
-    if not vehicle or vehicle == 0 or not DoesEntityExist(vehicle) or type(props) ~= 'table' then return false end
-    if props.plate then SetVehicleNumberPlateText(vehicle, props.plate) end
-    if props.bodyHealth then SetVehicleBodyHealth(vehicle, props.bodyHealth + 0.0) end
-    if props.engineHealth then SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0) end
-    if props.tankHealth then SetVehiclePetrolTankHealth(vehicle, props.tankHealth + 0.0) end
-    if props.fuelLevel then SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0) end
-    if props.dirtLevel then SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0) end
+    if not vehicle or vehicle == 0 or not DoesEntityExist(vehicle) or type(props) ~= 'table' then
+        return false
+    end
+    if props.plate then
+        SetVehicleNumberPlateText(vehicle, props.plate)
+    end
+    if props.bodyHealth then
+        SetVehicleBodyHealth(vehicle, props.bodyHealth + 0.0)
+    end
+    if props.engineHealth then
+        SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0)
+    end
+    if props.tankHealth then
+        SetVehiclePetrolTankHealth(vehicle, props.tankHealth + 0.0)
+    end
+    if props.fuelLevel then
+        SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
+    end
+    if props.dirtLevel then
+        SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
+    end
     if props.color1 or props.color2 then
         local c1, c2 = GetVehicleColours(vehicle)
         SetVehicleColours(vehicle, props.color1 or c1, props.color2 or c2)

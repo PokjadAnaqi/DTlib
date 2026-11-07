@@ -4,7 +4,9 @@ DTlib v1.0.3 includes a structured server console logger and runtime status summ
 
 ## Default startup output
 
-On `ensure DTlib`, the server prints the detected framework, inventory, target, database, weather, UI and Discord configuration state. Discord tokens are never printed.
+On `ensure DTlib`, the server prints one line with the version and primary adapters. The client prints one line with its version and target adapter. A missing database still reports an error. Module readiness and backend lifecycle details use debug logging.
+
+The central update check includes the number of resources using DTlib. Enable `DTConfig.Debug` to see their names. `GetDTlibConsumers` returns the full list.
 
 ## Console command
 
@@ -12,9 +14,9 @@ On `ensure DTlib`, the server prints the detected framework, inventory, target, 
 dtlib:status
 ```
 
-Run it from the server console to print the current DTlib runtime status again. In-game use requires the configured admin ACE (`admin` or `god` by default).
+Run it from the server console to print the current DTlib runtime status in two lines. In-game use requires the configured admin permission.
 
-## Configuration (`settings/sharedConfig.lua`)
+## Configuration (`config/shared.lua`)
 
 ```cfg
 DTConfig.Console = {
@@ -50,4 +52,4 @@ exports.DTlib:PrintStatus('my-resource')
 
 ## UI backend
 
-The startup/status summary includes `UI`. It reports `lation_ui` when Lation Modern UI is running and selected, otherwise `native`. Start/stop events for `lation_ui` are also logged when resource event logging is enabled.
+The status summary includes the selected UI adapter. Backend start and stop messages are shown when both `resourceEvents` and `DTConfig.Debug` are enabled.

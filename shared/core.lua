@@ -18,7 +18,9 @@ DT.UI = DT.UI or {}
 DT.Notify = DT.Notify or function() end
 DT.NotifyAll = DT.NotifyAll or function() end
 DT.NotifyPlayers = DT.NotifyPlayers or function() end
-DT.Progress = DT.Progress or function() return false end
+DT.Progress = DT.Progress or function()
+    return false
+end
 DT.TextUI = DT.TextUI or {}
 DT.Menu = DT.Menu or {}
 DT.Input = DT.Input or {}
@@ -66,10 +68,16 @@ end
 
 function DT.UI.Name()
     local configured = DTConfig.Adapters.ui or 'auto'
-    if configured == 'lation' or configured == 'lationui' then configured = 'lation_ui' end
-    if configured == 'ox' or configured == 'oxlib' then configured = 'ox_lib' end
-    if configured == 'dt' or configured == 'native' or configured == 'dtlib' then return 'native' end
-    return DTUtils.detect(configured, {'lation_ui', 'ox_lib'}) or 'native'
+    if configured == 'lation' or configured == 'lationui' then
+        configured = 'lation_ui'
+    end
+    if configured == 'ox' or configured == 'oxlib' then
+        configured = 'ox_lib'
+    end
+    if configured == 'dt' or configured == 'native' or configured == 'dtlib' then
+        return 'native'
+    end
+    return DTUtils.detect(configured, { 'lation_ui', 'ox_lib' }) or 'native'
 end
 
 function DT.UI.UsingLation()
@@ -80,15 +88,22 @@ function DT.UI.UsingOxLib()
     return DT.UI.Name() == 'ox_lib'
 end
 
-
 function DT.Minigame.Provider(game)
     local config = DTConfig.Minigames or {}
-    if config.enabled == false then return 'disabled' end
+    if config.enabled == false then
+        return 'disabled'
+    end
 
     local provider = tostring(config.provider or 'auto'):lower()
-    if provider == 'lation' or provider == 'lationui' then provider = 'lation_ui' end
-    if provider == 'ox' or provider == 'oxlib' then provider = 'ox_lib' end
-    if provider == 'none' or provider == 'disabled' or provider == 'off' then return 'disabled' end
+    if provider == 'lation' or provider == 'lationui' then
+        provider = 'lation_ui'
+    end
+    if provider == 'ox' or provider == 'oxlib' then
+        provider = 'ox_lib'
+    end
+    if provider == 'none' or provider == 'disabled' or provider == 'off' then
+        return 'disabled'
+    end
 
     game = game and tostring(game):lower() or nil
     local skillGame = game == nil or game == 'skill' or game == 'skillcheck' or game == 'skill_check'
@@ -116,11 +131,19 @@ end
 local function placementAdapterName()
     if DT.Placement and DT.Placement.Provider then
         local ok, value = pcall(DT.Placement.Provider)
-        if ok and value then return value end
+        if ok and value then
+            return value
+        end
     end
 
     local configured = DTConfig.Placement and tostring(DTConfig.Placement.provider or 'native'):lower() or 'native'
-    if configured == 'native' or configured == 'dtlib' or configured == 'dtlib_gizmo' or configured == 'legacy' or configured == 'v1.0.6' then
+    if
+        configured == 'native'
+        or configured == 'dtlib'
+        or configured == 'dtlib_gizmo'
+        or configured == 'legacy'
+        or configured == 'v1.0.6'
+    then
         return 'dtlib_gizmo'
     end
 
@@ -129,7 +152,9 @@ local function placementAdapterName()
             local version = GetResourceMetadata('object_gizmo', 'version', 0) or ''
             local major = tonumber(tostring(version):match('(%d+)')) or 0
             local required = DTConfig.Placement and DTConfig.Placement.objectGizmoMajor or 3
-            if major >= required then return ('object_gizmo@%s'):format(version ~= '' and version or 'v3+') end
+            if major >= required then
+                return ('object_gizmo@%s'):format(version ~= '' and version or 'v3+')
+            end
         end
     end
 
@@ -153,15 +178,19 @@ function DT.GetAdapters()
         banking = DT.Ecosystem and DT.Ecosystem.Provider('banking') or 'unavailable',
         fuel = DT.Ecosystem and DT.Ecosystem.Provider('fuel') or 'unavailable',
         vehiclekey = DT.Ecosystem and DT.Ecosystem.Provider('vehiclekey') or 'unavailable',
-        phone = DT.Ecosystem and DT.Ecosystem.Provider('phone') or 'unavailable'
+        phone = DT.Ecosystem and DT.Ecosystem.Provider('phone') or 'unavailable',
     }
 end
 
 function DT.Debug(...)
-    if not DTConfig.Debug then return end
-    local args = {...}
+    if not DTConfig.Debug then
+        return
+    end
+    local arguments = { ... }
     local output = {}
-    for i = 1, #args do output[i] = tostring(args[i]) end
+    for rowIndex = 1, #arguments do
+        output[rowIndex] = tostring(arguments[rowIndex])
+    end
     if DT.Logger and DT.Logger.Debug then
         DT.Logger.Debug('DEBUG', table.concat(output, ' '))
     else
