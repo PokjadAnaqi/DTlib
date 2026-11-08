@@ -131,7 +131,7 @@ DT.Notify({
 })
 ```
 
-Lation positions supported by DTlib notify are `top-left`, `top`, `top-right`, `center-left`, `center-right`, `bottom-left`, `bottom`, and `bottom-right`. `top-center`/`bottom-center` are accepted as DT aliases.
+DTlib supports `top-left`, `top`, `top-right`, `center-left`, `center-right`, `bottom-left`, `bottom`, and `bottom-right`. Use these exact values for `position` and `DTConfig.UI.notifyPosition`.
 
 
 ## Automatic item label resolution

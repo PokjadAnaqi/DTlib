@@ -1,7 +1,16 @@
 DT.NotifyUtil = DT.NotifyUtil or {}
 local N = DT.NotifyUtil
 N.validTypes = {info=true,success=true,warning=true,error=true}
-N.validPositions = {['top-left']=true,top=true,['top-center']=true,['top-right']=true,['center-left']=true,['center-right']=true,['bottom-left']=true,bottom=true,['bottom-center']=true,['bottom-right']=true}
+N.validPositions = {
+    ['top-left'] = true,
+    top = true,
+    ['top-right'] = true,
+    ['center-left'] = true,
+    ['center-right'] = true,
+    ['bottom-left'] = true,
+    bottom = true,
+    ['bottom-right'] = true,
+}
 N.validSizes = {sm=true,md=true,lg=true}
 
 function N.type(value)
@@ -12,15 +21,10 @@ function N.type(value)
     return N.validTypes[value] and value or 'info'
 end
 function N.position(value)
-    value=tostring(value or DTConfig.UI.notifyPosition or 'top-right'):lower()
-    local aliases={topleft='top-left',topright='top-right',bottomleft='bottom-left',bottomright='bottom-right'};value=aliases[value] or value
-    if value == 'left-center' or value == 'centre-left' then
-        value = 'center-left'
-    elseif value == 'centre-right' then
-        value = 'center-right'
-    end
-    if value=='top-center' then value='top' elseif value=='bottom-center' then value='bottom' end
-    return N.validPositions[value] and value or 'top-right'
+    if N.validPositions[value] then return value end
+
+    local defaultPosition = DTConfig.UI.notifyPosition
+    return N.validPositions[defaultPosition] and defaultPosition or 'top-right'
 end
 function N.resolveText(text)
     if DTConfig.UI.resolveItemLabels==false or type(text)~='string' or text=='' then return text end
