@@ -30,11 +30,18 @@ DTConfig.Console = {
 DTConfig.UI = {
     notifyDuration = 4500,
     notifyMaxVisible = 5,
+    -- Available options: 'top-left', 'top', 'top-right', 'center-left', 'center-right', 'bottom-left', 'bottom', 'bottom-right'.
     notifyPosition = 'center-left',
     notifySize = 'md',
     resolveItemLabels = true,
+    -- Available options with lation_ui or ox_lib: 'left-center', 'right-center', 'top-center', 'bottom-center'.
+    -- Native TextUI is fixed at 'right-center'.
     textUIPosition = 'right-center',
+    -- Available options for the native progress bar: 'bottom-center'.
+    -- External progress bars use their provider's placement.
     progressPosition = 'bottom-center',
+    -- Menu position. Available options: 'top-left', 'top-right', 'offcenter-left', 'offcenter-right'.
+    -- This default applies to the lation_ui menu.
     menuPosition = 'offcenter-right'
 }
 
