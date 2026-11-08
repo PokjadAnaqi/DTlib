@@ -1,13 +1,39 @@
-local A={resource='standalone',publicName='standalone'}
-function A:available() return true end
-function A:getJobs() return {} end
-function A:getGangs() return {} end
-function A:getVehicles() return {} end
-function A:getWeapons() return {} end
-function A:getPlayer() return nil end
-function A:getPlayers() local o={}; for _,s in ipairs(GetPlayers()) do o[#o+1]=tonumber(s) or s end; return o end
-function A:getName(source) return GetPlayerName(source) end
-function A:getGroups() return {} end
-function A:getMoney() return 0 end
-function A:getData() return {} end
-DT.Modules.Register('framework','standalone',A)
+local adapter = { resource = 'standalone', publicName = 'standalone' }
+function adapter:available()
+    return true
+end
+function adapter:getJobs()
+    return {}
+end
+function adapter:getGangs()
+    return {}
+end
+function adapter:getVehicles()
+    return {}
+end
+function adapter:getWeapons()
+    return {}
+end
+function adapter:getPlayer()
+    return nil
+end
+function adapter:getPlayers()
+    local result = {}
+    for _, value in ipairs(GetPlayers()) do
+        result[#result + 1] = tonumber(value) or value
+    end
+    return result
+end
+function adapter:getName(source)
+    return GetPlayerName(source)
+end
+function adapter:getGroups()
+    return {}
+end
+function adapter:getMoney()
+    return 0
+end
+function adapter:getData()
+    return {}
+end
+DT.Modules.Register('framework', 'standalone', adapter)

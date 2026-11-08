@@ -1,4 +1,4 @@
-# DTlib 1.3.2
+# DTlib 1.4.0
 
 DTlib is a standalone FiveM resource with its own provider registry, UI, callbacks and gameplay helpers. It includes modular provider adapters and shared utilities for DT ecosystem scripts.
 
@@ -9,9 +9,10 @@ All UI assets live under `html/`; dialogue runtime and editable sources are in `
 ## Install
 
 1. Download the `DTlib.zip` release asset and extract its `DTlib` folder into your resources directory. Replace the existing resource folder with this fresh folder.
-2. Start your database, framework, inventory and chosen provider resources first.
-3. Add `ensure DTlib` before your DT resources in `server.cfg`.
-4. Restart DTlib and its consumers after upgrading. Consumers keep `@DTlib/init.lua` and `dependency 'DTlib'`.
+2. Merge your existing settings into `config/shared.lua`, `config/client.lua` and `config/server.lua`.
+3. Start your database, framework, inventory and chosen provider resources first.
+4. Add `ensure DTlib` before your DT resources in `server.cfg`.
+5. Restart DTlib and its consumers after upgrading. Consumers keep `@DTlib/init.lua` and `dependency 'DTlib'`.
 
 Optional provider resources are installed separately. The default manifest uses `fx_version 'cerulean'`.
 

@@ -1,7 +1,16 @@
-local A={resource='okokNotify',publicName='okokNotify'}
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:send(p)
-    local map={info='Info',success='Success',warning='Warning',error='Error'}
-    exports.okokNotify:Alert(p.title or 'Notification',p.message or '',p.duration,map[p.type] or 'Info',false); return true
+local adapter = { resource = 'okokNotify', publicName = 'okokNotify' }
+function adapter:available()
+    return DTUtils.isStarted(self.resource)
 end
-DT.Modules.Register('notify','okokNotify',A)
+function adapter:send(payload)
+    local map = { info = 'Info', success = 'Success', warning = 'Warning', error = 'Error' }
+    exports.okokNotify:Alert(
+        payload.title or 'Notification',
+        payload.message or '',
+        payload.duration,
+        map[payload.type] or 'Info',
+        false
+    )
+    return true
+end
+DT.Modules.Register('notify', 'okokNotify', adapter)

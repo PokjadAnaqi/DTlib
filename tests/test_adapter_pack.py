@@ -25,7 +25,7 @@ for server in [False,True]:
 print('Shared/side-specific utilities and path guards PASS')
 inventory=json.loads((root/'docs/IMPORTED_FILES.json').read_text())
 for row in inventory['files']:assert (root/row['dtlib']).is_file(),row
-assert len(catalog)==22 and sum(len(c['providers']) for c in catalog.values())==153
+assert len(catalog)==22 and sum(len(c['providers']) for c in catalog.values())==154
 print('Complete upstream runtime file inventory:',len(inventory['files']),'PASS')
 
 lua,_=load_manifest(False,['okokNotify'])

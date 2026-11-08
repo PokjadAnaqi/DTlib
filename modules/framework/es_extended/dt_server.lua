@@ -1,44 +1,243 @@
-local U=DT.FrameworkUtil
-local A={resource='es_extended',publicName='esx'}
-local function core() local ok,v=pcall(function() return exports.es_extended:getSharedObject() end); return ok and v or nil end
+local frameworkUtil = DT.FrameworkUtil
+local adapter = { resource = 'es_extended', publicName = 'esx' }
+local function core()
+    local ok, result = pcall(function()
+        return exports.es_extended:getSharedObject()
+    end)
+    return ok and result or nil
+end
 local function player(source)
-    local c=core(); if not c then return nil end
-    if type(c.Player)=='function' then local ok,p=pcall(c.Player,source); if ok and p then return p end end
-    if type(c.GetPlayerFromId)=='function' then local ok,p=pcall(c.GetPlayerFromId,source); if ok then return p end end
+    local coreObject = core()
+    if not coreObject then
+        return nil
+    end
+    if type(coreObject.Player) == 'function' then
+        local ok, payload = pcall(coreObject.Player, source)
+        if ok and payload then
+            return payload
+        end
+    end
+    if type(coreObject.GetPlayerFromId) == 'function' then
+        local ok, payload = pcall(coreObject.GetPlayerFromId, source)
+        if ok then
+            return payload
+        end
+    end
 end
-local function account(t) return (t==nil or t=='cash') and 'money' or t end
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:getJobs() local c=core(); if c and type(c.GetJobs)=='function' then local ok,v=pcall(c.GetJobs); return ok and v or {} end; return {} end
-function A:getGangs() return {} end
-function A:getJob(name) return self:getJobs()[name] end
-function A:getGang() return nil end
-function A:getPlayer(source) return player(source) end
-function A:getByIdentifier(identifier)
-    local c=core(); if not c then return nil end
-    if type(c.Player)=='function' then local ok,p=pcall(c.Player,identifier); if ok and p then return p end end
-    if type(c.GetPlayerFromIdentifier)=='function' then local ok,p=pcall(c.GetPlayerFromIdentifier,identifier); if ok then return p end end
+local function account(valueType)
+    return (valueType == nil or valueType == 'cash') and 'money' or valueType
 end
-function A:getPlayers()
-    local c=core(); if c and type(c.ExtendedPlayers)=='function' then local ok,v=pcall(c.ExtendedPlayers); if ok and type(v)=='table' then local o={}; for i=1,#v do local s=v[i].source or v[i].playerId; if s then o[#o+1]=tonumber(s) or s end end; if #o>0 then return o end end end
-    if c and type(c.GetPlayers)=='function' then local ok,v=pcall(c.GetPlayers); if ok and v then return v end end
+function adapter:available()
+    return DTUtils.isStarted(self.resource)
+end
+function adapter:isAdmin(source)
+    local playerObject = player(source)
+    if not playerObject or not playerObject.getGroup then
+        return false
+    end
+    local ok, group = pcall(playerObject.getGroup)
+    return ok and (group == 'admin' or group == 'superadmin')
+end
+function adapter:getJobs()
+    local coreObject = core()
+    if coreObject and type(coreObject.GetJobs) == 'function' then
+        local ok, result = pcall(coreObject.GetJobs)
+        return ok and result or {}
+    end
     return {}
 end
-function A:getIdentifier(source) local p=player(source); if p and p.getIdentifier then local ok,v=pcall(p.getIdentifier); if ok and v then return v end end; return p and p.identifier or GetPlayerIdentifierByType(source,'license') end
-function A:getName(source) local p=player(source); if p and p.getName then local ok,v=pcall(p.getName); if ok and v then return v end end; return p and p.name or GetPlayerName(source) end
-function A:getJobFor(source) local p=player(source); if not p then return nil end; local d=p.job; if p.getJob then local ok,v=pcall(p.getJob); if ok and v then d=v end end; return U.normalizeGroup(d) end
-function A:getGangFor() return nil end
-function A:getGroups(source) local g={}; local j=self:getJobFor(source); if j and j.name then g[j.name]=j.grade end; local p=player(source); if p and p.getGroup then local ok,v=pcall(p.getGroup); if ok and v then g[v]=math.max(g[v] or 0,0) end end; return g end
-function A:setJob(source,name,grade,onDuty) local p=player(source); if not p or not p.setJob then return false end; p.setJob(name,tonumber(grade) or 0,onDuty); return true end
-function A:getMoney(source,t) local p=player(source); if p and p.getAccount then local ok,a=pcall(p.getAccount,account(t)); return ok and a and tonumber(a.money) or 0 end; return 0 end
-function A:addMoney(source,t,a,r) local p=player(source); if p and p.addAccountMoney then p.addAccountMoney(account(t),a,r or 'DTlib'); return true end; return false end
-function A:removeMoney(source,t,a,r) local p=player(source); if p and p.removeAccountMoney then p.removeAccountMoney(account(t),a,r or 'DTlib'); return true end; return false end
-function A:setMoney(source,t,a,r) local p=player(source); if p and p.setAccountMoney then p.setAccountMoney(account(t),a,r or 'DTlib'); return true end; return false end
-function A:getMeta(source,key) local p=player(source); if p and p.getMeta then local ok,v=pcall(p.getMeta,key); return ok and v or nil end end
-function A:setMeta(source,key,value) local p=player(source); if p and p.setMeta then p.setMeta(key,value); return true end; return false end
-function A:getCoords(source) local p=player(source); if p and p.getCoords then local ok,v=pcall(p.getCoords,true); if ok and v then return v end end end
-function A:save(source) local p=player(source); if p and p.save then p.save(); return true end; return false end
-function A:getData(source)
-    local p=player(source); if not p then return {} end
-    return {source=tonumber(source) or source,identifier=self:getIdentifier(source),name=self:getName(source),job=self:getJobFor(source),groups=self:getGroups(source),accounts=p.getAccounts and p.getAccounts() or p.accounts,metadata=p.getMeta and p.getMeta() or nil}
+function adapter:getGangs()
+    return {}
 end
-DT.Modules.Register('framework','es_extended',A)
+function adapter:getJob(name)
+    return self:getJobs()[name]
+end
+function adapter:getGang()
+    return nil
+end
+function adapter:getPlayer(source)
+    return player(source)
+end
+function adapter:getByIdentifier(identifier)
+    local coreObject = core()
+    if not coreObject then
+        return nil
+    end
+    if type(coreObject.Player) == 'function' then
+        local ok, payload = pcall(coreObject.Player, identifier)
+        if ok and payload then
+            return payload
+        end
+    end
+    if type(coreObject.GetPlayerFromIdentifier) == 'function' then
+        local ok, payload = pcall(coreObject.GetPlayerFromIdentifier, identifier)
+        if ok then
+            return payload
+        end
+    end
+end
+function adapter:getPlayers()
+    local coreObject = core()
+    if coreObject and type(coreObject.ExtendedPlayers) == 'function' then
+        local ok, result = pcall(coreObject.ExtendedPlayers)
+        if ok and type(result) == 'table' then
+            local output = {}
+            for index = 1, #result do
+                local sourceId = result[index].source or result[index].playerId
+                if sourceId then
+                    output[#output + 1] = tonumber(sourceId) or sourceId
+                end
+            end
+            if #output > 0 then
+                return output
+            end
+        end
+    end
+    if coreObject and type(coreObject.GetPlayers) == 'function' then
+        local ok, result = pcall(coreObject.GetPlayers)
+        if ok and result then
+            return result
+        end
+    end
+    return {}
+end
+function adapter:getIdentifier(source)
+    local playerObject = player(source)
+    if playerObject and playerObject.getIdentifier then
+        local ok, result = pcall(playerObject.getIdentifier)
+        if ok and result then
+            return result
+        end
+    end
+    return playerObject and playerObject.identifier or GetPlayerIdentifierByType(source, 'license')
+end
+function adapter:getName(source)
+    local playerObject = player(source)
+    if playerObject and playerObject.getName then
+        local ok, result = pcall(playerObject.getName)
+        if ok and result then
+            return result
+        end
+    end
+    return playerObject and playerObject.name or GetPlayerName(source)
+end
+function adapter:getJobFor(source)
+    local playerObject = player(source)
+    if not playerObject then
+        return nil
+    end
+    local data = playerObject.job
+    if playerObject.getJob then
+        local ok, result = pcall(playerObject.getJob)
+        if ok and result then
+            data = result
+        end
+    end
+    return frameworkUtil.normalizeGroup(data)
+end
+function adapter:getGangFor()
+    return nil
+end
+function adapter:getGroups(source)
+    local groups = {}
+    local job = self:getJobFor(source)
+    if job and job.name then
+        groups[job.name] = job.grade
+    end
+    local playerObject = player(source)
+    if playerObject and playerObject.getGroup then
+        local ok, result = pcall(playerObject.getGroup)
+        if ok and result then
+            groups[result] = math.max(groups[result] or 0, 0)
+        end
+    end
+    return groups
+end
+function adapter:setJob(source, name, grade, onDuty)
+    local playerObject = player(source)
+    if not playerObject or not playerObject.setJob then
+        return false
+    end
+    playerObject.setJob(name, tonumber(grade) or 0, onDuty)
+    return true
+end
+function adapter:getMoney(source, valueType)
+    local playerObject = player(source)
+    if playerObject and playerObject.getAccount then
+        local ok, provider = pcall(playerObject.getAccount, account(valueType))
+        return ok and provider and tonumber(provider.money) or 0
+    end
+    return 0
+end
+function adapter:addMoney(source, valueType, provider, result)
+    local playerObject = player(source)
+    if playerObject and playerObject.addAccountMoney then
+        playerObject.addAccountMoney(account(valueType), provider, result or 'DTlib')
+        return true
+    end
+    return false
+end
+function adapter:removeMoney(source, valueType, provider, result)
+    local playerObject = player(source)
+    if playerObject and playerObject.removeAccountMoney then
+        playerObject.removeAccountMoney(account(valueType), provider, result or 'DTlib')
+        return true
+    end
+    return false
+end
+function adapter:setMoney(source, valueType, provider, result)
+    local playerObject = player(source)
+    if playerObject and playerObject.setAccountMoney then
+        playerObject.setAccountMoney(account(valueType), provider, result or 'DTlib')
+        return true
+    end
+    return false
+end
+function adapter:getMeta(source, key)
+    local playerObject = player(source)
+    if playerObject and playerObject.getMeta then
+        local ok, result = pcall(playerObject.getMeta, key)
+        return ok and result or nil
+    end
+end
+function adapter:setMeta(source, key, value)
+    local playerObject = player(source)
+    if playerObject and playerObject.setMeta then
+        playerObject.setMeta(key, value)
+        return true
+    end
+    return false
+end
+function adapter:getCoords(source)
+    local playerObject = player(source)
+    if playerObject and playerObject.getCoords then
+        local ok, result = pcall(playerObject.getCoords, true)
+        if ok and result then
+            return result
+        end
+    end
+end
+function adapter:save(source)
+    local playerObject = player(source)
+    if playerObject and playerObject.save then
+        playerObject.save()
+        return true
+    end
+    return false
+end
+function adapter:getData(source)
+    local playerObject = player(source)
+    if not playerObject then
+        return {}
+    end
+    return {
+        source = tonumber(source) or source,
+        identifier = self:getIdentifier(source),
+        name = self:getName(source),
+        job = self:getJobFor(source),
+        groups = self:getGroups(source),
+        accounts = playerObject.getAccounts and playerObject.getAccounts() or playerObject.accounts,
+        metadata = playerObject.getMeta and playerObject.getMeta() or nil,
+    }
+end
+DT.Modules.Register('framework', 'es_extended', adapter)

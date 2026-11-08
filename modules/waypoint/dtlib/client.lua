@@ -23,33 +23,47 @@ local resourceName = GetCurrentResourceName()
 
 -- DUI callbacks are diagnostic only. Rendering never depends on this callback
 -- because some FiveM/CEF builds can delay or drop DUI -> NUI callbacks.
-RegisterNUICallback('dtlib_waypoint_ready', function(data, cb)
+RegisterNUICallback('dtlib_waypoint_ready', function(data, callback)
     local id = tonumber(data and data.id)
-    if id then duiReady[id] = true end
-    cb({ ok = true })
+    if id then
+        duiReady[id] = true
+    end
+    callback({ ok = true })
 end)
 
 local function log(level, message, data)
-    if not DT.Logger then return end
-    local fn = DT.Logger[level]
-    if type(fn) == 'function' then
-        fn('WAYPOINT', message, data)
+    if not DT.Logger then
+        return
+    end
+    local handler = DT.Logger[level]
+    if type(handler) == 'function' then
+        handler('WAYPOINT', message, data)
     end
 end
 
 local function toVec3(value)
-    if type(value) == 'vector3' then return value end
-    if type(value) == 'vector4' then return vec3(value.x, value.y, value.z) end
-    if type(value) ~= 'table' then return nil end
+    if type(value) == 'vector3' then
+        return value
+    end
+    if type(value) == 'vector4' then
+        return vec3(value.x, value.y, value.z)
+    end
+    if type(value) ~= 'table' then
+        return nil
+    end
     local x = tonumber(value.x or value[1])
     local y = tonumber(value.y or value[2])
     local z = tonumber(value.z or value[3])
-    if not x or not y or not z then return nil end
+    if not x or not y or not z then
+        return nil
+    end
     return vec3(x, y, z)
 end
 
 local function copyTable(input)
-    if type(input) ~= 'table' then return input end
+    if type(input) ~= 'table' then
+        return input
+    end
     local output = {}
     for key, value in pairs(input) do
         output[key] = type(value) == 'table' and copyTable(value) or value
@@ -57,14 +71,16 @@ local function copyTable(input)
     return output
 end
 
-local function distanceSquared(a, b)
-    local dx, dy, dz = a.x - b.x, a.y - b.y, a.z - b.z
+local function distanceSquared(firstPoint, secondPoint)
+    local dx, dy, dz = firstPoint.x - secondPoint.x, firstPoint.y - secondPoint.y, firstPoint.z - secondPoint.z
     return dx * dx + dy * dy + dz * dz
 end
 
 local function resolveMapWaypointZ(value)
     local coords = toVec3(value)
-    if not coords then return nil end
+    if not coords then
+        return nil
+    end
 
     -- GTA map waypoints commonly report Z=0. Probe ground height without
     -- blocking the renderer. If collision is not streamed yet, use a sane
@@ -72,8 +88,8 @@ local function resolveMapWaypointZ(value)
     RequestCollisionAtCoord(coords.x, coords.y, 1000.0)
 
     local probes = { 1000.0, 750.0, 500.0, 250.0, 100.0, 50.0 }
-    for i = 1, #probes do
-        local found, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, probes[i], false)
+    for rowIndex = 1, #probes do
+        local found, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, probes[rowIndex], false)
         if found then
             return vec3(coords.x, coords.y, groundZ)
         end
@@ -93,27 +109,41 @@ local function normalizeData(input, previous)
     previous = previous or {}
 
     local coords = input.coords ~= nil and toVec3(input.coords) or previous.coords
-    if not coords then return nil, 'invalid_coords' end
+    if not coords then
+        return nil, 'invalid_coords'
+    end
 
     local defaults = config.defaults or {}
     local drawDistance = tonumber(input.drawDistance or previous.drawDistance or defaults.drawDistance) or 500.0
-    local fadeDistance = tonumber(input.fadeDistance or previous.fadeDistance or defaults.fadeDistance) or math.max(0.0, drawDistance - 100.0)
+    local fadeDistance = tonumber(input.fadeDistance or previous.fadeDistance or defaults.fadeDistance)
+        or math.max(0.0, drawDistance - 100.0)
     fadeDistance = math.min(fadeDistance, drawDistance)
 
     local removeDistance = input.removeDistance
-    if removeDistance == nil then removeDistance = previous.removeDistance end
+    if removeDistance == nil then
+        removeDistance = previous.removeDistance
+    end
     removeDistance = tonumber(removeDistance)
 
     local displayDistance = input.displayDistance
-    if displayDistance == nil then displayDistance = previous.displayDistance end
-    if displayDistance == nil then displayDistance = defaults.displayDistance ~= false end
+    if displayDistance == nil then
+        displayDistance = previous.displayDistance
+    end
+    if displayDistance == nil then
+        displayDistance = defaults.displayDistance ~= false
+    end
 
     local data = {
         coords = coords,
         type = tostring(input.type or previous.type or defaults.type or 'objective'),
         label = tostring(input.label or previous.label or defaults.label or 'OBJECTIVE'),
-        subtitle = tostring(input.subtitle or previous.subtitle or defaults.subtitle or 'DT NAVIGATION'),
-        color = tostring(input.color or previous.color or defaults.color or '#9db34f'),
+        subtitle = tostring(input.subtitle or previous.subtitle or defaults.subtitle or 'NAVIGATION'),
+        color = tostring(
+            input.color
+                or previous.color
+                or (tostring(input.type or previous.type or defaults.type) == 'danger' and (defaults.dangerColor or '#ce6257') or defaults.color)
+                or '#d6bb58'
+        ),
         icon = input.icon ~= nil and input.icon or previous.icon or defaults.icon or 'fa-solid fa-location-dot',
         image = input.image ~= nil and input.image or previous.image,
         iconColor = input.iconColor ~= nil and input.iconColor or previous.iconColor,
@@ -129,7 +159,9 @@ local function normalizeData(input, previous)
         minScale = tonumber(input.minScale or previous.minScale or defaults.minScale) or 0.72,
         maxScale = tonumber(input.maxScale or previous.maxScale or defaults.maxScale) or 14.0,
         pulse = (function()
-            if input.pulse ~= nil then return input.pulse == true end
+            if input.pulse ~= nil then
+                return input.pulse == true
+            end
             return previous.pulse == true
         end)(),
         owner = input.owner or previous.owner or 'local',
@@ -153,12 +185,14 @@ local function waypointMessage(waypoint)
             iconColor = data.iconColor,
             displayDistance = data.displayDistance,
             pulse = data.pulse,
-        }
+        },
     }
 end
 
 local function destroyDuiWrapper(wrapper)
-    if not wrapper then return end
+    if not wrapper then
+        return
+    end
     if wrapper.dui and wrapper.dui ~= 0 then
         SetDuiUrl(wrapper.dui, 'about:blank')
         DestroyDui(wrapper.dui)
@@ -226,7 +260,9 @@ local function createDuiWrapper()
 end
 
 local function acquireDui(waypoint)
-    if waypoint.dui then return true end
+    if waypoint.dui then
+        return true
+    end
 
     local wrapper
     if #poolAvailable > 0 then
@@ -234,7 +270,9 @@ local function acquireDui(waypoint)
         if wrapper and wrapper.ready and wrapper.dui and wrapper.dui ~= 0 then
             poolInUse[wrapper.id] = wrapper
         else
-            if wrapper then destroyDuiWrapper(wrapper) end
+            if wrapper then
+                destroyDuiWrapper(wrapper)
+            end
             wrapper = nil
         end
     end
@@ -242,12 +280,18 @@ local function acquireDui(waypoint)
     if not wrapper then
         local maxVisible = tonumber(config.rendering and config.rendering.maxVisible) or 18
         local activeCount = 0
-        for _ in pairs(poolInUse) do activeCount = activeCount + 1 end
-        if activeCount >= maxVisible then return false end
+        for _ in pairs(poolInUse) do
+            activeCount = activeCount + 1
+        end
+        if activeCount >= maxVisible then
+            return false
+        end
         wrapper = createDuiWrapper()
     end
 
-    if not wrapper or not wrapper.ready then return false end
+    if not wrapper or not wrapper.ready then
+        return false
+    end
     wrapper.assigned = waypoint.id
     waypoint.dui = wrapper
     local message = json.encode(waypointMessage(waypoint))
@@ -265,7 +309,9 @@ end
 
 local function releaseDui(waypoint)
     local wrapper = waypoint and waypoint.dui
-    if not wrapper then return end
+    if not wrapper then
+        return
+    end
     waypoint.dui = nil
     waypoint.lastDistance = nil
     waypoint.nextDistanceUpdate = nil
@@ -283,8 +329,8 @@ local function destroyDuiPool()
             destroyDuiWrapper(wrapper)
         end
     end
-    for i = 1, #poolAvailable do
-        local wrapper = poolAvailable[i]
+    for rowIndex = 1, #poolAvailable do
+        local wrapper = poolAvailable[rowIndex]
         if wrapper and not seen[wrapper] then
             seen[wrapper] = true
             destroyDuiWrapper(wrapper)
@@ -317,7 +363,9 @@ end
 
 local function removeWaypoint(id)
     local waypoint = localWaypoints[id]
-    if not waypoint then return false end
+    if not waypoint then
+        return false
+    end
     waypoint.active = false
     releaseDui(waypoint)
 
@@ -334,17 +382,25 @@ local function removeWaypoint(id)
     renderingSet[id] = nil
 
     for serverId, clientId in pairs(serverToClient) do
-        if clientId == id then serverToClient[serverId] = nil end
+        if clientId == id then
+            serverToClient[serverId] = nil
+        end
     end
-    if mapWaypointId == id then mapWaypointId = nil end
+    if mapWaypointId == id then
+        mapWaypointId = nil
+    end
     return true
 end
 
 local function updateWaypoint(id, patch)
     local waypoint = localWaypoints[id]
-    if not waypoint then return false, 'not_found' end
-    local data, err = normalizeData(patch, waypoint.data)
-    if not data then return false, err end
+    if not waypoint then
+        return false, 'not_found'
+    end
+    local data, errorMessage = normalizeData(patch, waypoint.data)
+    if not data then
+        return false, errorMessage
+    end
     waypoint.data = data
     if waypoint.dui then
         SendDuiMessage(waypoint.dui.dui, json.encode(waypointMessage(waypoint)))
@@ -356,7 +412,9 @@ local function normalizeRightVector(pos, camPos)
     local dx = camPos.x - pos.x
     local dy = camPos.y - pos.y
     local length = math.sqrt(dx * dx + dy * dy)
-    if length < 0.001 then return 1.0, 0.0 end
+    if length < 0.001 then
+        return 1.0, 0.0
+    end
     dx, dy = dx / length, dy / length
     -- Equivalent to cross(up, forward) in the reference implementation.
     return -dy, dx
@@ -386,42 +444,94 @@ local function anyCornerOnScreen(center, width, height, camPos)
         vec3(center.x - rx * halfWidth, center.y - ry * halfWidth, center.z - halfHeight),
         vec3(center.x + rx * halfWidth, center.y + ry * halfWidth, center.z - halfHeight),
     }
-    for i = 1, #points do
-        local p = points[i]
-        local visible = GetScreenCoordFromWorldCoord(p.x, p.y, p.z)
-        if visible == true or visible == 1 then return true end
+    for rowIndex = 1, #points do
+        local position = points[rowIndex]
+        local visible = GetScreenCoordFromWorldCoord(position.x, position.y, position.z)
+        if visible == true or visible == 1 then
+            return true
+        end
     end
     return false
 end
 
-local function drawPolyBothSides(a, b, c, r, g, bcol, alpha, txd, txn, au, av, bu, bv, cu, cv)
+local function drawPolyBothSides(
+    firstVertex,
+    secondVertex,
+    thirdVertex,
+    red,
+    green,
+    blue,
+    alpha,
+    textureDictionary,
+    textureName,
+    firstU,
+    firstV,
+    secondU,
+    secondV,
+    thirdU,
+    thirdV
+)
     DrawTexturedPoly(
-        a.x, a.y, a.z,
-        b.x, b.y, b.z,
-        c.x, c.y, c.z,
-        r, g, bcol, alpha,
-        txd, txn,
-        au, av, 0.0,
-        bu, bv, 0.0,
-        cu, cv, 0.0
+        firstVertex.x,
+        firstVertex.y,
+        firstVertex.z,
+        secondVertex.x,
+        secondVertex.y,
+        secondVertex.z,
+        thirdVertex.x,
+        thirdVertex.y,
+        thirdVertex.z,
+        red,
+        green,
+        blue,
+        alpha,
+        textureDictionary,
+        textureName,
+        firstU,
+        firstV,
+        0.0,
+        secondU,
+        secondV,
+        0.0,
+        thirdU,
+        thirdV,
+        0.0
     )
     -- Draw reverse winding too. DrawTexturedPoly is back-face culled and camera
     -- orientation can flip around steep pitch/near-vertical angles.
     DrawTexturedPoly(
-        c.x, c.y, c.z,
-        b.x, b.y, b.z,
-        a.x, a.y, a.z,
-        r, g, bcol, alpha,
-        txd, txn,
-        cu, cv, 0.0,
-        bu, bv, 0.0,
-        au, av, 0.0
+        thirdVertex.x,
+        thirdVertex.y,
+        thirdVertex.z,
+        secondVertex.x,
+        secondVertex.y,
+        secondVertex.z,
+        firstVertex.x,
+        firstVertex.y,
+        firstVertex.z,
+        red,
+        green,
+        blue,
+        alpha,
+        textureDictionary,
+        textureName,
+        thirdU,
+        thirdV,
+        0.0,
+        secondU,
+        secondV,
+        0.0,
+        firstU,
+        firstV,
+        0.0
     )
 end
 
 local function drawBillboard(waypoint, camPos, alpha)
     local wrapper = waypoint.dui
-    if not wrapper or not wrapper.ready then return false end
+    if not wrapper or not wrapper.ready then
+        return false
+    end
 
     local data = waypoint.data
     local width, height = getRenderDimensions(waypoint, camPos)
@@ -442,12 +552,16 @@ end
 
 local function drawSpriteWaypoint(waypoint, camPos, alpha)
     local wrapper = waypoint.dui
-    if not wrapper or not wrapper.ready then return false end
+    if not wrapper or not wrapper.ready then
+        return false
+    end
 
     local data = waypoint.data
     local anchor = vec3(data.coords.x, data.coords.y, data.coords.z + data.heightOffset)
     local onScreen, screenX, screenY = GetScreenCoordFromWorldCoord(anchor.x, anchor.y, anchor.z)
-    if not onScreen then return false end
+    if not onScreen then
+        return false
+    end
 
     local dist = math.sqrt(math.max(distanceSquared(camPos, data.coords), 0.001))
     local rendering = config.rendering or {}
@@ -458,7 +572,9 @@ local function drawSpriteWaypoint(waypoint, camPos, alpha)
     factor = math.max(minFactor, math.min(maxFactor, factor))
 
     local aspect = GetAspectRatio(false)
-    if not aspect or aspect <= 0.0 then aspect = 16.0 / 9.0 end
+    if not aspect or aspect <= 0.0 then
+        aspect = 16.0 / 9.0
+    end
     local width = baseWidth * data.size * factor
     local height = width * 2.0 * aspect
 
@@ -471,21 +587,37 @@ end
 
 local function drawNativeFallback(waypoint, playerPos)
     local fallback = config.fallback or {}
-    if fallback.enabled == false then return end
+    if fallback.enabled == false then
+        return
+    end
     local data = waypoint.data
     local distance = math.sqrt(distanceSquared(playerPos, data.coords))
     local scale = math.max(0.22, math.min(0.7, 0.65 - (distance / 1200.0)))
     DrawMarker(
         tonumber(fallback.markerType) or 28,
-        data.coords.x, data.coords.y, data.coords.z + 0.45,
-        0.0, 0.0, 0.0,
-        0.0, 0.0, 0.0,
-        scale, scale, scale,
+        data.coords.x,
+        data.coords.y,
+        data.coords.z + 0.45,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        scale,
+        scale,
+        scale,
         tonumber(fallback.r) or 157,
         tonumber(fallback.g) or 179,
         tonumber(fallback.b) or 79,
         tonumber(fallback.a) or 190,
-        false, true, 2, false, nil, nil, false
+        false,
+        true,
+        2,
+        false,
+        nil,
+        nil,
+        false
     )
 end
 
@@ -493,7 +625,9 @@ local function shouldRender(waypoint, camPos)
     local data = waypoint.data
     local distSq = distanceSquared(camPos, data.coords)
     waypoint.distanceSq = distSq
-    if distSq > data.drawDistanceSq then return false end
+    if distSq > data.drawDistanceSq then
+        return false
+    end
 
     local width, height = getRenderDimensions(waypoint, camPos)
     local center = vec3(data.coords.x, data.coords.y, data.coords.z + data.heightOffset + (height * 0.5))
@@ -502,11 +636,13 @@ end
 
 local function calculateAlpha(waypoint)
     local data = waypoint.data
-    if waypoint.distanceSq <= data.fadeDistanceSq then return 255 end
+    if waypoint.distanceSq <= data.fadeDistanceSq then
+        return 255
+    end
     local distance = math.sqrt(waypoint.distanceSq)
     local span = math.max(1.0, data.drawDistance - data.fadeDistance)
-    local t = math.min(1.0, math.max(0.0, (distance - data.fadeDistance) / span))
-    return math.floor(255 * (1.0 - t))
+    local fadeProgress = math.min(1.0, math.max(0.0, (distance - data.fadeDistance) / span))
+    return math.floor(255 * (1.0 - fadeProgress))
 end
 
 function DT.Waypoint.Enabled()
@@ -514,31 +650,45 @@ function DT.Waypoint.Enabled()
 end
 
 function DT.Waypoint.Create(input)
-    if not enabled then return nil, 'disabled' end
-    local data, err = normalizeData(input)
-    if not data then return nil, err end
+    if not enabled then
+        return nil, 'disabled'
+    end
+    local data, errorMessage = normalizeData(input)
+    if not data then
+        return nil, errorMessage
+    end
     data.owner = input and input.owner or 'local'
     return addWaypoint(data)
 end
 
 function DT.Waypoint.Update(id, patch)
-    if not enabled then return false, 'disabled' end
+    if not enabled then
+        return false, 'disabled'
+    end
     return updateWaypoint(tonumber(id), patch)
 end
 
 function DT.Waypoint.Remove(id)
-    if not enabled then return false, 'disabled' end
+    if not enabled then
+        return false, 'disabled'
+    end
     return removeWaypoint(tonumber(id))
 end
 
 function DT.Waypoint.RemoveAll(owner)
-    if not enabled then return 0, 'disabled' end
+    if not enabled then
+        return 0, 'disabled'
+    end
     owner = owner or 'local'
     local ids = {}
     for id, waypoint in pairs(localWaypoints) do
-        if owner == '*' or waypoint.data.owner == owner then ids[#ids + 1] = id end
+        if owner == '*' or waypoint.data.owner == owner then
+            ids[#ids + 1] = id
+        end
     end
-    for i = 1, #ids do removeWaypoint(ids[i]) end
+    for rowIndex = 1, #ids do
+        removeWaypoint(ids[rowIndex])
+    end
     return #ids
 end
 
@@ -564,42 +714,68 @@ function DT.Waypoint.GetMapSync()
     return mapSyncEnabled
 end
 
-exports('CreateWaypoint', function(data) return DT.Waypoint.Create(data) end)
-exports('UpdateWaypoint', function(id, data) return DT.Waypoint.Update(id, data) end)
-exports('RemoveWaypoint', function(id) return DT.Waypoint.Remove(id) end)
-exports('RemoveAllWaypoints', function(owner) return DT.Waypoint.RemoveAll(owner) end)
-exports('GetWaypoint', function(id) return DT.Waypoint.Get(id) end)
-exports('GetWaypoints', function() return DT.Waypoint.GetAll() end)
-exports('SetWaypointMapSync', function(state) return DT.Waypoint.SetMapSync(state) end)
+exports('CreateWaypoint', function(data)
+    return DT.Waypoint.Create(data)
+end)
+exports('UpdateWaypoint', function(id, data)
+    return DT.Waypoint.Update(id, data)
+end)
+exports('RemoveWaypoint', function(id)
+    return DT.Waypoint.Remove(id)
+end)
+exports('RemoveAllWaypoints', function(owner)
+    return DT.Waypoint.RemoveAll(owner)
+end)
+exports('GetWaypoint', function(id)
+    return DT.Waypoint.Get(id)
+end)
+exports('GetWaypoints', function()
+    return DT.Waypoint.GetAll()
+end)
+exports('SetWaypointMapSync', function(state)
+    return DT.Waypoint.SetMapSync(state)
+end)
 
 if not enabled then
     CreateThread(function()
         Wait(0)
-        if DTConfig.Debug then print('[DTlib] Waypoint module disabled by config.') end
+        if DTConfig.Debug then
+            print('[DTlib] Waypoint module disabled by config.')
+        end
     end)
     return
 end
 
 RegisterNetEvent('DTlib:waypoint:create', function(serverId, data)
     serverId = tonumber(serverId)
-    if not serverId then return end
+    if not serverId then
+        return
+    end
     local current = serverToClient[serverId]
-    if current then removeWaypoint(current) end
+    if current then
+        removeWaypoint(current)
+    end
     data = type(data) == 'table' and data or {}
     data.owner = 'server'
     local clientId = DT.Waypoint.Create(data)
-    if clientId then serverToClient[serverId] = clientId end
+    if clientId then
+        serverToClient[serverId] = clientId
+    end
 end)
 
 RegisterNetEvent('DTlib:waypoint:update', function(serverId, patch)
     local clientId = serverToClient[tonumber(serverId)]
-    if clientId then DT.Waypoint.Update(clientId, patch) end
+    if clientId then
+        DT.Waypoint.Update(clientId, patch)
+    end
 end)
 
 RegisterNetEvent('DTlib:waypoint:remove', function(serverId)
     local key = tonumber(serverId)
     local clientId = serverToClient[key]
-    if not clientId then return end
+    if not clientId then
+        return
+    end
     removeWaypoint(clientId)
     serverToClient[key] = nil
 end)
@@ -609,9 +785,9 @@ RegisterNetEvent('DTlib:waypoint:removeAllServer', function()
     for serverId, clientId in pairs(serverToClient) do
         ids[#ids + 1] = { serverId = serverId, clientId = clientId }
     end
-    for i = 1, #ids do
-        removeWaypoint(ids[i].clientId)
-        serverToClient[ids[i].serverId] = nil
+    for rowIndex = 1, #ids do
+        removeWaypoint(ids[rowIndex].clientId)
+        serverToClient[ids[rowIndex].serverId] = nil
     end
 end)
 
@@ -625,38 +801,46 @@ CreateThread(function()
     local maxVisible = tonumber(config.rendering and config.rendering.maxVisible) or 18
 
     while enabled do
-        local camPos = GetFinalRenderedCamCoord()
-        local candidates = {}
-        local newSet = {}
+        if #waypointArray == 0 then
+            Wait(500)
+        else
+            local camPos = GetFinalRenderedCamCoord()
+            local candidates = {}
+            local newSet = {}
 
-        for i = 1, #waypointArray do
-            local waypoint = waypointArray[i]
-            if waypoint and waypoint.active and shouldRender(waypoint, camPos) then
-                candidates[#candidates + 1] = waypoint
+            for rowIndex = 1, #waypointArray do
+                local waypoint = waypointArray[rowIndex]
+                if waypoint and waypoint.active and shouldRender(waypoint, camPos) then
+                    candidates[#candidates + 1] = waypoint
+                end
             end
-        end
 
-        table.sort(candidates, function(a, b) return a.distanceSq < b.distanceSq end)
+            table.sort(candidates, function(left, right)
+                return left.distanceSq < right.distanceSq
+            end)
 
-        local newRenderList = {}
-        local count = math.min(#candidates, maxVisible)
-        for i = 1, count do
-            local waypoint = candidates[i]
-            acquireDui(waypoint)
-            newRenderList[#newRenderList + 1] = waypoint
-            newSet[waypoint.id] = true
-        end
-
-        for id in pairs(renderingSet) do
-            if not newSet[id] then
-                local waypoint = localWaypoints[id]
-                if waypoint then releaseDui(waypoint) end
+            local newRenderList = {}
+            local count = math.min(#candidates, maxVisible)
+            for rowIndex = 1, count do
+                local waypoint = candidates[rowIndex]
+                acquireDui(waypoint)
+                newRenderList[#newRenderList + 1] = waypoint
+                newSet[waypoint.id] = true
             end
-        end
 
-        renderingSet = newSet
-        renderList = newRenderList
-        Wait(updateInterval)
+            for id in pairs(renderingSet) do
+                if not newSet[id] then
+                    local waypoint = localWaypoints[id]
+                    if waypoint then
+                        releaseDui(waypoint)
+                    end
+                end
+            end
+
+            renderingSet = newSet
+            renderList = newRenderList
+            Wait(updateInterval)
+        end
     end
 end)
 
@@ -670,21 +854,28 @@ CreateThread(function()
             local camPos = GetFinalRenderedCamCoord()
             local now = GetGameTimer()
 
-            for i = #renderList, 1, -1 do
-                local waypoint = renderList[i]
+            for rowIndex = #renderList, 1, -1 do
+                local waypoint = renderList[rowIndex]
                 if waypoint and waypoint.active then
                     local playerDistSq = distanceSquared(playerPos, waypoint.data.coords)
                     if waypoint.data.removeDistanceSq and playerDistSq <= waypoint.data.removeDistanceSq then
                         removeWaypoint(waypoint.id)
                     else
-                        if waypoint.dui and waypoint.data.displayDistance and now >= (waypoint.nextDistanceUpdate or 0) then
+                        if
+                            waypoint.dui
+                            and waypoint.data.displayDistance
+                            and now >= (waypoint.nextDistanceUpdate or 0)
+                        then
                             local distance = math.floor(math.sqrt(playerDistSq) + 0.5)
                             if distance ~= waypoint.lastDistance then
                                 waypoint.lastDistance = distance
-                                SendDuiMessage(waypoint.dui.dui, json.encode({
-                                    action = 'distance',
-                                    value = distance
-                                }))
+                                SendDuiMessage(
+                                    waypoint.dui.dui,
+                                    json.encode({
+                                        action = 'distance',
+                                        value = distance,
+                                    })
+                                )
                             end
                             waypoint.nextDistanceUpdate = now + distanceUpdateInterval
                         end
@@ -699,7 +890,9 @@ CreateThread(function()
                                 rendered = drawSpriteWaypoint(waypoint, camPos, alpha)
                             end
                         end
-                        if not rendered then drawNativeFallback(waypoint, playerPos) end
+                        if not rendered then
+                            drawNativeFallback(waypoint, playerPos)
+                        end
                     end
                 end
             end
@@ -731,7 +924,10 @@ CreateThread(function()
                         data.moveThreshold = nil
                         mapWaypointId = DT.Waypoint.Create(data)
                         mapWaypointLastCoords = coords
-                    elseif not mapWaypointLastCoords or distanceSquared(coords, mapWaypointLastCoords) >= moveThresholdSq then
+                    elseif
+                        not mapWaypointLastCoords
+                        or distanceSquared(coords, mapWaypointLastCoords) >= moveThresholdSq
+                    then
                         DT.Waypoint.Update(mapWaypointId, { coords = coords })
                         mapWaypointLastCoords = coords
                     end
@@ -754,11 +950,11 @@ RegisterCommand('dtlib:waypoint:test', function()
     end
 
     local ped = PlayerPedId()
-    local p = GetEntityCoords(ped)
-    local f = GetEntityForwardVector(ped)
-    local coords = vec3(p.x + (f.x * 8.0), p.y + (f.y * 8.0), p.z)
+    local position = GetEntityCoords(ped)
+    local handler = GetEntityForwardVector(ped)
+    local coords = vec3(position.x + (handler.x * 8.0), position.y + (handler.y * 8.0), position.z)
 
-    local id, err = DT.Waypoint.Create({
+    local id, errorMessage = DT.Waypoint.Create({
         coords = coords,
         type = 'objective',
         label = 'DT WAYPOINT TEST',
@@ -769,13 +965,21 @@ RegisterCommand('dtlib:waypoint:test', function()
         pulse = true,
         drawDistance = 100.0,
         fadeDistance = 80.0,
-        removeDistance = 1.5
+        removeDistance = 1.5,
     })
 
     if id then
-        print(('[DTlib] Waypoint test created: id=%s | coords=%.2f, %.2f, %.2f | enabled=%s'):format(id, coords.x, coords.y, coords.z, tostring(enabled)))
+        print(
+            ('[DTlib] Waypoint test created: id=%s | coords=%.2f, %.2f, %.2f | enabled=%s'):format(
+                id,
+                coords.x,
+                coords.y,
+                coords.z,
+                tostring(enabled)
+            )
+        )
     else
-        print(('[DTlib] Waypoint test failed: %s'):format(tostring(err)))
+        print(('[DTlib] Waypoint test failed: %s'):format(tostring(errorMessage)))
     end
 end, false)
 
@@ -791,25 +995,30 @@ RegisterCommand('dtlib:waypoint:dui', function()
         return
     end
 
-    SendDuiMessage(wrapper.dui, json.encode({
-        action = 'configure',
-        data = {
-            type = 'objective',
-            label = 'DUI ONLINE',
-            subtitle = 'DT WAYPOINT DIAGNOSTIC',
-            color = '#9db34f',
-            icon = 'fa-solid fa-location-dot',
-            displayDistance = true,
-            pulse = true,
-        }
-    }))
+    SendDuiMessage(
+        wrapper.dui,
+        json.encode({
+            action = 'configure',
+            data = {
+                type = 'objective',
+                label = 'DUI ONLINE',
+                subtitle = 'DT WAYPOINT DIAGNOSTIC',
+                color = '#9db34f',
+                icon = 'fa-solid fa-location-dot',
+                displayDistance = true,
+                pulse = true,
+            },
+        })
+    )
     SendDuiMessage(wrapper.dui, json.encode({ action = 'distance', value = 14 }))
 
     CreateThread(function()
         local expires = GetGameTimer() + 8000
         while GetGameTimer() < expires do
             local aspect = GetAspectRatio(false)
-            if not aspect or aspect <= 0.0 then aspect = 16.0 / 9.0 end
+            if not aspect or aspect <= 0.0 then
+                aspect = 16.0 / 9.0
+            end
             local width = 0.14
             local height = width * 2.0 * aspect
             DrawSprite(wrapper.txd, wrapper.txn, 0.50, 0.50, width, height, 0.0, 255, 255, 255, 255)
@@ -822,9 +1031,15 @@ RegisterCommand('dtlib:waypoint:dui', function()
 end, false)
 
 AddEventHandler('onResourceStop', function(resource)
-    if resource ~= resourceName then return end
+    if resource ~= resourceName then
+        return
+    end
     local ids = {}
-    for id in pairs(localWaypoints) do ids[#ids + 1] = id end
-    for i = 1, #ids do removeWaypoint(ids[i]) end
+    for id in pairs(localWaypoints) do
+        ids[#ids + 1] = id
+    end
+    for rowIndex = 1, #ids do
+        removeWaypoint(ids[rowIndex])
+    end
     destroyDuiPool()
 end)

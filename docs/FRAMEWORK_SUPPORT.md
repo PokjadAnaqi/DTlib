@@ -5,7 +5,7 @@ DTlib v1.0.22 aligns the framework adapter with the current public APIs document
 ## Detection
 
 ```cfg
-DTConfig.Adapters.framework = 'auto' -- settings/sharedConfig.lua
+DTConfig.Adapters.framework = 'auto' -- config/shared.lua
 ```
 
 Supported values:

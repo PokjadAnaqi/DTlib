@@ -14,7 +14,7 @@ DTlib runs its own local Lua provider modules declared in the manifest. Vendor r
 
 ## Per-module UI selection
 
-Edit `settings/sharedConfig.lua`:
+Edit `config/shared.lua`:
 
 ```lua
 DTConfig.Adapters.ui = 'lation_ui'

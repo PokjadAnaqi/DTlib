@@ -1,40 +1,177 @@
-local U=DT.FrameworkUtil
-local A={resource='qb-core',publicName='qb'}
-local function core() local ok,v=pcall(function() return exports['qb-core']:GetCoreObject() end); return ok and v or nil end
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:getJobs() local c=core(); return c and c.Shared and c.Shared.Jobs or {} end
-function A:getGangs() local c=core(); return c and c.Shared and c.Shared.Gangs or {} end
-function A:getJob(name) return self:getJobs()[name] end
-function A:getGang(name) return self:getGangs()[name] end
-function A:getVehicles(filter) local c=core(); local v=c and c.Shared and c.Shared.Vehicles or {}; return filter and v[filter] or v end
-function A:getWeapons(filter) local c=core(); local v=c and c.Shared and c.Shared.Weapons or {}; return filter and v[filter] or v end
-function A:getPlayer(source) local c=core(); return c and c.Functions.GetPlayer(source) or nil end
-function A:getByCitizenId(id) local c=core(); return c and c.Functions.GetPlayerByCitizenId and c.Functions.GetPlayerByCitizenId(id) or nil end
-function A:getPlayers() local c=core(); return c and c.Functions.GetPlayers and c.Functions.GetPlayers() or {} end
-function A:getIdentifier(source) local p=self:getPlayer(source); return p and p.PlayerData and p.PlayerData.citizenid or nil end
-function A:getCitizenId(source) return self:getIdentifier(source) end
-function A:getName(source)
-    local p=self:getPlayer(source); if not p or not p.PlayerData then return GetPlayerName(source) end
-    local c=p.PlayerData.charinfo or {}; local n=DTUtils.trim(('%s %s'):format(c.firstname or '',c.lastname or ''))
-    return n~='' and n or p.PlayerData.name or GetPlayerName(source)
+local frameworkUtil = DT.FrameworkUtil
+local adapter = { resource = 'qb-core', publicName = 'qb' }
+local function core()
+    local ok, result = pcall(function()
+        return exports['qb-core']:GetCoreObject()
+    end)
+    return ok and result or nil
 end
-function A:getJobFor(source) local p=self:getPlayer(source); return p and U.normalizeGroup(p.PlayerData and p.PlayerData.job) or nil end
-function A:getGangFor(source) local p=self:getPlayer(source); return p and U.normalizeGroup(p.PlayerData and p.PlayerData.gang) or nil end
-function A:getGroups(source)
-    local g={}; local j=self:getJobFor(source); local a=self:getGangFor(source); if j and j.name then g[j.name]=j.grade end; if a and a.name then g[a.name]=a.grade end; return g
+function adapter:available()
+    return DTUtils.isStarted(self.resource)
 end
-function A:setJob(source,name,grade,onDuty)
-    local p=self:getPlayer(source); if not p or not p.Functions or not p.Functions.SetJob then return false end
-    local r=p.Functions.SetJob(name,tonumber(grade) or 0); if onDuty~=nil and p.Functions.SetJobDuty then p.Functions.SetJobDuty(onDuty==true) end; return r~=false
+function adapter:isAdmin(source)
+    local coreObject = core()
+    local hasPermission = coreObject and coreObject.Functions and coreObject.Functions.HasPermission
+    if not hasPermission then
+        return false
+    end
+    local ok, allowed = pcall(hasPermission, source, 'admin')
+    return ok and allowed == true
 end
-function A:setJobDuty(source,state) local p=self:getPlayer(source); return p and p.Functions and p.Functions.SetJobDuty and p.Functions.SetJobDuty(state==true)~=false or false end
-function A:setGang(source,name,grade) local p=self:getPlayer(source); return p and p.Functions and p.Functions.SetGang and p.Functions.SetGang(name,tonumber(grade) or 0)~=false or false end
-function A:getMoney(source,t) local p=self:getPlayer(source); return p and p.PlayerData and p.PlayerData.money and tonumber(p.PlayerData.money[t or 'cash']) or 0 end
-function A:addMoney(source,t,a,r) local p=self:getPlayer(source); return p and p.Functions and p.Functions.AddMoney and p.Functions.AddMoney(t or 'cash',a,r or 'DTlib')~=false or false end
-function A:removeMoney(source,t,a,r) local p=self:getPlayer(source); return p and p.Functions and p.Functions.RemoveMoney and p.Functions.RemoveMoney(t or 'cash',a,r or 'DTlib')~=false or false end
-function A:setMoney(source,t,a,r) local p=self:getPlayer(source); return p and p.Functions and p.Functions.SetMoney and p.Functions.SetMoney(t or 'cash',a,r or 'DTlib')~=false or false end
-function A:getMeta(source,key) local p=self:getPlayer(source); return p and p.PlayerData and p.PlayerData.metadata and p.PlayerData.metadata[key] or nil end
-function A:setMeta(source,key,value) local p=self:getPlayer(source); if p and p.Functions and p.Functions.SetMetaData then p.Functions.SetMetaData(key,value); return true end; return false end
-function A:save(source) local p=self:getPlayer(source); if p and p.Functions and p.Functions.Save then p.Functions.Save(); return true end; return false end
-function A:getData(source) local p=self:getPlayer(source); return p and p.PlayerData or {} end
-DT.Modules.Register('framework','qb-core',A)
+function adapter:getJobs()
+    local coreObject = core()
+    return coreObject and coreObject.Shared and coreObject.Shared.Jobs or {}
+end
+function adapter:getGangs()
+    local coreObject = core()
+    return coreObject and coreObject.Shared and coreObject.Shared.Gangs or {}
+end
+function adapter:getJob(name)
+    return self:getJobs()[name]
+end
+function adapter:getGang(name)
+    return self:getGangs()[name]
+end
+function adapter:getVehicles(filter)
+    local coreObject = core()
+    local result = coreObject and coreObject.Shared and coreObject.Shared.Vehicles or {}
+    return filter and result[filter] or result
+end
+function adapter:getWeapons(filter)
+    local coreObject = core()
+    local result = coreObject and coreObject.Shared and coreObject.Shared.Weapons or {}
+    return filter and result[filter] or result
+end
+function adapter:getPlayer(source)
+    local coreObject = core()
+    return coreObject and coreObject.Functions.GetPlayer(source) or nil
+end
+function adapter:getByCitizenId(id)
+    local coreObject = core()
+    return coreObject and coreObject.Functions.GetPlayerByCitizenId and coreObject.Functions.GetPlayerByCitizenId(id)
+        or nil
+end
+function adapter:getPlayers()
+    local coreObject = core()
+    return coreObject and coreObject.Functions.GetPlayers and coreObject.Functions.GetPlayers() or {}
+end
+function adapter:getIdentifier(source)
+    local player = self:getPlayer(source)
+    return player and player.PlayerData and player.PlayerData.citizenid or nil
+end
+function adapter:getCitizenId(source)
+    return self:getIdentifier(source)
+end
+function adapter:getName(source)
+    local player = self:getPlayer(source)
+    if not player or not player.PlayerData then
+        return GetPlayerName(source)
+    end
+    local character = player.PlayerData.charinfo or {}
+    local count = DTUtils.trim(('%s %s'):format(character.firstname or '', character.lastname or ''))
+    return count ~= '' and count or player.PlayerData.name or GetPlayerName(source)
+end
+function adapter:getJobFor(source)
+    local player = self:getPlayer(source)
+    return player and frameworkUtil.normalizeGroup(player.PlayerData and player.PlayerData.job) or nil
+end
+function adapter:getGangFor(source)
+    local player = self:getPlayer(source)
+    return player and frameworkUtil.normalizeGroup(player.PlayerData and player.PlayerData.gang) or nil
+end
+function adapter:getGroups(source)
+    local groups = {}
+    local job = self:getJobFor(source)
+    local gang = self:getGangFor(source)
+    if job and job.name then
+        groups[job.name] = job.grade
+    end
+    if gang and gang.name then
+        groups[gang.name] = gang.grade
+    end
+    return groups
+end
+function adapter:setJob(source, name, grade, onDuty)
+    local player = self:getPlayer(source)
+    if not player or not player.Functions or not player.Functions.SetJob then
+        return false
+    end
+    local result = player.Functions.SetJob(name, tonumber(grade) or 0)
+    if onDuty ~= nil and player.Functions.SetJobDuty then
+        player.Functions.SetJobDuty(onDuty == true)
+    end
+    return result ~= false
+end
+function adapter:setJobDuty(source, state)
+    local player = self:getPlayer(source)
+    return player
+            and player.Functions
+            and player.Functions.SetJobDuty
+            and player.Functions.SetJobDuty(state == true) ~= false
+        or false
+end
+function adapter:setGang(source, name, grade)
+    local player = self:getPlayer(source)
+    return player
+            and player.Functions
+            and player.Functions.SetGang
+            and player.Functions.SetGang(name, tonumber(grade) or 0) ~= false
+        or false
+end
+function adapter:getMoney(source, valueType)
+    local player = self:getPlayer(source)
+    return player
+            and player.PlayerData
+            and player.PlayerData.money
+            and tonumber(player.PlayerData.money[valueType or 'cash'])
+        or 0
+end
+function adapter:addMoney(source, valueType, provider, result)
+    local player = self:getPlayer(source)
+    return player
+            and player.Functions
+            and player.Functions.AddMoney
+            and player.Functions.AddMoney(valueType or 'cash', provider, result or 'DTlib') ~= false
+        or false
+end
+function adapter:removeMoney(source, valueType, provider, result)
+    local player = self:getPlayer(source)
+    return player
+            and player.Functions
+            and player.Functions.RemoveMoney
+            and player.Functions.RemoveMoney(valueType or 'cash', provider, result or 'DTlib') ~= false
+        or false
+end
+function adapter:setMoney(source, valueType, provider, result)
+    local player = self:getPlayer(source)
+    return player
+            and player.Functions
+            and player.Functions.SetMoney
+            and player.Functions.SetMoney(valueType or 'cash', provider, result or 'DTlib') ~= false
+        or false
+end
+function adapter:getMeta(source, key)
+    local player = self:getPlayer(source)
+    return player and player.PlayerData and player.PlayerData.metadata and player.PlayerData.metadata[key] or nil
+end
+function adapter:setMeta(source, key, value)
+    local player = self:getPlayer(source)
+    if player and player.Functions and player.Functions.SetMetaData then
+        player.Functions.SetMetaData(key, value)
+        return true
+    end
+    return false
+end
+function adapter:save(source)
+    local player = self:getPlayer(source)
+    if player and player.Functions and player.Functions.Save then
+        player.Functions.Save()
+        return true
+    end
+    return false
+end
+function adapter:getData(source)
+    local player = self:getPlayer(source)
+    return player and player.PlayerData or {}
+end
+DT.Modules.Register('framework', 'qb-core', adapter)

@@ -588,6 +588,41 @@
       "namespace": "Target",
       "providers": [
         {
+          "name": "DT_interact",
+          "resource": "DT_interact",
+          "shared": [],
+          "client": [
+            "modules/target/DT_interact/client.lua"
+          ],
+          "server": [],
+          "methods": [
+            "GetResourceName",
+            "DisableTargeting",
+            "AddGlobalPed",
+            "RemoveGlobalPed",
+            "AddGlobalPlayer",
+            "RemoveGlobalPlayer",
+            "AddGlobalVehicle",
+            "RemoveGlobalVehicle",
+            "AddGlobalObject",
+            "RemoveGlobalObject",
+            "AddLocalEntity",
+            "RemoveLocalEntity",
+            "AddNetworkedEntity",
+            "RemoveNetworkedEntity",
+            "AddModel",
+            "RemoveModel",
+            "AddSphereZone",
+            "AddBoxZone",
+            "RemoveZone",
+            "FixOptions",
+            "CreateCanInteract",
+            "GetCanInteract",
+            "CanInteract"
+          ],
+          "default": false
+        },
+        {
           "name": "_default",
           "resource": "native",
           "shared": [],
@@ -2937,4 +2972,3 @@
     }
   }
 }
-

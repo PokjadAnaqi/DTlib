@@ -12,7 +12,7 @@ print('Lua syntax:',len(list(root.rglob('*.lua'))),'PASS')
 catalog_runtime=runtime()
 catalog=catalog_runtime.globals().DTEcosystemCatalog
 profiles=[(category,p) for category,c in catalog.items() for _,p in c.providers.items()]
-assert len(profiles)==153
+assert len(profiles)==154
 passes=0
 for server in (False,True):
     lua,count=load_manifest(server,[p.resource for _,p in profiles])

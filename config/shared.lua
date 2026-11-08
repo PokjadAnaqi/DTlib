@@ -1,6 +1,9 @@
 DTConfig = DTConfig or {}
 
 DTConfig.Debug = false
+-- UI/input/interaction configuration belongs to the standalone DT_interact resource.
+-- Keep target mode: DT.Target selects DT_interact automatically when it is started.
+DTConfig.Interaction = { mode = 'target' }
 DTConfig.Strict = false
 
 DTConfig.Adapters = {
@@ -10,13 +13,13 @@ DTConfig.Adapters = {
     database = 'auto',
     weather = 'auto',
     ui = 'auto',
-    notify = 'auto',
+    notify = 'native', -- API69 native notification renderer
     textui = 'auto',
     progress = 'auto',
     input = 'auto',
     menu = 'auto',
     listmenu = 'auto',
-    alert = 'auto'
+    alert = 'auto',
 }
 
 DTConfig.Console = {
@@ -24,7 +27,7 @@ DTConfig.Console = {
     startupSummary = true,
     resourceEvents = true,
     timestamps = true,
-    audit = true
+    audit = true,
 }
 
 DTConfig.UI = {
@@ -42,9 +45,8 @@ DTConfig.UI = {
     progressPosition = 'bottom-center',
     -- Menu position. Available options: 'top-left', 'top-right', 'offcenter-left', 'offcenter-right'.
     -- This default applies to the lation_ui menu.
-    menuPosition = 'offcenter-right'
+    menuPosition = 'offcenter-right',
 }
-
 
 DTConfig.Placement = {
     distanceLimit = 8.0,
@@ -70,7 +72,7 @@ DTConfig.Placement = {
         zoomStep = 0.75,
         sensitivity = 0.005,
         blend = 250,
-        dragThresholdPx = 4.0
+        dragThresholdPx = 4.0,
     },
 
     -- Official object_gizmo v3.0.0 interaction defaults used by the adapter.
@@ -89,9 +91,9 @@ DTConfig.Placement = {
             maxRadius = 25.0,
             zoomStep = 0.75,
             sensitivity = 0.005,
-            blend = 250
-        }
-    }
+            blend = 250,
+        },
+    },
 }
 
 -- DT Waypoint can be disabled completely without removing the module files.
@@ -103,8 +105,9 @@ DTConfig.Waypoint = {
     defaults = {
         type = 'objective',
         label = 'OBJECTIVE',
-        subtitle = 'DT NAVIGATION',
-        color = '#9db34f',
+        subtitle = 'NAVIGATION',
+        color = '#d6bb58',
+        dangerColor = '#ce6257',
         icon = 'fa-solid fa-location-dot',
         size = 1.0,
         drawDistance = 500.0,
@@ -112,14 +115,14 @@ DTConfig.Waypoint = {
         displayDistance = true,
         heightOffset = 1.15,
         minScale = 0.72,
-        maxScale = 14.0
+        maxScale = 14.0,
     },
 
     mapWaypoint = {
         type = 'objective',
         label = 'NAV POINT',
         subtitle = 'PLAYER WAYPOINT',
-        color = '#72a6c9',
+        color = '#d6bb58',
         icon = 'fa-solid fa-location-arrow',
         size = 0.9,
         drawDistance = 1000.0,
@@ -127,13 +130,13 @@ DTConfig.Waypoint = {
         displayDistance = true,
         pulse = true,
         updateInterval = 500,
-        moveThreshold = 2.0
+        moveThreshold = 2.0,
     },
 
     dui = {
         width = 512,
         height = 1024,
-        readyTimeout = 5000
+        readyTimeout = 5000,
     },
 
     -- Native marker is only used if the DUI page cannot become ready.
@@ -143,7 +146,7 @@ DTConfig.Waypoint = {
         r = 157,
         g = 179,
         b = 79,
-        a = 190
+        a = 190,
     },
 
     rendering = {
@@ -158,22 +161,25 @@ DTConfig.Waypoint = {
         spriteWidth = 0.155,
         spriteMinFactor = 0.86,
         spriteMaxFactor = 1.08,
-        maxVisible = 18
-    }
+        maxVisible = 18,
+    },
 }
 
 DTConfig.Minigames = {
     -- Master switch for DTlib minigame adapters. Lation UI and ox_lib remain optional.
     enabled = true,
     -- auto | lation_ui | ox_lib | disabled
-    provider = 'auto'
+    provider = 'auto',
 }
 
 DTConfig.Security = {
     defaultWindowMs = 10000,
     defaultMaxCalls = 10,
     adminAce = 'admin',
-    godAce = 'god'
+    -- Qbox grants the admin ACE to group.admin. Set 'god' for legacy servers.
+    godAce = false,
+    -- Accept admin permissions from the active QB-Core or ESX server adapter.
+    frameworkAdmin = true,
 }
 
 DTConfig.Discord = {
@@ -181,7 +187,7 @@ DTConfig.Discord = {
     guildIdConvar = 'dt_eco_discord_guild_id',
     cacheSeconds = 60,
     timeoutMs = 10000,
-    maxCacheEntries = 512
+    maxCacheEntries = 512,
 }
 
 -- DTlib's local provider registry. External resources are optional backends.
@@ -190,14 +196,29 @@ DTConfig.Ecosystem = {
     enabled = true,
     locale = 'en',
     providers = {
-        framework = 'auto', inventory = 'auto', target = 'auto',
-        notify = 'auto', helptext = 'auto', progressbar = 'auto',
-        input = 'auto', menu = 'auto', weather = 'auto',
-        fuel = 'auto', vehiclekey = 'auto', banking = 'auto',
-        phone = 'auto', doorlock = 'auto', dispatch = 'auto',
-        clothing = 'auto', housing = 'auto', shops = 'native',
-        skills = 'native', bossmenu = 'auto', zones = 'auto', dialogue = 'native'
-    }
+        framework = 'auto',
+        inventory = 'auto',
+        target = 'auto',
+        notify = 'auto',
+        helptext = 'auto',
+        progressbar = 'auto',
+        input = 'auto',
+        menu = 'auto',
+        weather = 'auto',
+        fuel = 'auto',
+        vehiclekey = 'auto',
+        banking = 'auto',
+        phone = 'auto',
+        doorlock = 'auto',
+        dispatch = 'auto',
+        clothing = 'auto',
+        housing = 'auto',
+        shops = 'native',
+        skills = 'native',
+        bossmenu = 'auto',
+        zones = 'auto',
+        dialogue = 'native',
+    },
 }
 
 -- Awaited cross-resource callbacks fail cleanly if the other side never replies.
@@ -209,5 +230,5 @@ DTConfig.UpdateCheck = {
     intervalMinutes = 60,
     logUpToDate = true,
     listConsumers = true,
-    includeStopped = false
+    includeStopped = false,
 }

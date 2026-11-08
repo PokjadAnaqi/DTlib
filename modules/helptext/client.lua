@@ -1,28 +1,28 @@
 local currentState = nil
 
 local function providerName()
-    local n = DT.UI.Name()
-    return n == 'lation_ui' and 'lation_ui' or n == 'ox_lib' and 'ox_lib' or 'native'
+    local uiProvider = DT.UI.Name()
+    return uiProvider == 'lation_ui' and 'lation_ui' or uiProvider == 'ox_lib' and 'ox_lib' or 'native'
 end
 
-local function A()
+local function resolveAdapter()
     return DT.UI.Adapter('helptext')
 end
 
 local function normalize(text, options)
-    local d
+    local details
 
     if type(text) == 'table' then
-        d = DTUtils.copy(text)
+        details = DTUtils.copy(text)
     else
-        d = DTUtils.copy(options or {})
-        d.description = d.description or text or ''
+        details = DTUtils.copy(options or {})
+        details.description = details.description or text or ''
     end
 
-    d.description = d.description or d.text or ''
-    d.position = d.position or DTConfig.UI.textUIPosition
-    d.options = type(d.options) == 'table' and d.options or nil
-    return d
+    details.description = details.description or details.text or ''
+    details.position = details.position or DTConfig.UI.textUIPosition
+    details.options = type(details.options) == 'table' and details.options or nil
+    return details
 end
 
 local function remember(data)
@@ -30,19 +30,19 @@ local function remember(data)
 end
 
 function DT.TextUI.Show(text, options)
-    local d = normalize(text, options)
-    local a = A()
-    local ok, err = pcall(a.show, a, d)
+    local details = normalize(text, options)
+    local adapter = resolveAdapter()
+    local ok, errorMessage = pcall(adapter.show, adapter, details)
 
-    if ok and err ~= false then
-        remember(d)
+    if ok and errorMessage ~= false then
+        remember(details)
         return true
     end
 
-    DT.Debug('TextUI provider failed, using native:', err)
-    local n = DT.Modules.Get('helptext', 'native')
-    if n and n:show(d) then
-        remember(d)
+    DT.Debug('TextUI provider failed, using native:', errorMessage)
+    local provider = DT.Modules.Get('helptext', 'native')
+    if provider and provider:show(details) then
+        remember(details)
         return true
     end
 
@@ -51,17 +51,21 @@ end
 
 function DT.TextUI.Hide(options)
     local preserveState = type(options) == 'table' and options.preserveState == true
-    local a = A()
-    local ok, result = pcall(a.hide, a)
+    local adapter = resolveAdapter()
+    local ok, result = pcall(adapter.hide, adapter)
 
     if ok and result ~= false then
-        if not preserveState then remember(nil) end
+        if not preserveState then
+            remember(nil)
+        end
         return true
     end
 
-    local n = DT.Modules.Get('helptext', 'native')
-    local hidden = n and n:hide() or false
-    if hidden and not preserveState then remember(nil) end
+    local provider = DT.Modules.Get('helptext', 'native')
+    local hidden = provider and provider:hide() or false
+    if hidden and not preserveState then
+        remember(nil)
+    end
     return hidden
 end
 
@@ -70,9 +74,9 @@ function DT.TextUI.IsOpen()
         return true, DTUtils.copy(currentState)
     end
 
-    local a = A()
-    if a and a.isOpen then
-        return a:isOpen()
+    local adapter = resolveAdapter()
+    if adapter and adapter.isOpen then
+        return adapter:isOpen()
     end
 
     return false, nil
@@ -83,7 +87,9 @@ function DT.TextUI.GetState()
 end
 
 function DT.TextUI.Restore(state)
-    if type(state) ~= 'table' then return false end
+    if type(state) ~= 'table' then
+        return false
+    end
     return DT.TextUI.Show(DTUtils.copy(state))
 end
 
@@ -92,8 +98,18 @@ function DT.TextUI.ClearState()
     return true
 end
 
-exports('ShowTextUI', function(...) return DT.TextUI.Show(...) end)
-exports('HideTextUI', function(...) return DT.TextUI.Hide(...) end)
-exports('IsTextUIOpen', function(...) return DT.TextUI.IsOpen(...) end)
-exports('GetTextUIState', function() return DT.TextUI.GetState() end)
-exports('RestoreTextUI', function(state) return DT.TextUI.Restore(state) end)
+exports('ShowTextUI', function(...)
+    return DT.TextUI.Show(...)
+end)
+exports('HideTextUI', function(...)
+    return DT.TextUI.Hide(...)
+end)
+exports('IsTextUIOpen', function(...)
+    return DT.TextUI.IsOpen(...)
+end)
+exports('GetTextUIState', function()
+    return DT.TextUI.GetState()
+end)
+exports('RestoreTextUI', function(state)
+    return DT.TextUI.Restore(state)
+end)

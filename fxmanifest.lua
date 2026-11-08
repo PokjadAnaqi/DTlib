@@ -4,9 +4,9 @@ game 'gta5'
 name 'DTlib'
 author 'DT Ecosystem'
 description 'Independent modular runtime library for DT ecosystem resources'
-version '1.3.2'
+version '1.4.0'
 
-ui_page 'html/index.html'
+ui_page 'html/dist/index.html'
 
 files {
     'init.lua',
@@ -17,7 +17,7 @@ files {
 }
 
 shared_scripts {
-    'settings/sharedConfig.lua',
+    'config/shared.lua',
     'shared/utils.lua',
     'shared/core.lua',
     'lib/modules/shared.lua',
@@ -27,7 +27,7 @@ shared_scripts {
 }
 
 client_scripts {
-    'settings/clientConfig.lua',
+    'config/client.lua',
 
     'lib/fivem/client.lua',
     'lib/callback/client.lua',
@@ -53,6 +53,7 @@ client_scripts {
     'modules/target/ox_target/dt_client.lua',
     'modules/target/qb-target/dt_client.lua',
     'modules/target/sleepless_interact/dt_client.lua',
+    'modules/target/DT_interact/dt_client.lua',
     'modules/target/client.lua',
 
     'modules/notify/lation_ui/dt_client.lua',
@@ -123,7 +124,7 @@ client_scripts {
 }
 
 server_scripts {
-    'settings/serverConfig.lua',
+    'config/server.lua',
 
     'lib/logger/server.lua',
     'lib/callback/server.lua',

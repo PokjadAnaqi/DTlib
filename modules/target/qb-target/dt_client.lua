@@ -1,40 +1,133 @@
-local A={resource='qb-target',publicName='qb-target'}
-local function wrap(v) return DTUtils.wrapCallable(v) end
+local adapter = { resource = 'qb-target', publicName = 'qb-target' }
+local function wrap(value)
+    return DTUtils.wrapCallable(value)
+end
 local function options(list)
-    local out={}
-    for i=1,#(list or {}) do local o=list[i]; if type(o)=='table' then local event=o.event; local typ='client'; if o.serverEvent then event=o.serverEvent; typ='server' elseif o.command then event=o.command; typ='command' end; out[#out+1]={num=o.num or i,label=o.label,icon=o.icon,canInteract=wrap(o.canInteract),action=wrap(o.onSelect or o.action),event=event,type=typ,job=o.job or o.groups,gang=o.gang,item=o.item or o.items} end end
+    local out = {}
+    for index = 1, #(list or {}) do
+        local result = list[index]
+        if type(result) == 'table' then
+            local event = result.event
+            local typ = 'client'
+            if result.serverEvent then
+                event = result.serverEvent
+                typ = 'server'
+            elseif result.command then
+                event = result.command
+                typ = 'command'
+            end
+            out[#out + 1] = {
+                num = result.num or index,
+                label = result.label,
+                icon = result.icon,
+                canInteract = wrap(result.canInteract),
+                action = wrap(result.onSelect or result.action),
+                event = event,
+                type = typ,
+                job = result.job or result.groups,
+                gang = result.gang,
+                item = result.item or result.items,
+            }
+        end
+    end
     return out
 end
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:addGlobalKind(kind,o)
-    local payload={options=options(o),distance=2.0}
-    if kind=='Object' then exports['qb-target']:AddGlobalObject(payload)
-    elseif kind=='Ped' then exports['qb-target']:AddGlobalPed(payload)
-    elseif kind=='Player' then exports['qb-target']:AddGlobalPlayer(payload)
-    elseif kind=='Vehicle' then exports['qb-target']:AddGlobalVehicle(payload)
-    else return false end
+function adapter:available()
+    return DTUtils.isStarted(self.resource)
+end
+function adapter:addGlobalKind(kind, result)
+    local payload = { options = options(result), distance = 2.0 }
+    if kind == 'Object' then
+        exports['qb-target']:AddGlobalObject(payload)
+    elseif kind == 'Ped' then
+        exports['qb-target']:AddGlobalPed(payload)
+    elseif kind == 'Player' then
+        exports['qb-target']:AddGlobalPlayer(payload)
+    elseif kind == 'Vehicle' then
+        exports['qb-target']:AddGlobalVehicle(payload)
+    else
+        return false
+    end
     return true
 end
-function A:removeGlobalKind(kind,n)
-    if kind=='Object' then exports['qb-target']:RemoveGlobalObject(n)
-    elseif kind=='Ped' then exports['qb-target']:RemoveGlobalPed(n)
-    elseif kind=='Player' then exports['qb-target']:RemoveGlobalPlayer(n)
-    elseif kind=='Vehicle' then exports['qb-target']:RemoveGlobalVehicle(n)
-    else return false end
+function adapter:removeGlobalKind(kind, count)
+    if kind == 'Object' then
+        exports['qb-target']:RemoveGlobalObject(count)
+    elseif kind == 'Ped' then
+        exports['qb-target']:RemoveGlobalPed(count)
+    elseif kind == 'Player' then
+        exports['qb-target']:RemoveGlobalPlayer(count)
+    elseif kind == 'Vehicle' then
+        exports['qb-target']:RemoveGlobalVehicle(count)
+    else
+        return false
+    end
     return true
 end
-function A:addEntity(e,o,d) exports['qb-target']:AddTargetEntity(e,{options=options(o),distance=d or 2.0}); return true end
-function A:removeEntity(e,n) exports['qb-target']:RemoveTargetEntity(e,n); return true end
-function A:addModel(m,o,d) exports['qb-target']:AddTargetModel(m,{options=options(o),distance=d or 2.0}); return true end
-function A:removeModel(m,n) exports['qb-target']:RemoveTargetModel(m,n); return true end
-function A:addSphereZone(d)
-    local name=d.name or ('dtlib_sphere_%s'):format(GetGameTimer()); exports['qb-target']:AddCircleZone(name,d.coords,d.radius or 1.5,{name=name,debugPoly=d.debug or false,useZ=d.useZ~=false},{options=options(d.options),distance=d.distance or 2.0}); return name
+function adapter:addEntity(entry, result, data)
+    exports['qb-target']:AddTargetEntity(entry, { options = options(result), distance = data or 2.0 })
+    return true
 end
-function A:addBoxZone(d)
-    local name=d.name or ('dtlib_box_%s'):format(GetGameTimer()); local s=d.size or vector3(1.0,1.0,1.0); exports['qb-target']:AddBoxZone(name,d.coords,s.x,s.y,{name=name,heading=d.rotation or d.heading or 0.0,debugPoly=d.debug or false,minZ=d.minZ or (d.coords.z-s.z*0.5),maxZ=d.maxZ or (d.coords.z+s.z*0.5)},{options=options(d.options),distance=d.distance or 2.0}); return name
+function adapter:removeEntity(entry, count)
+    exports['qb-target']:RemoveTargetEntity(entry, count)
+    return true
 end
-function A:addPolyZone(d)
-    local name=d.name or ('dtlib_poly_%s'):format(GetGameTimer()); local pts={}; local minZ,maxZ; for i=1,#(d.points or {}) do pts[i]=vector2(d.points[i].x,d.points[i].y); minZ=math.min(minZ or d.points[i].z,d.points[i].z); maxZ=math.max(maxZ or d.points[i].z,d.points[i].z) end; local t=d.thickness or 4.0; exports['qb-target']:AddPolyZone(name,pts,{name=name,debugPoly=d.debug or false,minZ=d.minZ or ((minZ or 0)-t*0.5),maxZ=d.maxZ or ((maxZ or 0)+t*0.5)},{options=options(d.options),distance=d.distance or 2.0}); return name
+function adapter:addModel(method, result, data)
+    exports['qb-target']:AddTargetModel(method, { options = options(result), distance = data or 2.0 })
+    return true
 end
-function A:removeZone(id) exports['qb-target']:RemoveZone(id); return true end
-DT.Modules.Register('target','qb-target',A)
+function adapter:removeModel(method, count)
+    exports['qb-target']:RemoveTargetModel(method, count)
+    return true
+end
+function adapter:addSphereZone(data)
+    local name = data.name or ('dtlib_sphere_%s'):format(GetGameTimer())
+    exports['qb-target']:AddCircleZone(
+        name,
+        data.coords,
+        data.radius or 1.5,
+        { name = name, debugPoly = data.debug or false, useZ = data.useZ ~= false },
+        { options = options(data.options), distance = data.distance or 2.0 }
+    )
+    return name
+end
+function adapter:addBoxZone(data)
+    local name = data.name or ('dtlib_box_%s'):format(GetGameTimer())
+    local value = data.size or vector3(1.0, 1.0, 1.0)
+    exports['qb-target']:AddBoxZone(name, data.coords, value.x, value.y, {
+        name = name,
+        heading = data.rotation or data.heading or 0.0,
+        debugPoly = data.debug or false,
+        minZ = data.minZ or (data.coords.z - value.z * 0.5),
+        maxZ = data.maxZ or (data.coords.z + value.z * 0.5),
+    }, { options = options(data.options), distance = data.distance or 2.0 })
+    return name
+end
+function adapter:addPolyZone(data)
+    local name = data.name or ('dtlib_poly_%s'):format(GetGameTimer())
+    local pts = {}
+    local minZ, maxZ
+    for index = 1, #(data.points or {}) do
+        pts[index] = vector2(data.points[index].x, data.points[index].y)
+        minZ = math.min(minZ or data.points[index].z, data.points[index].z)
+        maxZ = math.max(maxZ or data.points[index].z, data.points[index].z)
+    end
+    local zoneThickness = data.thickness or 4.0
+    exports['qb-target']:AddPolyZone(
+        name,
+        pts,
+        {
+            name = name,
+            debugPoly = data.debug or false,
+            minZ = data.minZ or ((minZ or 0) - zoneThickness * 0.5),
+            maxZ = data.maxZ or ((maxZ or 0) + zoneThickness * 0.5),
+        },
+        { options = options(data.options), distance = data.distance or 2.0 }
+    )
+    return name
+end
+function adapter:removeZone(id)
+    exports['qb-target']:RemoveZone(id)
+    return true
+end
+DT.Modules.Register('target', 'qb-target', adapter)

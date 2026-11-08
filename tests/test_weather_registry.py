@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def weather_runtime(server=False, resources=()):
     lua = runtime(server, resources)
-    lua.execute((ROOT / 'settings/sharedConfig.lua').read_text())
+    lua.execute((ROOT / 'config/shared.lua').read_text())
     lua.execute('''
       function RegisterCommand(...) end
       function GetClockHours() return 15 end

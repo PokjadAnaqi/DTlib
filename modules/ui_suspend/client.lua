@@ -14,28 +14,34 @@ local function started(resource)
 end
 
 local function tryExport(resource, exportName, ...)
-    if not started(resource) then return false, nil end
-    local args = table.pack(...)
+    if not started(resource) then
+        return false, nil
+    end
+    local arguments = table.pack(...)
     local ok, result = pcall(function()
         local handle = exports[resource]
-        local fn = handle[exportName]
-        return fn(handle, table.unpack(args, 1, args.n))
+        local handler = handle[exportName]
+        return handler(handle, table.unpack(arguments, 1, arguments.n))
     end)
     return ok, result
 end
 
 local function getBoolean(resource, names)
-    for i = 1, #names do
-        local ok, value = tryExport(resource, names[i])
-        if ok and type(value) == 'boolean' then return value end
+    for index = 1, #names do
+        local ok, value = tryExport(resource, names[index])
+        if ok and type(value) == 'boolean' then
+            return value
+        end
     end
     return nil
 end
 
 local function setByFirstExport(resource, names, value, extra)
-    for i = 1, #names do
-        local ok = tryExport(resource, names[i], value, extra)
-        if ok then return names[i] end
+    for index = 1, #names do
+        local ok = tryExport(resource, names[index], value, extra)
+        if ok then
+            return names[index]
+        end
     end
     return nil
 end
@@ -47,8 +53,11 @@ local overlaySpecs = {
         setters = { 'SetVisible', 'SetUIVisible', 'SetTempUIVisible', 'SetTemperatureUIVisible', 'SetWidgetVisible' },
         toggles = { 'ToggleVisible', 'ToggleTemperatureUI' },
         forceRestoreSetters = {
-            'SetVisible', 'SetUIVisible', 'SetTempUIVisible',
-            'SetTemperatureUIVisible', 'SetWidgetVisible',
+            'SetVisible',
+            'SetUIVisible',
+            'SetTempUIVisible',
+            'SetTemperatureUIVisible',
+            'SetWidgetVisible',
         },
         hideEvents = {
             'DT_temperature:client:setPlacementHidden',
@@ -88,14 +97,18 @@ local overlaySpecs = {
 }
 
 local function triggerOverlayEvents(events, hidden, reason)
-    if type(events) ~= 'table' then return end
-    for i = 1, #events do
-        TriggerEvent(events[i], hidden, reason or 'DTlib:placement')
+    if type(events) ~= 'table' then
+        return
+    end
+    for index = 1, #events do
+        TriggerEvent(events[index], hidden, reason or 'DTlib:placement')
     end
 end
 
 local function hideOverlay(spec, reason)
-    if not started(spec.resource) then return nil end
+    if not started(spec.resource) then
+        return nil
+    end
 
     local state = {
         resource = spec.resource,
@@ -114,8 +127,8 @@ local function hideOverlay(spec, reason)
         -- ToggleVisible-style APIs must only be invoked once on hide and once
         -- on restore. Replaying them in restore retries flips the UI off again.
         if state.visible ~= false then
-            for i = 1, #(spec.toggles or {}) do
-                local toggle = spec.toggles[i]
+            for index = 1, #(spec.toggles or {}) do
+                local toggle = spec.toggles[index]
                 local ok = tryExport(spec.resource, toggle, false, reason)
                 if ok then
                     state.mode = 'toggle'
@@ -132,7 +145,9 @@ local function hideOverlay(spec, reason)
 end
 
 local function restoreOverlay(spec, state, includeOneShots, reason)
-    if not started(spec.resource) then return end
+    if not started(spec.resource) then
+        return
+    end
     state = state or {}
 
     triggerOverlayEvents(spec.restoreEvents, false, reason)
@@ -161,15 +176,22 @@ local function restoreOverlay(spec, state, includeOneShots, reason)
 end
 
 local function hideQuest(reason)
-    if not started('DT_questsystem') then return nil end
+    if not started('DT_questsystem') then
+        return nil
+    end
 
     local wasVisible = getBoolean('DT_questsystem', {
-        'IsTrackerVisible', 'GetTrackerVisible', 'IsTrackerEnabled', 'GetTrackerEnabled'
+        'IsTrackerVisible',
+        'GetTrackerVisible',
+        'IsTrackerEnabled',
+        'GetTrackerEnabled',
     })
     local state = { visible = wasVisible, method = nil, mode = nil, changed = false }
 
     local hiddenSetter = setByFirstExport('DT_questsystem', {
-        'SetTrackerSuppressed', 'SetTemporaryTrackerHidden', 'SetTrackerHidden'
+        'SetTrackerSuppressed',
+        'SetTemporaryTrackerHidden',
+        'SetTrackerHidden',
     }, true, reason)
     if hiddenSetter then
         state.method = hiddenSetter
@@ -177,7 +199,7 @@ local function hideQuest(reason)
         state.changed = true
     else
         local visibleSetter = setByFirstExport('DT_questsystem', {
-            'SetTrackerVisible'
+            'SetTrackerVisible',
         }, false, true)
         if visibleSetter then
             state.method = visibleSetter
@@ -201,7 +223,9 @@ local function hideQuest(reason)
 end
 
 local function restoreQuest(state, includeOneShots, reason)
-    if not started('DT_questsystem') then return end
+    if not started('DT_questsystem') then
+        return
+    end
     state = state or {}
 
     if state.mode == 'visible' and state.method then
@@ -215,7 +239,12 @@ local function restoreQuest(state, includeOneShots, reason)
     elseif includeOneShots then
         -- If the resource only exposes temporary placement events, the events
         -- below are sufficient. If a setter appears later, recover it too.
-        setByFirstExport('DT_questsystem', { 'SetTrackerSuppressed', 'SetTemporaryTrackerHidden', 'SetTrackerHidden' }, false, reason)
+        setByFirstExport(
+            'DT_questsystem',
+            { 'SetTrackerSuppressed', 'SetTemporaryTrackerHidden', 'SetTrackerHidden' },
+            false,
+            reason
+        )
     end
 
     TriggerEvent('DT_questsystem:client:setTrackerSuppressed', false, reason)
@@ -243,7 +272,9 @@ local function hideExternal(reason)
 end
 
 local function applyExternalRestore(state, includeOneShots, reason)
-    if suspendCount > 0 then return false end
+    if suspendCount > 0 then
+        return false
+    end
     state = state or {}
     reason = reason or 'placement'
 
@@ -254,7 +285,12 @@ local function applyExternalRestore(state, includeOneShots, reason)
     LocalPlayer.state:set('dtlibUiSuspendReason', '', false)
 
     for key, spec in pairs(overlaySpecs) do
-        restoreOverlay(spec, state.overlays and state.overlays[key] or nil, includeOneShots, ('DTlib:%s'):format(reason))
+        restoreOverlay(
+            spec,
+            state.overlays and state.overlays[key] or nil,
+            includeOneShots,
+            ('DTlib:%s'):format(reason)
+        )
     end
 
     restoreQuest(state.quest, includeOneShots, ('DTlib:%s'):format(reason))
@@ -276,9 +312,11 @@ local function restoreExternal(state, reason)
 
     CreateThread(function()
         local waits = { 100, 250, 500, 900, 1500, 2500, 4000 }
-        for i = 1, #waits do
-            Wait(waits[i])
-            if generation ~= restoreGeneration or suspendCount > 0 then return end
+        for index = 1, #waits do
+            Wait(waits[index])
+            if generation ~= restoreGeneration or suspendCount > 0 then
+                return
+            end
             applyExternalRestore(state, false, reason)
         end
     end)
@@ -295,7 +333,7 @@ function DT.UI.RestorePlacement(force)
     for token, reason in pairs(suspendTokens) do
         if reason == 'placement' then
             suspendTokens[token] = nil
-        tokenOwners[token] = nil
+            tokenOwners[token] = nil
             suspendCount = math.max(0, suspendCount - 1)
             removed = true
         end
@@ -386,15 +424,24 @@ exports('UIRestorePlacement', DT.UI.RestorePlacement)
 exports('UIRecoverPlacement', DT.UI.RestorePlacement)
 
 -- Resource stop cleanup releases only that owner's tokens. Nested owners remain suspended.
-AddEventHandler('onClientResourceStop',function(resource)
-    if resource==GetCurrentResourceName() then
-        if suspendCount>0 then
-            suspendTokens={};tokenOwners={};suspendCount=0;restoreGeneration=restoreGeneration+1
-            applyExternalRestore(restoreState or lastPlacementState or {},true,'resource_stop')
+AddEventHandler('onClientResourceStop', function(resource)
+    if resource == GetCurrentResourceName() then
+        if suspendCount > 0 then
+            suspendTokens = {}
+            tokenOwners = {}
+            suspendCount = 0
+            restoreGeneration = restoreGeneration + 1
+            applyExternalRestore(restoreState or lastPlacementState or {}, true, 'resource_stop')
         end
         return
     end
-    local owned={}
-    for token,owner in pairs(tokenOwners) do if owner==resource then owned[#owned+1]=token end end
-    for _,token in ipairs(owned) do DT.UI.Resume(token) end
+    local owned = {}
+    for token, owner in pairs(tokenOwners) do
+        if owner == resource then
+            owned[#owned + 1] = token
+        end
+    end
+    for _, token in ipairs(owned) do
+        DT.UI.Resume(token)
+    end
 end)

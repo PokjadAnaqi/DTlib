@@ -1,3 +1,43 @@
+# 1.4.0
+
+- API69 native UI for notifications, menus, TextUI, progress, input and waypoints.
+- Native banners default to `center-left`. DTlib accepts the eight positions documented in `config/shared.lua`.
+- Shared, client and server settings live in `config/`. Existing settings keys and consumer APIs are preserved.
+- Admin checks support Qbox ACE `admin`, QB-Core admin permissions and ESX `admin` / `superadmin`.
+- Shorter startup and consumer logs, plus the idle resmon and QBX caching improvements from the 1.4.0 beta series.
+- DTlib bridges to the separately distributed DT_interact resource.
+
+# 1.4.0-beta.4 — P1 bridge overhead
+
+- Cache event-updated QBX player data; move legacy hydration into a coalesced background coroutine.
+- Cache progress adapter/backend state with forced-confirm and lifecycle/config invalidation.
+- Add throttled callback failure context (side/name/owner/source) without logging arguments.
+- Pair with standalone DT_interact beta.13; see RELEASE_1.4.0_BETA4.md.
+
+# 1.4.0-beta.3 — Idle resmon overhead
+
+- Start/stop the gizmo frame tick on demand; preserve placement rendering and held-ESC cleanup.
+- Skip empty waypoint visibility work and unnecessary zone position reads.
+- Add behavioral idle/lifecycle regression tests; see RELEASE_1.4.0_BETA3.md for validation and in-game comparison steps.
+
+# 1.4.0-beta.2 — Standalone interaction bridge
+
+- Move interaction UI/input out of DTlib; DT.Target now supports the independent DT_interact resource in target mode.
+- Prioritize DT_interact when auto-detecting a target backend; retain optional existing target adapters.
+- Preserve consumer ownership, custom fields and callable option references across the adapter.
+- Release interaction focus before DTlib menu/input opens and forward progress/UI suspension lifecycle events.
+- Read DT.Version from fxmanifest metadata so boot logs, GetVersion and update checks report the installed version.
+- Align server target status and resource lifecycle watching with the client adapter selection.
+- Bundle native UI Font Awesome fonts locally; retain editable TSX in the release branch.
+- DT_interact is distributed separately and is not included in this repository or release asset.
+
+# 1.4.0-beta.1
+
+- Add React/TSX native menu, input, TextUI and progress UI with compiled html/dist assets.
+- Add opt-in DT.Target E/DUI interactions with zones/entities/models, gates and owner cleanup.
+- Preserve default ox_target/qb-target routing and 300px notification banners.
+- See BETA140.md for setup, compatibility scope and live testing requirements.
+
 # 1.3.2
 
 - Consolidate weather adapters and legacy compatibility APIs into one folder per provider.

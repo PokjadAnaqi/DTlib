@@ -1,4 +1,9 @@
-local A={resource='lation_ui',publicName='lation_ui'}
-function A:available() return DTUtils.isStarted(self.resource) end
-function A:send(p) exports.lation_ui:notify(p); return true end
-DT.Modules.Register('notify','lation_ui',A)
+local adapter = { resource = 'lation_ui', publicName = 'lation_ui' }
+function adapter:available()
+    return DTUtils.isStarted(self.resource)
+end
+function adapter:send(payload)
+    exports.lation_ui:notify(payload)
+    return true
+end
+DT.Modules.Register('notify', 'lation_ui', adapter)

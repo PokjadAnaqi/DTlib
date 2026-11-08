@@ -1,12 +1,32 @@
-local A = { resource = 'standalone', publicName = 'standalone' }
-function A:available() return true end
-function A:getData() return {} end
-function A:getGroups() return {} end
-function A:getJob() return nil end
-function A:getGang() return nil end
-function A:getMeta() return nil end
-function A:getStatus() return nil end
-function A:getCoords() return GetEntityCoords(PlayerPedId()) end
-function A:getName() return GetPlayerName(PlayerId()) end
-function A:hasPermission() return false end
-DT.Modules.Register('framework','standalone',A)
+local adapter = { resource = 'standalone', publicName = 'standalone' }
+function adapter:available()
+    return true
+end
+function adapter:getData()
+    return {}
+end
+function adapter:getGroups()
+    return {}
+end
+function adapter:getJob()
+    return nil
+end
+function adapter:getGang()
+    return nil
+end
+function adapter:getMeta()
+    return nil
+end
+function adapter:getStatus()
+    return nil
+end
+function adapter:getCoords()
+    return GetEntityCoords(PlayerPedId())
+end
+function adapter:getName()
+    return GetPlayerName(PlayerId())
+end
+function adapter:hasPermission()
+    return false
+end
+DT.Modules.Register('framework', 'standalone', adapter)

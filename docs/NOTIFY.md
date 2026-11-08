@@ -172,7 +172,7 @@ DTConfig.UI.resolveItemLabels = false
 Or from `server.cfg`:
 
 ```cfg
-DTConfig.UI.resolveItemLabels = false -- settings/sharedConfig.lua
+DTConfig.UI.resolveItemLabels = false -- config/shared.lua
 ```
 
 The item registry API is also available server-side:
