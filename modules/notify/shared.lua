@@ -14,7 +14,11 @@ end
 function N.position(value)
     value=tostring(value or DTConfig.UI.notifyPosition or 'top-right'):lower()
     local aliases={topleft='top-left',topright='top-right',bottomleft='bottom-left',bottomright='bottom-right'};value=aliases[value] or value
-    if value=='centre-left' then value='center-left' elseif value=='centre-right' then value='center-right' end
+    if value == 'left-center' or value == 'centre-left' then
+        value = 'center-left'
+    elseif value == 'centre-right' then
+        value = 'center-right'
+    end
     if value=='top-center' then value='top' elseif value=='bottom-center' then value='bottom' end
     return N.validPositions[value] and value or 'top-right'
 end
